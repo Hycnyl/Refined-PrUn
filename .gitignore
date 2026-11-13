@@ -35,3 +35,9 @@ docs-jack/wsl-sandbox-option.md
 
 # Machine-local Claude Code settings (may contain local paths)
 .claude/settings.local.json
+
+# Personal upstream agent tooling and planning files
+.claude/
+CLAUDE.md
+grok-code-review.md
+docs-jack/
