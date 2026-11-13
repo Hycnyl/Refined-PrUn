@@ -46,7 +46,7 @@ const labels: NotificationTypeLabel[] = [
       'ADMIN_CENTER_MOTION_PASSED',
       'ADMIN_CENTER_MOTION_VOTING_STARTED',
     ],
-    label: 'MOTION',
+    label: '议案',
     color: '#ffda94',
   },
   {
@@ -57,7 +57,7 @@ const labels: NotificationTypeLabel[] = [
       'ADMIN_CENTER_NO_GOVERNOR_ELECTED',
       'ADMIN_CENTER_RUN_SUCCEEDED',
     ],
-    label: 'ELECTION',
+    label: '选举',
     color: '#ffda94',
   },
   {
@@ -76,37 +76,37 @@ const labels: NotificationTypeLabel[] = [
       'CONTRACT_DEADLINE_EXCEEDED_WITHOUT_CONTROL',
       'COMEX_PICKUP_CONTRACT_CREATED',
     ],
-    label: 'CONTRACT',
+    label: '合同',
     color: '#f0ad4e',
   },
   {
     types: ['COMEX_ORDER_FILLED', 'FOREX_ORDER_FILLED'],
-    label: 'ORDER',
+    label: '订单',
     color: '#e85c5c',
   },
   {
     types: ['COMEX_TRADE', 'FOREX_TRADE'],
-    label: 'TRADE',
+    label: '交易',
     color: '#5cb85c',
   },
   {
     types: ['PRODUCTION_ORDER_FINISHED'],
-    label: 'PRODUCED',
+    label: '生产',
     color: '#9cbcff',
   },
   {
     types: ['SITE_EXPERT_DROPPED'],
-    label: 'EXPERT',
+    label: '专家',
     color: '#ff8a00',
   },
   {
     types: ['SHIPYARD_PROJECT_FINISHED'],
-    label: 'SHIP',
+    label: '飞船',
     color: '#ff8a00',
   },
   {
     types: ['COGC_PROGRAM_CHANGED', 'COGC_STATUS_CHANGED', 'COGC_UPKEEP_STARTED'],
-    label: 'COGC',
+    label: '商会',
     color: '#3fa2de',
   },
   {
@@ -122,7 +122,7 @@ const labels: NotificationTypeLabel[] = [
       'INFRASTRUCTURE_UPGRADE_COMPLETED',
       'INFRASTRUCTURE_UPKEEP_PHASE_STARTED',
     ],
-    label: 'INFRA',
+    label: '基建',
     color: '#3fa2de',
   },
   {
@@ -137,12 +137,12 @@ const labels: NotificationTypeLabel[] = [
       'GATEWAY_LINK_REQUEST_RECEIVED',
       'GATEWAY_LINK_UNLINKED',
     ],
-    label: 'GATEWAY',
+    label: '星门',
     color: '#3fa2de',
   },
   {
     types: ['SHIP_FLIGHT_ENDED'],
-    label: 'ARRIVAL',
+    label: '抵达',
     color: '#c084fc',
   },
   {
@@ -153,7 +153,7 @@ const labels: NotificationTypeLabel[] = [
       'SHIP_ROUTE_SHIPMENT_TOO_LARGE',
       'SHIP_ROUTE_SHIPMENT_NOT_UNLOADED',
     ],
-    label: 'ROUTE',
+    label: '路线',
     color: '#c084fc',
   },
   {
@@ -163,17 +163,17 @@ const labels: NotificationTypeLabel[] = [
   },
   {
     types: ['LOCAL_MARKET_AD_ACCEPTED', 'LOCAL_MARKET_AD_EXPIRED'],
-    label: 'ADVERT',
+    label: '广告',
     color: '#00bd29',
   },
   {
     types: ['WORKFORCE_LOW_SUPPLIES', 'WORKFORCE_OUT_OF_SUPPLIES', 'WORKFORCE_UNSATISFIED'],
-    label: 'SUPPLIES',
+    label: '补给',
     color: '#ff3f3f',
   },
   {
     types: ['WAREHOUSE_STORE_LOCKED_INSUFFICIENT_FUNDS', 'WAREHOUSE_STORE_UNLOCKED'],
-    label: 'WAR',
+    label: '仓库',
     color: '#ff3f3f',
   },
   {
@@ -185,12 +185,12 @@ const labels: NotificationTypeLabel[] = [
       'CORPORATION_SHAREHOLDER_DIVIDEND_RECEIVED',
       'CORPORATION_SHAREHOLDER_INVITE_RECEIVED',
     ],
-    label: 'CORP',
+    label: '集团',
     color: '#ea698f',
   },
   {
     types: ['TUTORIAL_TASK_FINISHED', 'WELCOME'],
-    label: 'HELLO',
+    label: '欢迎',
     color: '#eeeeee',
   },
   {
@@ -216,4 +216,4 @@ function init() {
   tiles.observe('NOTS', onTileReady);
 }
 
-features.add(import.meta.url, init, 'NOTS: Adds a colored notification type label.');
+features.add(import.meta.url, init, 'NOTS：增加通知类型的标签');

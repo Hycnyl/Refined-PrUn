@@ -22,19 +22,19 @@ const eta = computed(() => {
   duration = duration.subtract(days, 'days');
   const hours = Math.floor(duration.asHours());
   if (days > 0) {
-    return `${days}d ${hours}h`;
+    return `${days}天 ${hours}小时`;
   }
   duration = duration.subtract(hours, 'hours');
   const minutes = Math.floor(duration.asMinutes());
   if (hours > 0) {
-    return `${hours}h ${minutes}m`;
+    return `${hours}小时 ${minutes}分`;
   }
   duration = duration.subtract(minutes, 'minutes');
   const seconds = Math.floor(duration.asSeconds());
   if (minutes > 0) {
-    return `${minutes}m ${seconds}s`;
+    return `${minutes}分 ${seconds}秒`;
   }
-  return `${seconds}s`;
+  return `${seconds}秒`;
 });
 </script>
 

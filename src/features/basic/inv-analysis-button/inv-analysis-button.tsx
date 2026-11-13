@@ -35,7 +35,7 @@ async function onTileReady(tile: PrunTile) {
           }
         }}>
         <span>
-          <span class={C.ContextControls.cmd}>ANALYSIS</span>
+          <span class={C.ContextControls.cmd}>分析</span>
         </span>
       </div>
     );
@@ -144,5 +144,5 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'INV: Adds an Analysis button that shows an XIT STO summary pane, expandable to a full companion buffer.',
+  'INV：增加“分析”按钮，显示 XIT STO 摘要面板，可展开为完整联动窗口',
 );

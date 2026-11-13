@@ -15,14 +15,14 @@ import {
 
 act.addMaterialGroup<Config>({
   type: 'Resupply',
-  shortDescription: 'Calculate consumables needed based on burn rate',
+  shortDescription: '根据消耗速率计算所需消耗品',
   description: data => {
     if (!data.planet || data.days === undefined) {
       return '--';
     }
 
     const daysLabel = data.days === configurableValue ? '?' : data.days;
-    return `Resupply ${data.planet} with ${daysLabel} day${data.days == 1 ? '' : 's'} of supplies`;
+    return `补给 ${data.planet}，所需 ${daysLabel} 天${data.days == 1 ? '' : 's'} 的补给`;
   },
   editComponent: Edit,
   configureComponent: Configure,
@@ -32,10 +32,10 @@ act.addMaterialGroup<Config>({
     (data.days !== configurableValue || config.days !== undefined),
   generateMaterialBill: async ({ data, config, log, setStatus }) => {
     if (!data.planet) {
-      log.error('Missing resupply planet');
+      log.error('缺少补给星球');
     }
     if (data.days === undefined) {
-      log.error('Missing resupply days');
+      log.error('缺少补给天数');
     }
 
     const planet = data.planet === configurableValue ? config.planet : data.planet;
@@ -47,7 +47,7 @@ act.addMaterialGroup<Config>({
           : parseFloat(data.days as string);
     const site = sitesStore.getByPlanetNaturalIdOrName(planet);
     if (!site) {
-      log.error(`Base is not present on ${data.planet}`);
+      log.error(`星球上没有基地：${data.planet}`);
     }
 
     if (!site || days === undefined || isNaN(days)) {
@@ -59,7 +59,7 @@ act.addMaterialGroup<Config>({
     if (workforce.value === undefined || production.value === undefined) {
       const name =
         getEntityNameFromAddress(site.address) ?? getEntityNaturalIdFromAddress(site.address);
-      setStatus(`Loading ${name} burn data...`);
+      setStatus(`正在加载 ${name} 消耗数据……`);
       await watchWhile(
         toRef(() => workforce.value === undefined || production.value === undefined),
       );

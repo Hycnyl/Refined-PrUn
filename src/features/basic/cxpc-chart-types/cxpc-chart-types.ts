@@ -127,4 +127,4 @@ function init() {
   applyCssRule('CXPC', `.${C.ChartContainer.settings}`, $style.settings);
 }
 
-features.add(import.meta.url, init, 'CXPC: Adds "Smooth" and "Aligned" chart types.');
+features.add(import.meta.url, init, 'CXPC：增加“平滑”和“对齐”图表类型');

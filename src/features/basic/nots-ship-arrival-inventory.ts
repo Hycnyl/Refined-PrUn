@@ -42,8 +42,4 @@ function init() {
   tiles.observe('NOTS', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'NOTS: Opens ship inventory on "ship arrived" notification click.',
-);
+features.add(import.meta.url, init, 'NOTS：点击飞船抵达通知时打开对应库存');

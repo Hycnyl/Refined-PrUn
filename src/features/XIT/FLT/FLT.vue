@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeLabel } from '@src/infrastructure/i18n/labels';
 import { computed } from 'vue';
 import { shipsStore } from '@src/infrastructure/prun-api/data/ships';
 import { flightsStore } from '@src/infrastructure/prun-api/data/flights';
@@ -418,40 +419,40 @@ const layoutClass = computed(() => {
 
 const filterSymbol = computed(() => (showFilters.value ? '-' : '+'));
 // Collapsed, the row has to say what expanding it reveals.
-const filterLabel = computed(() => (showFilters.value ? 'Minimize' : 'Filters'));
+const filterLabel = computed(() => (showFilters.value ? '最小化' : '筛选'));
 
 const optionFilterGroups = computed<MultiOptionFilterGroup[]>(() => [
   {
     key: 'ship-class',
-    title: 'Ship class',
+    title: '飞船级别',
     options: shipClassOptions.value,
     selected: shipClassFilters.value,
     onToggle: onShipClassClick,
   },
   {
     key: 'eta-bucket',
-    title: 'ETA bucket',
+    title: '抵达时间分组',
     options: etaOptions,
     selected: etaFilters.value,
     onToggle: onEtaClick,
   },
   {
     key: 'inventory-size',
-    title: 'Inventory size',
+    title: '库存容量',
     options: inventorySizeOptions.value,
     selected: inventorySizeFilters.value,
     onToggle: onInventorySizeClick,
   },
   {
     key: 'cargo-state',
-    title: 'Cargo state',
+    title: '货物状态',
     options: cargoStateOptions,
     selected: cargoStateFilters.value,
     onToggle: onCargoStateClick,
   },
   {
     key: 'condition',
-    title: 'Condition',
+    title: '健康度',
     options: conditionOptions,
     selected: conditionFilters.value,
     onToggle: onConditionClick,
@@ -792,8 +793,8 @@ function getCargoState(cargoRatio: number) {
 
 <template>
   <LoadingSpinner v-if="!rows || locationCatalogsPending" />
-  <div v-else-if="locationFilterUnresolved" :class="$style.empty">
-    No system or planet matches "{{ parameters.join(' ') }}"
+  <div v-else-if="locationFilterUnresolved" :class="$style.empty"
+    >没有星系或星球匹配“{{ parameters.join(' ') }}"
   </div>
   <div v-else :class="$style.content">
     <div :class="[C.FormComponent.containerPassive, C.forms.passive, C.forms.formComponent]">
@@ -810,18 +811,18 @@ function getCargoState(cargoRatio: number) {
     <div v-if="showFilters" :class="$style.filterPanel">
       <div :class="$style.filterMeta">
         <span v-if="activeFilterCount > 0" :class="$style.activeCount">
-          {{ activeFilterCount }} active
-        </span>
+          {{ activeFilterCount }}已启用</span
+        >
         <span
           v-if="activeFilterCount > 0"
           :class="[C.Link.link, $style.clearFilters]"
-          @click="clearFilters">
-          reset
-        </span>
+          @click="clearFilters"
+          >重置</span
+        >
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Ship list</div>
+        <div :class="$style.filterTitle">飞船列表</div>
         <div :class="C.ComExOrdersPanel.filter">
           <RadioItem v-model="showStlShips" horizontal>STL</RadioItem>
           <RadioItem v-model="showFtlShips" horizontal>FTL</RadioItem>
@@ -829,10 +830,10 @@ function getCargoState(cargoRatio: number) {
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Flight state</div>
+        <div :class="$style.filterTitle">飞行状态</div>
         <div :class="C.ComExOrdersPanel.filter">
-          <RadioItem v-model="showInFlightShips" horizontal>IN FLIGHT</RadioItem>
-          <RadioItem v-model="showNotInFlightShips" horizontal>DOCKED</RadioItem>
+          <RadioItem v-model="showInFlightShips" horizontal>飞行中</RadioItem>
+          <RadioItem v-model="showNotInFlightShips" horizontal>已停靠</RadioItem>
         </div>
       </div>
 
@@ -845,37 +846,37 @@ function getCargoState(cargoRatio: number) {
             :model-value="isOptionSelected(group.selected, option)"
             horizontal
             @update:model-value="group.onToggle(option)">
-            {{ option }}
+            {{ localizeLabel(option) }}
           </RadioItem>
         </div>
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Columns</div>
+        <div :class="$style.filterTitle">显示列</div>
         <div :class="C.ComExOrdersPanel.filter">
-          <RadioItem v-model="showColName" horizontal>NAME</RadioItem>
-          <RadioItem v-model="showColShipClass" horizontal>CLASS</RadioItem>
-          <RadioItem v-model="showColSize" horizontal>SIZE</RadioItem>
-          <RadioItem v-model="showColCargo" horizontal>CARGO</RadioItem>
-          <RadioItem v-model="showColCargoSize" horizontal>CARGO/SIZE</RadioItem>
-          <RadioItem v-model="showColTime" horizontal>ETA</RadioItem>
-          <RadioItem v-model="showColRepair" horizontal>REPAIR</RadioItem>
-          <RadioItem v-model="showColFuel" horizontal>FUEL</RadioItem>
-          <RadioItem v-model="showColProblems" horizontal>PROBLEMS</RadioItem>
+          <RadioItem v-model="showColName" horizontal>名称</RadioItem>
+          <RadioItem v-model="showColShipClass" horizontal>级别</RadioItem>
+          <RadioItem v-model="showColSize" horizontal>容量</RadioItem>
+          <RadioItem v-model="showColCargo" horizontal>货物</RadioItem>
+          <RadioItem v-model="showColCargoSize" horizontal>货物/容量</RadioItem>
+          <RadioItem v-model="showColTime" horizontal>预计到达</RadioItem>
+          <RadioItem v-model="showColRepair" horizontal>维修</RadioItem>
+          <RadioItem v-model="showColFuel" horizontal>燃料</RadioItem>
+          <RadioItem v-model="showColProblems" horizontal>问题</RadioItem>
         </div>
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Reset</div>
+        <div :class="$style.filterTitle">重置</div>
         <div :class="C.ComExOrdersPanel.filter">
           <RadioItem :model-value="false" horizontal @update:model-value="clearFilters"
-            >RESET ALL FILTERS</RadioItem
+            >重置全部筛选</RadioItem
           >
         </div>
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Primary sort</div>
+        <div :class="$style.filterTitle">首要排序</div>
         <div :class="C.ComExOrdersPanel.filter">
           <RadioItem
             v-for="key in [
@@ -900,7 +901,7 @@ function getCargoState(cargoRatio: number) {
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Secondary sort</div>
+        <div :class="$style.filterTitle">次要排序</div>
         <div :class="C.ComExOrdersPanel.filter">
           <RadioItem
             v-for="key in [
@@ -925,44 +926,44 @@ function getCargoState(cargoRatio: number) {
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Layout</div>
+        <div :class="$style.filterTitle">布局</div>
         <div :class="C.ComExOrdersPanel.filter">
           <RadioItem
             :model-value="layoutMode === 'compact'"
             horizontal
             @update:model-value="layoutMode = 'compact'"
-            >COMPACT</RadioItem
+            >紧凑</RadioItem
           >
           <RadioItem
             :model-value="layoutMode === 'whitespace'"
             horizontal
             @update:model-value="layoutMode = 'whitespace'"
-            >WHITESPACE</RadioItem
+            >宽松</RadioItem
           >
           <RadioItem
             :model-value="layoutMode === 'cargo'"
             horizontal
             @update:model-value="layoutMode = 'cargo'"
-            >CARGO</RadioItem
+            >货物</RadioItem
           >
           <RadioItem
             :model-value="layoutMode === 'legacy'"
             horizontal
             @update:model-value="layoutMode = 'legacy'"
-            >LEGACY</RadioItem
+            >旧版</RadioItem
           >
         </div>
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Route</div>
+        <div :class="$style.filterTitle">路线</div>
         <div :class="C.ComExOrdersPanel.filter">
-          <RadioItem v-model="hideReturningToCx" horizontal>HIDE CX RETURNS</RadioItem>
+          <RadioItem v-model="hideReturningToCx" horizontal>隐藏交易所返程</RadioItem>
         </div>
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Fuel</div>
+        <div :class="$style.filterTitle">燃料</div>
         <div :class="C.ComExOrdersPanel.filter">
           <RadioItem
             v-for="threshold in fuelAlertOptions"
@@ -976,7 +977,7 @@ function getCargoState(cargoRatio: number) {
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Problematic fuel level</div>
+        <div :class="$style.filterTitle">燃料不足阈值</div>
         <div :class="C.ComExOrdersPanel.filter">
           <RadioItem
             v-for="threshold in fuelAlertOptions"
@@ -990,10 +991,10 @@ function getCargoState(cargoRatio: number) {
       </div>
 
       <div :class="$style.filterGroup">
-        <div :class="$style.filterTitle">Button colors</div>
+        <div :class="$style.filterTitle">按钮颜色</div>
         <div :class="C.ComExOrdersPanel.filter">
           <RadioItem :model-value="false" horizontal @update:model-value="openButtonColors"
-            >SET BUTTON COLOR</RadioItem
+            >设置按钮颜色</RadioItem
           >
         </div>
       </div>
@@ -1007,7 +1008,7 @@ function getCargoState(cargoRatio: number) {
           v-if="showColName"
           :class="[$style.headerCell, $style.sortable]"
           @click="setSort('name')">
-          Name
+          名称
           <span
             :class="{
               [$style.sortPrimary]: isPrimarySort('name'),
@@ -1020,9 +1021,8 @@ function getCargoState(cargoRatio: number) {
           :is="headerCellTag"
           v-if="showColShipClass"
           :class="[$style.headerCell, $style.sortable, $style.colShipClass]"
-          @click="setSort('shipClass')">
-          Class
-          <span
+          @click="setSort('shipClass')"
+          >级别<span
             :class="{
               [$style.sortPrimary]: isPrimarySort('shipClass'),
               [$style.sortSecondary]: isSecondarySort('shipClass'),
@@ -1034,9 +1034,8 @@ function getCargoState(cargoRatio: number) {
           :is="headerCellTag"
           v-if="showColSize"
           :class="[$style.headerCell, $style.sortable, $style.colSize]"
-          @click="setSort('size')">
-          Size
-          <span
+          @click="setSort('size')"
+          >容量<span
             :class="{
               [$style.sortPrimary]: isPrimarySort('size'),
               [$style.sortSecondary]: isSecondarySort('size'),
@@ -1048,9 +1047,8 @@ function getCargoState(cargoRatio: number) {
           :is="headerCellTag"
           v-if="showColCargo"
           :class="[$style.headerCell, $style.sortable]"
-          @click="setSort('cargo')">
-          Cargo
-          <span
+          @click="setSort('cargo')"
+          >货物<span
             :class="{
               [$style.sortPrimary]: isPrimarySort('cargo'),
               [$style.sortSecondary]: isSecondarySort('cargo'),
@@ -1062,9 +1060,8 @@ function getCargoState(cargoRatio: number) {
           :is="headerCellTag"
           v-if="showColCargoSize"
           :class="[$style.headerCell, $style.sortable]"
-          @click="setSort('cargo')">
-          Cargo/Size
-          <span
+          @click="setSort('cargo')"
+          >货物/容量<span
             :class="{
               [$style.sortPrimary]: isPrimarySort('cargo'),
               [$style.sortSecondary]: isSecondarySort('cargo'),
@@ -1075,9 +1072,8 @@ function getCargoState(cargoRatio: number) {
         <component
           :is="headerCellTag"
           :class="[$style.headerCell, $style.sortable, $style.colStatus]"
-          @click="setSort('status')">
-          Status
-          <span
+          @click="setSort('status')"
+          >状态<span
             :class="{
               [$style.sortPrimary]: isPrimarySort('status'),
               [$style.sortSecondary]: isSecondarySort('status'),
@@ -1089,9 +1085,8 @@ function getCargoState(cargoRatio: number) {
           :is="headerCellTag"
           v-if="showColTime"
           :class="[$style.headerCell, $style.sortable, $style.colTime]"
-          @click="setSort('eta')">
-          ETA
-          <span
+          @click="setSort('eta')"
+          >预计到达<span
             :class="{
               [$style.sortPrimary]: isPrimarySort('eta'),
               [$style.sortSecondary]: isSecondarySort('eta'),
@@ -1103,9 +1098,8 @@ function getCargoState(cargoRatio: number) {
           :is="headerCellTag"
           v-if="showColRepair"
           :class="[$style.headerCell, $style.sortable, $style.colRepair]"
-          @click="setSort('repair')">
-          Repair
-          <span
+          @click="setSort('repair')"
+          >维修<span
             :class="{
               [$style.sortPrimary]: isPrimarySort('repair'),
               [$style.sortSecondary]: isSecondarySort('repair'),
@@ -1130,9 +1124,9 @@ function getCargoState(cargoRatio: number) {
         <component
           :is="headerCellTag"
           v-if="showColProblems && hasAnyProblems"
-          :class="[$style.headerCell, $style.colProblems]">
-          Problems
-        </component>
+          :class="[$style.headerCell, $style.colProblems]"
+          >问题</component
+        >
       </component>
 
       <!-- Body rows -->

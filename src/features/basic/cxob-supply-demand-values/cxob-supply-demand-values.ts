@@ -12,4 +12,4 @@ function init() {
   tiles.observe('CXOB', onTileReady);
 }
 
-features.add(import.meta.url, init, 'CXOB: Adds supply and demand value labels.');
+features.add(import.meta.url, init, 'CXOB：增加供需价值标签');

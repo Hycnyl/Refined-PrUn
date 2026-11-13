@@ -7,7 +7,7 @@ interface Data {
 
 export const OPEN_BRA = act.addActionStep<Data>({
   type: 'OPEN_BRA',
-  description: data => `Open BRA ${getPlanetName(data.planet)} for base repairs`,
+  description: data => `打开 BRA ${getPlanetName(data.planet)} 以维修基地`,
   execute: async ctx => {
     const { data, waitAct, requestTile, complete } = ctx;
     const tile = await requestTile(`BRA ${data.planet}`);
@@ -15,7 +15,7 @@ export const OPEN_BRA = act.addActionStep<Data>({
       return;
     }
     // Reminder pause: keep ACT grayed so the player runs the repair first.
-    await waitAct(`Repair buildings at ${getPlanetName(data.planet)}, then continue`, {
+    await waitAct(`维修基地建筑：${getPlanetName(data.planet)}，然后继续`, {
       actDelayMs: 2000,
     });
     complete();

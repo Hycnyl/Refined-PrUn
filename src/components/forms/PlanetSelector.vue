@@ -108,13 +108,13 @@ function onKeydown(e: KeyboardEvent) {
       autocomplete="off"
       data-1p-ignore="true"
       data-lpignore="true"
-      placeholder="Type to search bases"
+      placeholder="输入以搜索基地"
       @focus="onFocus"
       @blur="close"
       @input="open = true"
       @keydown="onKeydown" />
     <div v-if="open" :class="$style.list">
-      <div v-if="filtered.length === 0" :class="$style.empty">No matching base</div>
+      <div v-if="filtered.length === 0" :class="$style.empty">无匹配基地</div>
       <div
         v-for="(base, i) in filtered"
         :key="base.naturalId"

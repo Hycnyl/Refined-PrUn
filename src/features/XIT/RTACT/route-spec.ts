@@ -1,3 +1,4 @@
+import { localizeLabel } from '@src/infrastructure/i18n/labels';
 export type WaitUnit = 'seconds' | 'minutes' | 'hours' | 'days';
 
 export interface UnitsLimit {
@@ -90,7 +91,7 @@ export function parseRouteId(
     return { ok: true };
   }
   if (!ROUTE_ID.test(trimmed)) {
-    return { ok: false, error: 'Route id must look like RT-SUUL-0521' };
+    return { ok: false, error: '路线编号格式应为 RT-SUUL-0521' };
   }
   return { ok: true, id: trimmed.toUpperCase() };
 }
@@ -110,7 +111,7 @@ export function parseRouteSpec(text: string): ParseResult {
     stops.push(parsed.stop);
   }
   if (stops.length < 2) {
-    return { ok: false, error: 'Need at least 2 stops' };
+    return { ok: false, error: '至少需要 2 个站点' };
   }
   return { ok: true, spec: { stops } };
 }
@@ -145,15 +146,15 @@ export function stepSummary(step: RouteStep): string {
     case 'load':
       return loadText(step);
     case 'unload':
-      return `Unload ${amountText(step.ticker, step.min, step.max)}`;
+      return `卸下 ${amountText(step.ticker, step.min, step.max)}`;
     case 'refuel':
-      return `Refuel ${step.tank} from ${step.source === 'ship' ? 'ship' : 'local'}, ${rangeText(step.min, step.max, 'SF')}`;
+      return `加油 ${step.tank}，从 ${step.source === 'ship' ? '飞船' : '当地'}, ${rangeText(step.min, step.max, 'SF')}`;
     case 'wait':
-      return `Wait ${step.amount} ${step.unit}`;
+      return `等待 ${step.amount} ${localizeLabel(step.unit)}`;
     case 'load-shipment':
-      return 'Load shipments';
+      return '装载货运';
     case 'unload-shipment':
-      return 'Unload shipments';
+      return '卸下货运';
   }
 }
 
@@ -162,9 +163,9 @@ function limitText(limit: LoadLimit | UnloadLimit): string {
     case 'units':
       return String(limit.amount);
     case 'capacity':
-      return 'capacity';
+      return '可用容量';
     case 'all':
-      return 'all carried';
+      return '全部携带量';
   }
 }
 
@@ -174,7 +175,7 @@ function rangeText(min: LoadLimit | UnloadLimit, max: LoadLimit | UnloadLimit, u
   if (low === high) {
     return min.mode === 'units' ? `${low} ${unit}` : low;
   }
-  return `min ${low}, max ${high}`;
+  return `最少 ${low}，最多 ${high}`;
 }
 
 function amountText(ticker: string, min: LoadLimit | UnloadLimit, max: LoadLimit | UnloadLimit) {
@@ -182,21 +183,21 @@ function amountText(ticker: string, min: LoadLimit | UnloadLimit, max: LoadLimit
     return `${min.amount} ${ticker}`;
   }
   if (min.mode === 'all' && max.mode === 'all') {
-    return `all ${ticker} carried`;
+    return `全部 ${ticker} 携带量`;
   }
-  return `${ticker} (min ${limitText(min)}, max ${limitText(max)})`;
+  return `${ticker}（最少 ${limitText(min)}，最多 ${limitText(max)}）`;
 }
 
 // "Load excess RAT, retain 120": take everything above what the location keeps.
 function loadText(step: LoadStep): string {
   const retain = step.retain ?? 0;
   if (retain <= 0) {
-    return `Load ${amountText(step.ticker, step.min, step.max)}`;
+    return `装载 ${amountText(step.ticker, step.min, step.max)}`;
   }
   if (step.min.mode === 'units' && step.min.amount === 0 && step.max.mode === 'capacity') {
-    return `Load excess ${step.ticker}, retain ${retain}`;
+    return `装载多余物资 ${step.ticker}，保留 ${retain}`;
   }
-  return `Load ${amountText(step.ticker, step.min, step.max)}, retain ${retain}`;
+  return `装载 ${amountText(step.ticker, step.min, step.max)}，保留 ${retain}`;
 }
 
 // One line per waypoint setting and step, in run order.
@@ -205,28 +206,28 @@ export function routeSummaryLines(spec: RouteSpec, shipId?: string): string[] {
   for (const [index, stop] of spec.stops.entries()) {
     const flight: string[] = [];
     if (stop.fuelUsage !== undefined) {
-      flight.push(`fuel ${stop.fuelUsage}%`);
+      flight.push(`燃料 ${stop.fuelUsage}%`);
     }
     if (stop.reactorUsage !== undefined) {
-      flight.push(`reactor ${stop.reactorUsage}%`);
+      flight.push(`反应堆 ${stop.reactorUsage}%`);
     }
     if (stop.gateway !== undefined) {
-      flight.push(stop.gateway ? 'gateway on' : 'gateway off');
+      flight.push(stop.gateway ? '启用星门' : '禁用星门');
     }
-    const head = `Stop ${index + 1}: ${stop.query}`;
+    const head = `站点 ${index + 1}: ${stop.query}`;
     lines.push(flight.length > 0 ? `${head} (${flight.join(', ')})` : head);
     if (stop.steps.length === 0) {
-      lines.push(`${stop.query}: no steps`);
+      lines.push(`${stop.query}：无步骤`);
     }
     for (const step of stop.steps) {
       lines.push(`${stop.query}: ${stepSummary(step)}`);
     }
   }
   if (spec.loop !== undefined) {
-    lines.push(spec.loop ? 'Loop on' : 'Loop off');
+    lines.push(spec.loop ? '开启循环' : '关闭循环');
   }
   if (shipId !== undefined && shipId.length > 0) {
-    lines.push(`Assign ${shipId}`);
+    lines.push(`分配 ${shipId}`);
   }
   return lines;
 }
@@ -259,13 +260,13 @@ function parseStopLine(
   const parts = raw.split('|').map(part => part.trim());
   const query = parts[0] ?? '';
   if (query.length === 0) {
-    return { ok: false, error: `Line ${line}: missing stop` };
+    return { ok: false, error: `行 ${line}：缺少站点` };
   }
   const steps: RouteStep[] = [];
   for (let i = 1; i < parts.length; i++) {
     const segment = parts[i];
     if (segment.length === 0) {
-      return { ok: false, error: `Line ${line}: empty step` };
+      return { ok: false, error: `行 ${line}：步骤为空` };
     }
     const parsed = parseStep(segment, line);
     if (!parsed.ok) {
@@ -282,7 +283,7 @@ export function parseRouteStep(
 ): { ok: true; step: RouteStep } | { ok: false; error: string } {
   const segment = text.trim();
   if (segment.length === 0) {
-    return { ok: false, error: 'empty step' };
+    return { ok: false, error: '步骤为空' };
   }
   const parsed = parseStep(segment, 0);
   if (parsed.ok) {
@@ -299,7 +300,7 @@ function parseStep(
   const kind = tokens[0]?.toLowerCase();
   if ((kind === 'load' || kind === 'unload') && tokens[1]?.toLowerCase() === 'shipment') {
     if (tokens.length !== 2) {
-      return { ok: false, error: `Line ${line}: ${kind} shipment takes no amounts` };
+      return { ok: false, error: `行 ${line}: ${kind} 货运步骤不接受数量` };
     }
     return { ok: true, step: { kind: kind === 'load' ? 'load-shipment' : 'unload-shipment' } };
   }
@@ -309,7 +310,7 @@ function parseStep(
   if (kind === 'wait') {
     return parseWait(tokens, line);
   }
-  return { ok: false, error: `Line ${line}: unknown step "${tokens[0] ?? ''}"` };
+  return { ok: false, error: `行 ${line}：未知步骤“${tokens[0] ?? ''}"` };
 }
 
 function parseCargoStep(
@@ -319,15 +320,15 @@ function parseCargoStep(
 ): { ok: true; step: RouteStep } | { ok: false; error: string } {
   if (kind === 'refuel') {
     if (tokens.length !== 5) {
-      return { ok: false, error: `Line ${line}: refuel TANK ship|local MIN MAX` };
+      return { ok: false, error: `行 ${line}：加油语法为 refuel TANK ship|local MIN MAX` };
     }
     const tank = tokens[1].toUpperCase();
     const source = tokens[2].toLowerCase();
     if (tank !== 'STL' && tank !== 'FTL') {
-      return { ok: false, error: `Line ${line}: tank must be STL or FTL` };
+      return { ok: false, error: `行 ${line}：油箱必须为 STL 或 FTL` };
     }
     if (source !== 'ship' && source !== 'local') {
-      return { ok: false, error: `Line ${line}: fuel source must be ship or local` };
+      return { ok: false, error: `行 ${line}：燃料来源必须为 ship 或 local` };
     }
     const min = parseLimit(tokens[3], 'refuel', line, 'min');
     const max = parseLimit(tokens[4], 'refuel', line, 'max');
@@ -348,13 +349,13 @@ function parseCargoStep(
       ok: false,
       error:
         kind === 'load'
-          ? `Line ${line}: load TICKER MIN MAX [retain N]`
-          : `Line ${line}: unload TICKER MIN MAX`,
+          ? `行 ${line}：装货语法为 load TICKER MIN MAX [retain N]`
+          : `行 ${line}：卸货语法为 unload TICKER MIN MAX`,
     };
   }
   const ticker = tokens[1].toUpperCase();
   if (!/^[A-Z0-9]{1,4}$/.test(ticker)) {
-    return { ok: false, error: `Line ${line}: bad ticker "${tokens[1]}"` };
+    return { ok: false, error: `行 ${line}：无效材料代码“${tokens[1]}"` };
   }
   if (kind === 'load') {
     const min = parseLimit(tokens[2], 'load', line, 'min');
@@ -369,7 +370,7 @@ function parseCargoStep(
     if (retainTokens) {
       const retain = Number(tokens[5]);
       if (!Number.isInteger(retain) || retain < 0) {
-        return { ok: false, error: `Line ${line}: retain must be a whole number` };
+        return { ok: false, error: `行 ${line}：保留量必须为整数` };
       }
       step.retain = retain;
     }
@@ -391,15 +392,15 @@ function parseWait(
   line: number,
 ): { ok: true; step: WaitStep } | { ok: false; error: string } {
   if (tokens.length !== 3) {
-    return { ok: false, error: `Line ${line}: wait AMOUNT seconds|minutes|hours|days` };
+    return { ok: false, error: `行 ${line}：等待语法为 wait AMOUNT seconds|minutes|hours|days` };
   }
   const amount = Number(tokens[1]);
   if (!Number.isFinite(amount) || amount <= 0) {
-    return { ok: false, error: `Line ${line}: wait amount must be a positive number` };
+    return { ok: false, error: `行 ${line}：等待时长必须为正数` };
   }
   const unit = tokens[2].toLowerCase();
   if (!WAIT_UNITS.includes(unit as WaitUnit)) {
-    return { ok: false, error: `Line ${line}: wait unit must be seconds, minutes, hours, or days` };
+    return { ok: false, error: `行 ${line}：等待单位必须为 seconds、minutes、hours 或 days` };
   }
   return { ok: true, step: { kind: 'wait', amount, unit: unit as WaitUnit } };
 }
@@ -425,19 +426,19 @@ function parseLimit(
   const word = token.toLowerCase();
   if (word === 'capacity') {
     if (kind === 'unload') {
-      return { ok: false, error: `Line ${line}: unload uses units or all, not capacity` };
+      return { ok: false, error: `行 ${line}：卸货使用 units 或 all，不能使用 capacity` };
     }
     return { ok: true, limit: { mode: 'capacity' } };
   }
   if (word === 'all') {
     if (kind !== 'unload') {
-      return { ok: false, error: `Line ${line}: ${kind} does not use all` };
+      return { ok: false, error: `行 ${line}: ${kind} 不能使用 all` };
     }
     return { ok: true, limit: { mode: 'all' } };
   }
   const amount = Number(token);
   if (!Number.isFinite(amount) || amount < 0) {
-    return { ok: false, error: `Line ${line}: ${side} must be a number, capacity, or all` };
+    return { ok: false, error: `行 ${line}: ${side} 必须为数值、capacity 或 all` };
   }
   return { ok: true, limit: { mode: 'units', amount } };
 }
@@ -448,14 +449,14 @@ export function parseRoutePayload(text: string): ParseResult {
   try {
     value = JSON.parse(text);
   } catch {
-    return { ok: false, error: 'Route payload is not JSON' };
+    return { ok: false, error: '路线数据不是 JSON' };
   }
   if (typeof value !== 'object' || value === null) {
-    return { ok: false, error: 'Route payload is not a route' };
+    return { ok: false, error: '路线数据格式不正确' };
   }
   const record = value as { stops?: unknown; loop?: unknown };
   if (!Array.isArray(record.stops)) {
-    return { ok: false, error: 'Route payload is not a route' };
+    return { ok: false, error: '路线数据格式不正确' };
   }
   const stops: RouteStop[] = [];
   for (const entry of record.stops) {
@@ -466,10 +467,10 @@ export function parseRoutePayload(text: string): ParseResult {
     stops.push(parsed.stop);
   }
   if (stops.length < 2) {
-    return { ok: false, error: 'Need at least 2 stops' };
+    return { ok: false, error: '至少需要 2 个站点' };
   }
   if (record.loop !== undefined && typeof record.loop !== 'boolean') {
-    return { ok: false, error: 'Route payload loop must be a boolean' };
+    return { ok: false, error: '路线数据的 loop 必须为布尔值' };
   }
   return {
     ok: true,
@@ -481,7 +482,7 @@ function parsePayloadStop(
   entry: unknown,
 ): { ok: true; stop: RouteStop } | { ok: false; error: string } {
   if (typeof entry !== 'object' || entry === null) {
-    return { ok: false, error: 'Route payload stop is not an object' };
+    return { ok: false, error: '路线站点数据不是对象' };
   }
   const record = entry as {
     query?: unknown;
@@ -491,10 +492,10 @@ function parsePayloadStop(
     gateway?: unknown;
   };
   if (typeof record.query !== 'string' || record.query.trim().length === 0) {
-    return { ok: false, error: 'Route payload stop is missing a query' };
+    return { ok: false, error: '路线站点缺少 query' };
   }
   if (!Array.isArray(record.steps)) {
-    return { ok: false, error: 'Route payload stop is missing steps' };
+    return { ok: false, error: '路线站点缺少 steps' };
   }
   const steps: RouteStep[] = [];
   for (const step of record.steps) {
@@ -507,19 +508,19 @@ function parsePayloadStop(
   const stop: RouteStop = { query: record.query, steps };
   if (record.fuelUsage !== undefined) {
     if (typeof record.fuelUsage !== 'number' || !Number.isFinite(record.fuelUsage)) {
-      return { ok: false, error: 'Route payload fuel usage must be a number' };
+      return { ok: false, error: '路线燃料用量必须为数值' };
     }
     stop.fuelUsage = record.fuelUsage;
   }
   if (record.reactorUsage !== undefined) {
     if (typeof record.reactorUsage !== 'number' || !Number.isFinite(record.reactorUsage)) {
-      return { ok: false, error: 'Route payload reactor usage must be a number' };
+      return { ok: false, error: '路线反应堆用量必须为数值' };
     }
     stop.reactorUsage = record.reactorUsage;
   }
   if (record.gateway !== undefined) {
     if (typeof record.gateway !== 'boolean') {
-      return { ok: false, error: 'Route payload gateway must be a boolean' };
+      return { ok: false, error: '路线 gateway 必须为布尔值' };
     }
     stop.gateway = record.gateway;
   }
@@ -530,7 +531,7 @@ function parsePayloadStep(
   step: unknown,
 ): { ok: true; step: RouteStep } | { ok: false; error: string } {
   if (typeof step !== 'object' || step === null) {
-    return { ok: false, error: 'Route payload step is not an object' };
+    return { ok: false, error: '路线步骤不是对象' };
   }
   const kind = (step as { kind?: unknown }).kind;
   if (kind === 'load-shipment' || kind === 'unload-shipment') {
@@ -539,7 +540,7 @@ function parsePayloadStep(
   if (kind === 'wait') {
     const wait = step as { amount?: unknown; unit?: unknown };
     if (typeof wait.amount !== 'number' || !Number.isFinite(wait.amount) || wait.amount <= 0) {
-      return { ok: false, error: 'Route payload wait amount is invalid' };
+      return { ok: false, error: '路线等待时长无效' };
     }
     if (
       wait.unit !== 'seconds' &&
@@ -547,17 +548,17 @@ function parsePayloadStep(
       wait.unit !== 'hours' &&
       wait.unit !== 'days'
     ) {
-      return { ok: false, error: 'Route payload wait unit is invalid' };
+      return { ok: false, error: '路线等待单位无效' };
     }
     return { ok: true, step: { kind: 'wait', amount: wait.amount, unit: wait.unit } };
   }
   if (kind === 'refuel') {
     const refuel = step as { tank?: unknown; source?: unknown; min?: unknown; max?: unknown };
     if (refuel.tank !== 'STL' && refuel.tank !== 'FTL') {
-      return { ok: false, error: 'Route payload tank must be STL or FTL' };
+      return { ok: false, error: '路线油箱必须为 STL 或 FTL' };
     }
     if (refuel.source !== 'ship' && refuel.source !== 'local') {
-      return { ok: false, error: 'Route payload fuel source must be ship or local' };
+      return { ok: false, error: '路线燃料来源必须为 ship 或 local' };
     }
     const min = payloadLimit(refuel.min, 'refuel');
     const max = payloadLimit(refuel.max, 'refuel');
@@ -579,11 +580,11 @@ function parsePayloadStep(
     };
   }
   if (kind !== 'load' && kind !== 'unload') {
-    return { ok: false, error: 'Route payload step kind is invalid' };
+    return { ok: false, error: '路线步骤类型无效' };
   }
   const cargo = step as { ticker?: unknown; min?: unknown; max?: unknown; retain?: unknown };
   if (typeof cargo.ticker !== 'string' || !/^[A-Z0-9]{1,4}$/.test(cargo.ticker)) {
-    return { ok: false, error: 'Route payload ticker is invalid' };
+    return { ok: false, error: '路线材料代码无效' };
   }
   if (kind === 'load') {
     const min = payloadLimit(cargo.min, 'load');
@@ -597,7 +598,7 @@ function parsePayloadStep(
     const load: LoadStep = { kind: 'load', ticker: cargo.ticker, min: min.limit, max: max.limit };
     if (cargo.retain !== undefined) {
       if (typeof cargo.retain !== 'number' || !Number.isInteger(cargo.retain) || cargo.retain < 0) {
-        return { ok: false, error: 'Route payload retain is invalid' };
+        return { ok: false, error: '路线保留量无效' };
       }
       load.retain = cargo.retain;
     }
@@ -630,27 +631,27 @@ function payloadLimit(
   kind: 'load' | 'unload' | 'refuel',
 ): { ok: true; limit: LoadLimit | UnloadLimit } | { ok: false; error: string } {
   if (typeof value !== 'object' || value === null) {
-    return { ok: false, error: 'Route payload limit is invalid' };
+    return { ok: false, error: '路线限制无效' };
   }
   const mode = (value as { mode?: unknown }).mode;
   if (mode === 'capacity') {
     if (kind === 'unload') {
-      return { ok: false, error: 'Route payload unload uses units or all, not capacity' };
+      return { ok: false, error: '路线卸货使用 units 或 all，不能使用 capacity' };
     }
     return { ok: true, limit: { mode: 'capacity' } };
   }
   if (mode === 'all') {
     if (kind !== 'unload') {
-      return { ok: false, error: 'Route payload load does not use all' };
+      return { ok: false, error: '路线装货不能使用 all' };
     }
     return { ok: true, limit: { mode: 'all' } };
   }
   if (mode !== 'units') {
-    return { ok: false, error: 'Route payload limit is invalid' };
+    return { ok: false, error: '路线限制无效' };
   }
   const amount = (value as { amount?: unknown }).amount;
   if (typeof amount !== 'number' || !Number.isFinite(amount) || amount < 0) {
-    return { ok: false, error: 'Route payload limit amount is invalid' };
+    return { ok: false, error: '路线限制数量无效' };
   }
   return { ok: true, limit: { mode: 'units', amount } };
 }

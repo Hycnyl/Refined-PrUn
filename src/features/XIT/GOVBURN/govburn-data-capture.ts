@@ -179,4 +179,4 @@ function init() {
   watchEffect(captureCogcs);
 }
 
-features.add(import.meta.url, init, 'Captures POPI/POPID/COGC data for XIT GOVBURN.');
+features.add(import.meta.url, init, '为 XIT GOVBURN 收集 POPI、POPID 和 COGC 数据');

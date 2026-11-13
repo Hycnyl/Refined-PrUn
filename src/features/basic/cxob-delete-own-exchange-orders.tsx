@@ -60,4 +60,4 @@ function init() {
   tiles.observe(['CXOB', 'FXOB'], onTileReady);
 }
 
-features.add(import.meta.url, init, 'CXOB/FXOB: Adds a delete button to own orders.');
+features.add(import.meta.url, init, 'CXOB/FXOB：为自己的订单增加删除按钮');

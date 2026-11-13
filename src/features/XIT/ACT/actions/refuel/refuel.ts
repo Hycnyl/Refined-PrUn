@@ -1,3 +1,4 @@
+import { localizeStorage } from '@src/infrastructure/i18n/labels';
 import { act } from '@src/features/XIT/ACT/act-registry';
 import Edit from '@src/features/XIT/ACT/actions/refuel/Edit.vue';
 import Configure from '@src/features/XIT/ACT/actions/refuel/Configure.vue';
@@ -23,12 +24,12 @@ import { Logger } from '@src/features/XIT/ACT/runner/logger';
 
 act.addAction<Config>({
   type: 'Refuel',
-  shortDescription: 'Refuel all ships docked near a storage',
+  shortDescription: '为库存附近停靠的所有飞船加油',
   description: action => {
     if (action.origin === allExchangesValue) {
-      return 'Refuel all ships docked at exchanges';
+      return '为停靠在交易所的所有飞船加油';
     }
-    return action.origin ? 'Refuel all ships near ' + action.origin : '--';
+    return action.origin ? '为附近的所有飞船加油，位置 ' + action.origin : '--';
   },
   editComponent: Edit,
   configureComponent: Configure,
@@ -43,15 +44,15 @@ act.addAction<Config>({
     const assert: AssertFn = ctx.assert;
 
     const stlMaterial = materialsStore.getByTicker('SF');
-    assert(stlMaterial, 'SF material not found');
+    assert(stlMaterial, '未找到 SF 材料');
 
     const ftlMaterial = materialsStore.getByTicker('FF');
-    assert(ftlMaterial, 'FF material not found');
+    assert(ftlMaterial, '未找到 FF 材料');
 
     if (data.origin === allExchangesValue) {
       const origins = getRefuelOrigins().filter(isCXWarehouse);
       if (origins.length === 0) {
-        log.warning('No exchange warehouses found');
+        log.warning('未找到交易所仓库');
         return;
       }
       for (const origin of origins) {
@@ -77,7 +78,7 @@ function refuelFromOrigin(
   emitStep: (step: ActionStep) => void,
   routeHeld: Record<string, Record<string, number>>,
 ) {
-  const originName = serializeStorage(origin);
+  const originName = localizeStorage(serializeStorage(origin));
   const exchangeCode = getExchangeCode(origin);
   const isCX = exchangeCode !== undefined;
   // Fuel the running routes will load at this exchange is not ours to hand out.
@@ -90,7 +91,7 @@ function refuelFromOrigin(
     storagesStore.getByType('FTL_FUEL_STORE')?.filter(x => atSameLocation(x, origin)) ?? [];
 
   if (dockedStl.length === 0 && dockedFtl.length === 0) {
-    log.info(`No ships are docked near ${originName}`);
+    log.info(`附近没有停靠的飞船：${originName}`);
     return;
   }
 
@@ -98,7 +99,7 @@ function refuelFromOrigin(
   const totalFtlRefuel = sumBy(dockedFtl, x => calculateRefuelAmount(x, ftlMaterial));
 
   if (totalFtlRefuel === 0 && totalStlRefuel === 0) {
-    log.info(`No ships need refueling near ${originName}`);
+    log.info(`附近没有需要加油的飞船：${originName}`);
     return;
   }
 
@@ -118,7 +119,7 @@ function refuelFromOrigin(
       );
     }
     if (presentStlFuel < totalStlRefuel) {
-      log.warning(`Not enough SF at ${originName}. Some ships will not be refueled.`);
+      log.warning(`SF 不足，位置 ${originName}. Some ships will not be refueled.`);
     }
   }
 
@@ -138,7 +139,7 @@ function refuelFromOrigin(
       );
     }
     if (presentFtlFuel < totalFtlRefuel) {
-      log.warning(`Not enough FF at ${originName}. Some ships will not be refueled.`);
+      log.warning(`FF 不足，位置 ${originName}. Some ships will not be refueled.`);
     }
   }
 

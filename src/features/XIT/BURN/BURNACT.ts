@@ -13,10 +13,10 @@ xit.add({
     if (parameters[0]) {
       const site = sitesStore.getByPlanetNaturalIdOrName(parameters[0]);
       const name = site ? getEntityNameFromAddress(site.address) : parameters[0];
-      return `BURN RESUPPLY - ${name}`;
+      return `消耗补给 - ${name}`;
     }
-    return 'BURN RESUPPLY';
+    return '消耗补给';
   },
-  description: 'Executes a resupply action package for a planet from the burn screen.',
+  description: '从消耗监控界面为星球执行补给动作包。',
   component: () => BurnActWindow,
 });

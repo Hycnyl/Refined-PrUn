@@ -38,8 +38,4 @@ function init() {
   tiles.observe(['INV', 'SHPI'], onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'INV/SHPI: Shows the remaining weight and volume capacity of the selected store in INV and SHPI',
-);
+features.add(import.meta.url, init, 'INV：显示库存剩余空间');

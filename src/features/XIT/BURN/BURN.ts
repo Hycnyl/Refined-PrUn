@@ -9,13 +9,13 @@ xit.add({
       const site = sitesStore.getByPlanetNaturalIdOrName(parameters[0]);
       if (site) {
         const name = getEntityNameFromAddress(site.address);
-        return `BURN - ${name}`;
+        return `消耗 - ${name}`;
       }
     }
 
-    return 'BURN';
+    return '消耗';
   },
-  description: 'Shows the number of days of consumables left.',
-  optionalParameters: 'Planet Identifier(s), OVERALL, NOT',
+  description: '显示消耗品剩余天数。',
+  optionalParameters: '星球编号（可多个）、OVERALL、NOT',
   component: () => BURN,
 });

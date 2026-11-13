@@ -33,7 +33,7 @@ function addCommand() {
   }
   preset.value.commands.push({
     id: createId(),
-    label: 'CMD',
+    label: '命令',
     template: 'CMD {input}',
   });
 }
@@ -48,23 +48,23 @@ function deleteCommand(cmd: UserData.LinkedBuffersCommand) {
 
 <template>
   <div v-if="!preset" :class="$style.center">
-    <span>Preset not found.</span>
+    <span>未找到预设。</span>
   </div>
   <div v-else :class="$style.root">
-    <Header>Edit: {{ preset.name }}</Header>
+    <Header>编辑：{{ preset.name }}</Header>
     <table>
       <thead>
         <tr>
           <GripHeaderCell />
-          <th>Label</th>
-          <th>Template</th>
+          <th>标签</th>
+          <th>模板</th>
           <th />
         </tr>
       </thead>
       <template v-if="preset.commands.length === 0">
         <tbody>
           <tr>
-            <td colspan="4">No commands.</td>
+            <td colspan="4">暂无指令。</td>
           </tr>
         </tbody>
       </template>
@@ -91,16 +91,16 @@ function deleteCommand(cmd: UserData.LinkedBuffersCommand) {
                 data-lpignore="true" />
             </td>
             <td>
-              <PrunButton danger @click="deleteCommand(cmd)">DELETE</PrunButton>
+              <PrunButton danger @click="deleteCommand(cmd)">删除</PrunButton>
             </td>
           </tr>
         </tbody>
       </template>
     </table>
     <ActionBar>
-      <PrunButton primary @click="addCommand">ADD COMMAND</PrunButton>
+      <PrunButton primary @click="addCommand">添加指令</PrunButton>
     </ActionBar>
-    <div :class="$style.hint">Close and reopen the LB control panel to apply layout changes.</div>
+    <div :class="$style.hint">关闭并重新打开联动窗口控制面板，以应用布局更改。</div>
   </div>
 </template>
 

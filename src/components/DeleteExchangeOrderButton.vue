@@ -13,7 +13,7 @@ function onClick(event: MouseEvent) {
 </script>
 
 <template>
-  <PrunButton dark inline :class="$style.button" @click="onClick">del</PrunButton>
+  <PrunButton dark inline :class="$style.button" @click="onClick">删除</PrunButton>
 </template>
 
 <style module>

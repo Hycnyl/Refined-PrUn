@@ -136,7 +136,7 @@ export function formatEta(from: number, to: number) {
   let ret = hhmm(to);
   const days = diffDays(from, to);
   if (days > 0) {
-    ret += ` +${days}d`;
+    ret += ` +${days}天`;
   }
   return ret;
 }
@@ -154,13 +154,13 @@ export function displaytimeBetween(from: number, to: number) {
 
   const parts: string[] = [];
   if (days > 0) {
-    parts.push(`${days}d`);
+    parts.push(`${days}天`);
   }
   if (hours > 0) {
-    parts.push(`${hours}h`);
+    parts.push(`${hours}小时`);
   }
   if (minutes > 0 || parts.length === 0) {
-    parts.push(`${minutes}m`);
+    parts.push(`${minutes}分`);
   }
 
   return parts.join(' ');

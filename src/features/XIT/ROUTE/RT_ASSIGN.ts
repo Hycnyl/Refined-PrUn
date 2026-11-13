@@ -47,9 +47,7 @@ export const RT_ASSIGN = act.addActionStep<Data>({
   type: 'RT_ASSIGN',
   description: data => {
     const ship = data.ship.trim();
-    return ship.length > 0
-      ? `Assign ${ship} to ${data.routeId}`
-      : `Assign a ship to ${data.routeId}`;
+    return ship.length > 0 ? `分配 ${ship} 到 ${data.routeId}` : `分配飞船到 ${data.routeId}`;
   },
   execute: async ctx => {
     const { data, log, waitAct, fail, complete } = ctx;
@@ -70,8 +68,8 @@ export const RT_ASSIGN = act.addActionStep<Data>({
       if (attempt.ok) {
         log.success(
           attempt.already
-            ? `${preferred} is already assigned to ${data.routeId}`
-            : `Assigned ${preferred} to ${data.routeId}`,
+            ? `${preferred} 已分配到 ${data.routeId}`
+            : `已分配 ${preferred} 到 ${data.routeId}`,
         );
         complete();
         return;
@@ -88,12 +86,12 @@ export const RT_ASSIGN = act.addActionStep<Data>({
     );
     if (free.length === 0) {
       revealAssignments(tile.anchor);
-      fail('No free ship fits this route.');
+      fail('没有能装下此路线物资的空闲飞船。');
       return;
     }
     const picked = await beginShipPick(free.map(label => ({ label })));
     if (picked === undefined) {
-      fail('No ship picked.');
+      fail('未选择飞船。');
       return;
     }
     const second = await tryAssignShip({
@@ -108,7 +106,7 @@ export const RT_ASSIGN = act.addActionStep<Data>({
       fail(second.reason);
       return;
     }
-    log.success(`Assigned ${picked} to ${data.routeId}`);
+    log.success(`已分配 ${picked} 到 ${data.routeId}`);
     complete();
   },
 });

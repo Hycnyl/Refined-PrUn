@@ -51,48 +51,43 @@ function onInputKeydown(ev: KeyboardEvent) {
   <SectionHeader>XIT BS</SectionHeader>
   <form>
     <Active
-      label="Days"
-      tooltip="XIT BS Days shows one decimal for a burn under 10 days.
-       Off keeps a whole number, and shows infinity from 500 days.">
-      <RadioItem v-model="userData.settings.burn.decimalDays">one decimal</RadioItem>
+      label="天数"
+      tooltip="XIT BS 在消耗余量小于 10 天时显示一位小数；关闭时显示整数，500 天及以上显示为无限">
+      <RadioItem v-model="userData.settings.burn.decimalDays">一位小数</RadioItem>
     </Active>
   </form>
-  <SectionHeader>Price Warning Thresholds</SectionHeader>
+  <SectionHeader>价格警告阈值</SectionHeader>
   <form>
     <Active
-      label="Yellow (%)"
-      tooltip="In XIT ACT, warn before a CX buy when its price exceeds the refined-PrUn value by more than this percent.">
+      label="黄色 (%)"
+      tooltip="在 XIT ACT 中，交易所购买价格比 Refined PrUn 估值高出此百分比时发出警告">
       <NumberInput v-model="userData.settings.noBuyThresholds.yellow" float />
     </Active>
     <Active
-      label="Red (%)"
+      label="红色 (%)"
       tooltip="In XIT ACT, warn before a CX buy when its price exceeds the refined-PrUn value by more than this percent.">
       <NumberInput v-model="userData.settings.noBuyThresholds.red" float />
     </Active>
   </form>
-  <SectionHeader>No-Buy List</SectionHeader>
+  <SectionHeader>禁止购买列表</SectionHeader>
   <form>
     <Active
-      label="All Materials"
-      tooltip="Exclude every material from ACT material group bills without listing each ticker.
-       The individual tickers below are kept and apply again once this is turned off.">
-      <RadioItem v-model="userData.settings.noBuyAll">all materials</RadioItem>
+      label="所有材料"
+      tooltip="从 ACT 材料组清单中排除所有材料，无需逐个列出代码；下方单独设置的材料代码会保留，关闭此项后重新生效">
+      <RadioItem v-model="userData.settings.noBuyAll">所有材料</RadioItem>
     </Active>
   </form>
-  <Passive v-if="userData.settings.noBuy.length === 0" label="Specified Materials"> None </Passive>
+  <Passive v-if="userData.settings.noBuy.length === 0" label="指定材料"> 无 </Passive>
   <Passive v-for="ticker in userData.settings.noBuy" :key="ticker" :label="ticker">
     <PrunButton danger @click="remove(ticker)">x</PrunButton>
   </Passive>
-  <SectionHeader>Add Specified Materials</SectionHeader>
+  <SectionHeader>添加指定材料</SectionHeader>
   <form>
-    <Active
-      label="Tickers"
-      tooltip="One or more material tickers separated by commas."
-      :error="inputError">
+    <Active label="材料代码" tooltip="一个或多个材料代码，以逗号分隔" :error="inputError">
       <TextInput v-model="input" @keydown="onInputKeydown" />
     </Active>
     <Commands>
-      <PrunButton primary @click="add">ADD</PrunButton>
+      <PrunButton primary @click="add">添加</PrunButton>
     </Commands>
   </form>
 </template>

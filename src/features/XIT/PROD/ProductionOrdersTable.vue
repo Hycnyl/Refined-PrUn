@@ -49,7 +49,7 @@ const stackedActive = computed(() => {
       ticker: 'N/A',
       count: productionLine.inactiveCapacity,
       amount: 0,
-      label: 'Inactive',
+      label: '未运行',
       isPlaceholder: true,
     });
   }
@@ -80,7 +80,7 @@ const stackedQueued = computed(() => {
       ticker: 'N/A',
       count: 0,
       amount: 0,
-      label: 'Not Queued',
+      label: '未排队',
       isPlaceholder: true,
     });
   }
@@ -113,7 +113,7 @@ const formatTime = (ts: number) => {
   if (mins === 0) {
     return 'Finishing...';
   }
-  return mins > 60 ? `in ${Math.floor(mins / 60)}h ${mins % 60}m` : `in ${mins}m`;
+  return mins > 60 ? `还需 ${Math.floor(mins / 60)}小时 ${mins % 60}分` : `还需 ${mins}分`;
 };
 </script>
 
@@ -124,8 +124,8 @@ const formatTime = (ts: number) => {
         <tr v-if="headers" :class="$style.headerRow">
           <th />
           <th v-if="hasStacks" />
-          <th :class="$style.numericColumn">Qty</th>
-          <th :class="$style.numericColumn">Status / ETA</th>
+          <th :class="$style.numericColumn">数量</th>
+          <th :class="$style.numericColumn">状态 / 预计完成</th>
         </tr>
       </thead>
       <tbody>
@@ -142,7 +142,7 @@ const formatTime = (ts: number) => {
               {{ group.label }}
             </template>
             <template v-else>
-              {{ group.isQueued ? 'Queued' : group.ts ? formatTime(group.ts) : 'Error' }}
+              {{ group.isQueued ? '排队中' : group.ts ? formatTime(group.ts) : '错误' }}
             </template>
           </td>
         </tr>

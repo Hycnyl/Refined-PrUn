@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeLabel } from '@src/infrastructure/i18n/labels';
 import { useXitParameters } from '@src/hooks/use-xit-parameters';
 import { getPlanetBurn } from '@src/core/burn';
 import { sortMaterials } from '@src/core/sort-materials';
@@ -225,7 +226,7 @@ const rows = computed(() => {
       x.ticker in burnTickers ? roleLabels[lowstrifeRole(burnTickers[x.ticker])] : undefined;
     let role = burnRole ?? 'fill';
     if (x.ticker in repairTickers) {
-      role = burnRole !== undefined ? `${burnRole} + repair` : 'repair';
+      role = burnRole !== undefined ? `${burnRole} + 维修` : '维修';
     }
     return {
       ticker: x.ticker,
@@ -260,40 +261,40 @@ function execute() {
 
 <template>
   <form>
-    <Active label="Planet" tooltip="The base to load for. Type to filter your bases.">
+    <Active label="星球" tooltip="要装载补给的目标基地，可输入文字筛选">
       <PlanetSelector v-model="planet" />
     </Active>
   </form>
-  <div v-if="!site" :class="$style.summary">Select a base.</div>
-  <div v-else-if="!burn">Loading burn data...</div>
+  <div v-if="!site" :class="$style.summary">请选择基地。</div>
+  <div v-else-if="!burn">正在加载消耗数据……</div>
   <template v-else>
     <form>
-      <Active label="Ship" tooltip="The ship to load. Its free cargo space seeds the limits below.">
+      <Active label="飞船" tooltip="要装载的飞船，下方容量上限初始值取其剩余货舱空间">
         <SelectInput v-model="shipName" :options="shipOptions" />
       </Active>
-      <Active label="Weight Limit (t)">
+      <Active label="重量上限 (t)">
         <NumberInput v-model="maxWeight" float :class="$style.number" />
       </Active>
-      <Active label="Volume Limit (m³)">
+      <Active label="体积上限 (m³)">
         <NumberInput v-model="maxVolume" float :class="$style.number" />
       </Active>
     </form>
     <div :class="$style.break" />
     <form>
       <Active
-        label="Consumable Days"
-        tooltip="Workforce consumables are loaded for this many days. Production inputs get the most days that still fit, up to the same number. At 0, inputs fill the ship and DW tops up the rest.">
+        label="消耗品天数"
+        tooltip="装载指定天数的劳动力消耗品，生产原料在此天数内尽量多装；设为 0 时，尽量装满生产原料，再用 DW 填满剩余空间">
         <NumberInput v-model="consumableDays" float :class="$style.number" />
       </Active>
       <template v-if="load">
-        <Passive label="Input Days" tooltip="Days of production inputs loaded.">
+        <Passive label="原料天数" tooltip="装载的生产原料天数">
           <span :class="$style.value">
             {{ load.inputDays === undefined ? '--' : fixed02(load.inputDays) }}
           </span>
         </Passive>
         <Passive
-          label="Production Days"
-          tooltip="Days of production inputs or outputs the base store still holds once the consumables are dropped off. Lower Consumable Days to raise it.">
+          label="生产天数"
+          tooltip="卸下消耗品后，基地库存仍可容纳的生产原料或产品天数；降低消耗品天数可增加此值">
           <span v-if="load.productionLimit" :class="$style.value">
             ({{ load.productionLimit }})&nbsp;
           </span>
@@ -302,8 +303,8 @@ function execute() {
           </span>
         </Passive>
         <Passive
-          label="DW Fill"
-          tooltip="Extra DW added to fill the ship's spare room. Skipped when inputs already load for all the consumable days.">
+          label="DW 填充"
+          tooltip="额外装载 DW，填满飞船剩余空间；生产原料已满足全部消耗品天数时跳过">
           <span :class="$style.value">{{ load.dwFill }}</span>
         </Passive>
       </template>
@@ -311,13 +312,11 @@ function execute() {
     <template v-if="load">
       <div :class="$style.break" />
       <form>
-        <Active
-          label="Repair"
-          tooltip="Load repair materials for every production building on the base. They count toward the fill but not the production days.">
-          <RadioItem v-model="repair">repair</RadioItem>
+        <Active label="维修" tooltip="为基地所有生产建筑装载维修材料，计入装载量但不计入生产天数">
+          <RadioItem v-model="repair">维修</RadioItem>
         </Active>
         <Active
-          label="Time Offset"
+          label="时间偏移"
           tooltip="The number of days in the future this repair will be conducted.">
           <NumberInput v-model="repairOffset" float :class="$style.number" />
         </Active>
@@ -325,13 +324,13 @@ function execute() {
       <div :class="$style.break" />
       <form>
         <Passive
-          label="Fill"
+          label="填充"
           :tooltip="
             load.fits
               ? undefined
               : repair
-                ? 'Consumables and repair materials alone exceed the limits.'
-                : 'Consumables alone exceed the limits.'
+                ? '仅消耗品和维修材料就已超出容量上限。'
+                : '仅消耗品就已超出容量上限。'
           ">
           <span :class="load.fits ? $style.value : $style.error">
             {{ fixed02(load.weight) }}t, {{ fixed02(load.volume) }}m³
@@ -341,24 +340,21 @@ function execute() {
     </template>
     <Commands>
       <CopyButton :copy-fn="copyJson" />
-      <PrunButton primary :disabled="!canExecute" @click="execute">EXECUTE</PrunButton>
+      <PrunButton primary :disabled="!canExecute" @click="execute">执行</PrunButton>
     </Commands>
-    <SectionHeader>Load</SectionHeader>
+    <SectionHeader>加载</SectionHeader>
     <table>
       <thead>
         <tr>
-          <th
-            title="Checked materials are loaded. Uncheck a material you supply separately; the choice is kept per base.">
-            Load
-          </th>
-          <th>Ticker</th>
-          <th>Amount</th>
-          <th>Days</th>
+          <th title="勾选的材料将被装载。单独供应的材料可取消勾选，选择会按基地保存。"> 加载 </th>
+          <th>代码</th>
+          <th>数量</th>
+          <th>天数</th>
         </tr>
       </thead>
       <tbody>
         <tr v-if="rows.length === 0">
-          <td colspan="4">Nothing to load.</td>
+          <td colspan="4">无需装载。</td>
         </tr>
         <tr v-for="row in rows" :key="row.ticker" :class="{ [$style.excluded]: row.excluded }">
           <td>
@@ -370,7 +366,7 @@ function execute() {
           </td>
           <td>{{ row.ticker }}</td>
           <td>{{ row.excluded ? '--' : row.amount }}</td>
-          <td>{{ row.excluded ? 'excluded' : row.role }}</td>
+          <td>{{ row.excluded ? '已排除' : localizeLabel(row.role) }}</td>
         </tr>
       </tbody>
     </table>

@@ -16,13 +16,13 @@ const emit = defineEmits<{ (e: 'close'): void }>();
 
 <template>
   <div :class="C.DraftConditionEditor.form">
-    <SectionHeader>Route Stock Warning</SectionHeader>
-    <Passive v-for="draw in draws" :key="draw.ticker" :label="draw.ticker">
-      Leaves {{ fixed0(draw.left) }} on {{ exchange }},
-      <span :class="C.Workforces.daysMissing">{{ fixed0(draw.held) }} held for routes</span>
+    <SectionHeader>路线库存警告</SectionHeader>
+    <Passive v-for="draw in draws" :key="draw.ticker" :label="draw.ticker"
+      >将剩余 {{ fixed0(draw.left) }}于 {{ exchange }},
+      <span :class="C.Workforces.daysMissing">{{ fixed0(draw.held) }}，已为路线预留</span>
     </Passive>
     <Commands>
-      <PrunButton primary @click="emit('close')">DISMISS</PrunButton>
+      <PrunButton primary @click="emit('close')">忽略</PrunButton>
     </Commands>
   </div>
 </template>

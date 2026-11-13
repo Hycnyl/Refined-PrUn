@@ -25,18 +25,18 @@ const bases = computed(() => {
 });
 
 const otherData = computed(() => [
-  ['Base Sites', sitesStore.all.value?.length],
-  ['Warehouse Sites', warehousesStore.all.value?.length],
-  ['Base Stores', storagesStore.getByType('STORE')?.length],
-  ['Warehouse Stores', storagesStore.getByType('WAREHOUSE_STORE')?.length],
-  ['Ship Stores', storagesStore.getByType('SHIP_STORE')?.length],
+  ['基地站点', sitesStore.all.value?.length],
+  ['仓库站点', warehousesStore.all.value?.length],
+  ['基地库存', storagesStore.getByType('STORE')?.length],
+  ['仓库库存', storagesStore.getByType('WAREHOUSE_STORE')?.length],
+  ['飞船库存', storagesStore.getByType('SHIP_STORE')?.length],
   ['Workforces', workforcesStore.all.value?.length],
-  ['Production Sites', productionStore.all.value?.length],
+  ['生产基地', productionStore.all.value?.length],
   ['Contracts', contractsStore.all.value?.length],
   ['CXOS', cxosStore.all.value?.length],
   ['FXOS', fxosStore.all.value?.length],
   ['Currency', (balancesStore.all.value?.length ?? 0) > 0],
-  ['Last CX Price Update', cxStore.fetched ? dayjsEachSecond.value.to(cxStore.age) : false],
+  ['最近交易所价格更新', cxStore.fetched ? dayjsEachSecond.value.to(cxStore.age) : false],
 ]);
 
 const positive = C.ColoredValue.positive;
@@ -45,14 +45,14 @@ const negative = C.ColoredValue.negative;
 
 <template>
   <div :style="{ paddingTop: '4px' }">
-    <span class="title">Bases</span>
+    <span class="title">基地</span>
     <table>
       <thead>
         <tr>
-          <th>Planet</th>
-          <th>Workforce</th>
-          <th>Production</th>
-          <th>Storage</th>
+          <th>星球</th>
+          <th>劳动力</th>
+          <th>生产设施</th>
+          <th>库存</th>
         </tr>
       </thead>
       <tbody>
@@ -67,12 +67,12 @@ const negative = C.ColoredValue.negative;
         </tr>
       </tbody>
     </table>
-    <span class="title" style="padding-top: 10px">Other Data</span>
+    <span class="title" style="padding-top: 10px">其他数据</span>
     <table :style="{ tableLayout: 'fixed' }">
       <thead>
         <tr>
-          <th>Parameter</th>
-          <th>Value</th>
+          <th>参数</th>
+          <th>数值</th>
         </tr>
       </thead>
       <tbody>

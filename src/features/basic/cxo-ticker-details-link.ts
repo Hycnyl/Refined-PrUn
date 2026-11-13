@@ -31,8 +31,4 @@ function init() {
   tiles.observe('CXO', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'CXO: Opens the ticker.exchange link as the XIT CXOS details view instead of CXP.',
-);
+features.add(import.meta.url, init, 'CXO：点击材料代码与交易所链接时，打开 XIT CXOS 详情而非 CXP');

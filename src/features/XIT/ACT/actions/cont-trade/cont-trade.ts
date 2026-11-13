@@ -16,7 +16,7 @@ import {
 
 act.addAction<Config>({
   type: 'CONT Trade',
-  shortDescription: 'Create a buy/sell trade contract draft for a material group',
+  shortDescription: '为材料组创建买卖合同草稿',
   description: (action, config) => {
     if (!action.group || !action.contLocation) {
       return '--';
@@ -28,7 +28,7 @@ act.addAction<Config>({
         ? (config?.location ?? 'configured location')
         : displayLocationValue(action.contLocation);
 
-    return `${tradeLabel} contract for [${action.group}] at ${location}`;
+    return `${tradeLabel}合同，材料组 [${action.group}]，位于 ${location}`;
   },
   editComponent: Edit,
   configureComponent: Configure,
@@ -54,7 +54,7 @@ act.addAction<Config>({
     assert(materials, 'Invalid material group');
 
     const traded = Object.keys(materials).filter(x => materials[x] > 0);
-    assert(traded.length > 0, 'Material group has no materials to trade');
+    assert(traded.length > 0, '材料组中没有可交易的材料');
 
     // Every traded material needs its own price: a blank one on the template
     // would go out as a free trade. Checked here so the package fails before
@@ -62,11 +62,11 @@ act.addAction<Config>({
     const prices = getMaterialGroupPrices(data.group) ?? {};
     assert(
       traded.every(x => isValidContractPrice(prices[x])),
-      `Each material in [${data.group}] needs a price from ${minContractPrice} to ${maxContractPrice}. Use a Paste group with 3 columns (ticker, amount, price).`,
+      `材料组 [${data.group}] 中的每种材料都需要价格，范围 ${minContractPrice} 到 ${maxContractPrice}. Use a Paste group with 3 columns (ticker, amount, price).`,
     );
 
     const location = resolveLocation(data.contLocation, config?.location, getMaterialGroupPlanet);
-    assert(location, 'Invalid location');
+    assert(location, '位置无效');
 
     const tradeType = data.contTradeType ?? 'BUYING';
     const daysToFulfill = data.daysToFulfill ?? 3;

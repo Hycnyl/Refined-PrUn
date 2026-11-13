@@ -33,18 +33,16 @@ export interface RenderedTileMetadata {
 export const tileDataSources: DataSourceDescriptor[] = [
   createCollectionSource({
     id: 'stored-layout-tiles',
-    label: 'Stored Layout Tiles',
-    description:
-      'Serializable tile nodes from saved PrUn layouts, with narrowly scoped tile state.',
+    label: '已保存布局窗口',
+    description: '已保存 PrUn 布局中可序列化的窗口节点及有限窗口状态。',
     provenance: 'prun-live',
     completeness: () => (tilesStore.fetched.value ? 'complete' : 'not-loaded'),
     snapshot: snapshotStoredLayoutTiles,
   }),
   createCollectionSource({
     id: 'active-rendered-tiles',
-    label: 'Active Rendered Tiles',
-    description:
-      'Serializable metadata for tiles currently rendered in APEX. DOM and framework objects are excluded.',
+    label: '当前显示窗口',
+    description: 'APEX 中当前显示窗口的可序列化元数据，不含 DOM 和框架对象。',
     provenance: 'prun-live',
     completeness: () => 'complete',
     snapshot: snapshotRenderedTiles,

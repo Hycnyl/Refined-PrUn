@@ -3,8 +3,8 @@ import AgentHelp from '@src/features/XIT/HELP/AgentHelp.vue';
 
 xit.add({
   command: 'HELP',
-  name: 'HELP',
-  description: 'Useful information to get started with Refined PrUn.',
+  name: '帮助',
+  description: 'Refined PrUn 入门帮助。',
   optionalParameters: 'Command',
   component: params => {
     switch (params[0]?.toUpperCase()) {

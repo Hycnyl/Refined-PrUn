@@ -38,4 +38,4 @@ function init() {
   tiles.observe('BS', onTileReady);
 }
 
-features.add(import.meta.url, init, 'BS: Hides workforce rows with zero current workforce.');
+features.add(import.meta.url, init, 'BS：隐藏当前劳动力为零的行');

@@ -32,4 +32,4 @@ function init() {
   tiles.observe('FINLA', onTileReady);
 }
 
-features.add(import.meta.url, init, 'FINLA: Hides the ECD row.');
+features.add(import.meta.url, init, 'FINLA：隐藏 ECD 行');

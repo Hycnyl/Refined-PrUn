@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { label = 'CMD' } = defineProps<{ label?: string }>();
+const { label = '命令' } = defineProps<{ label?: string }>();
 </script>
 
 <template>

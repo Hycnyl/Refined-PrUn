@@ -12,9 +12,9 @@ export const resolveTicker: ResolveTicker = ticker => materialsStore.getByTicker
 
 act.addMaterialGroup<Config>({
   type: 'Paste',
-  shortDescription: 'Paste materials from clipboard at execution time',
+  shortDescription: '执行时从剪贴板粘贴材料',
   description: () => {
-    return 'Paste materials at execution time';
+    return '执行时粘贴材料';
   },
   editComponent: Edit,
   configureComponent: Configure,
@@ -23,7 +23,7 @@ act.addMaterialGroup<Config>({
   generateMaterialBill: async ({ config, log, setPrices }) => {
     const result = parseMaterials(config.materials, resolveTicker);
     if (!result) {
-      log.error('Invalid or missing pasted materials.');
+      log.error('粘贴的材料无效或缺失。');
       return undefined;
     }
     if (result.prices) {

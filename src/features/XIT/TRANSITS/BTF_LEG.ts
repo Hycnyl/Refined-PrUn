@@ -76,7 +76,7 @@ export const BTF_LEG = act.addActionStep<BtfLegData>({
       if (!stored && !routeResults.unsaved) {
         routeResults.unsaved = true;
         log.warning(
-          "These stops are not the route's current stops, so the results are not saved to the route. Run TRANSITS again on the route's stops.",
+          '这些站点与路线当前站点不一致，结果不会保存到路线。请使用路线当前站点重新运行 TRANSITS。',
         );
       }
       const text = data.isLast ? `${line} | ${formatRouteTotal(routeResults.legs)}` : line;
@@ -99,7 +99,7 @@ export const BTF_LEG = act.addActionStep<BtfLegData>({
       data.originQuery === undefined ||
       data.destinationQuery === undefined
     ) {
-      finish(`${label}: ${data.error ?? 'stop did not resolve'}`, false);
+      finish(`${label}: ${data.error ?? '无法解析站点'}`, false);
       return;
     }
 
@@ -120,7 +120,7 @@ export const BTF_LEG = act.addActionStep<BtfLegData>({
     const originField = containers[0];
     const destinationField = containers[1];
     if (originField === undefined || destinationField === undefined) {
-      finish(`${label}: blueprint test flight is missing origin or destination`, false);
+      finish(`${label}：蓝图试飞缺少起点或目的地`, false);
       return;
     }
 
@@ -131,7 +131,7 @@ export const BTF_LEG = act.addActionStep<BtfLegData>({
       if (action === 'apply-loadout' && !isFirstOfType) {
         const saved = confirmedLoadout.current;
         if (saved === undefined) {
-          finish(`${label}: fuel loadout was not confirmed`, false);
+          finish(`${label}：燃料装载未确认`, false);
           return;
         }
         setLoadoutPayload(saved, data.payload);
@@ -145,14 +145,14 @@ export const BTF_LEG = act.addActionStep<BtfLegData>({
       if (action === 'select-origin') {
         const selected = await selectAddress(originField, originQuery);
         if (!selected) {
-          finish(`${label}: could not set origin ${data.originLabel}`, false);
+          finish(`${label}：无法设置起点 ${data.originLabel}`, false);
           return;
         }
       }
       if (action === 'select-destination') {
         const selected = await selectAddress(destinationField, destinationQuery);
         if (!selected) {
-          finish(`${label}: could not set destination ${data.destinationLabel}`, false);
+          finish(`${label}：无法设置目的地 ${data.destinationLabel}`, false);
           return;
         }
       }
@@ -176,7 +176,7 @@ export const BTF_LEG = act.addActionStep<BtfLegData>({
           );
           return;
         }
-        await waitAct(`Set the fuel loadout for ${label}, then ACT`);
+        await waitAct(`设置燃料装载：${label}，然后点击“执行下一步”`);
         const captured = captureLoadout(tile.anchor);
         if (!captured.ok) {
           finish(`${label}: ${captured.error}`, false);
@@ -204,7 +204,7 @@ export const BTF_LEG = act.addActionStep<BtfLegData>({
         // The first leg already waited above.
         const confirmLeg = !isFirstOfType;
         if (confirmLeg) {
-          await waitAct(`Set the fuel usage and gateway for ${label}, then ACT`);
+          await waitAct(`设置燃料用量和星门：${label}，然后点击“执行下一步”`);
           const choices = captureLoadout(tile.anchor);
           if (choices.ok && confirmedLoadout.current !== undefined) {
             mergeLegChoices(confirmedLoadout.current, choices.loadout);
@@ -222,7 +222,7 @@ export const BTF_LEG = act.addActionStep<BtfLegData>({
         }
         const saved = confirmedLoadout.current;
         if (saved === undefined) {
-          finish(`${label}: fuel loadout was not confirmed`, false);
+          finish(`${label}：燃料装载未确认`, false);
           return;
         }
         const tanks = tankLevelsAtTarget(tile.anchor, saved);

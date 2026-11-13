@@ -11,7 +11,7 @@ interface Data {
 
 export const OPEN_POPID = act.addActionStep<Data>({
   type: 'OPEN_POPID',
-  description: data => `Open POPID for ${data.ticker} on ${data.planet}`,
+  description: data => `打开 POPID：${data.ticker}，交易所 ${data.planet}`,
   execute: async ctx => {
     const { data, requestTile, complete, skip, fail } = ctx;
 

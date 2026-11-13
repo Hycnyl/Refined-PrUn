@@ -1,26 +1,23 @@
 {
-  "name": "refined-prun-test-fork",
-  "version": "1",
+  "name": "refined-prun-cn",
+  "version": "1.1.11-cn.1",
   "private": true,
-  "description": "Browser extension that simplifies the Prosperous Universe interface and adds useful features",
+  "description": "基于 OOG 版 Refined PrUn 的简体中文扩展",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/refined-prun/refined-prun.git"
+    "url": "https://github.com/Hycnyl/Refined-PrUn.git"
   },
   "scripts": {
     "compile": "tsc --noEmit && pnpm run lint",
     "build": "pnpm run clean && pnpm run compile && vite build",
     "build:fast": "pnpm run clean && vite build",
-    "build:firefox": "bash scripts/build-firefox.sh",
-    "sign:firefox": "web-ext sign --source-dir dist --channel=unlisted",
     "clean": "rimraf dist",
     "dev": "cross-env NODE_ENV=development vite build -w --mode development",
     "fix": "pnpm exec eslint ./ --fix --concurrency auto",
     "lint": "pnpm exec eslint --concurrency auto",
     "prepare": "husky",
     "prettier": "prettier . --write --ignore-path .prettierignore",
-    "open": "scripts\\open-local.bat",
     "test": "vitest run"
   },
   "type": "module",

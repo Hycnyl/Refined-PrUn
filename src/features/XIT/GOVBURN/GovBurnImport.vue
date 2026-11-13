@@ -20,8 +20,8 @@ const emit = defineEmits<{ (e: 'done'): void }>();
 type ImportType = 'TEXT' | 'FILE';
 
 const typeOptions: { label: string; value: ImportType }[] = [
-  { label: 'Paste JSON', value: 'TEXT' },
-  { label: 'Upload JSON', value: 'FILE' },
+  { label: '粘贴 JSON', value: 'TEXT' },
+  { label: '上传 JSON', value: 'FILE' },
 ];
 
 const type = ref('TEXT' as ImportType);
@@ -49,13 +49,13 @@ function formatCountMaterials(count: number, materials: string[]) {
 function rowNote(row: GovBurnImportRow) {
   const notes: string[] = [];
   if (row.omitted) {
-    notes.push('not in import');
+    notes.push('未在导入数据中');
   }
   if (row.clamped) {
-    notes.push(`clamped to ${row.count} upkeeps`);
+    notes.push(`已限制为 ${row.count} 次维护`);
   }
   if (row.unknownMaterials.length > 0) {
-    notes.push(`not an upkeep: ${row.unknownMaterials.join(', ')}`);
+    notes.push(`不是维护材料：${row.unknownMaterials.join(', ')}`);
   }
   return notes.join('; ');
 }
@@ -64,13 +64,13 @@ function applyJson(json: unknown) {
   const input = parseGovBurnImport(json);
   if (input === undefined) {
     error.value = true;
-    errorMessage.value = 'Invalid JSON.';
+    errorMessage.value = 'JSON 无效。';
     return;
   }
   const planet = planetsStore.find(input.planet);
   if (planet === undefined) {
     error.value = true;
-    errorMessage.value = 'Planet not found.';
+    errorMessage.value = '未找到星球。';
     return;
   }
   error.value = false;
@@ -134,9 +134,9 @@ function onConfirm() {
 
 <template>
   <div v-if="plan === undefined">
-    <SectionHeader>Import GovBurn Plan</SectionHeader>
+    <SectionHeader>导入星球维护计划</SectionHeader>
     <form @submit.prevent>
-      <Active label="Type">
+      <Active label="类型">
         <SelectInput v-model="type" :options="typeOptions" />
       </Active>
       <Active v-if="type === 'TEXT'" label="JSON" :error="error">
@@ -147,9 +147,9 @@ function onConfirm() {
           spellcheck="false" />
       </Active>
       <Commands>
-        <PrunButton v-if="type === 'FILE'" primary @click="onUploadClick">UPLOAD</PrunButton>
-        <PrunButton v-if="type === 'TEXT'" primary @click="onPreviewClick">PREVIEW</PrunButton>
-        <PrunButton @click="emit('done')">CANCEL</PrunButton>
+        <PrunButton v-if="type === 'FILE'" primary @click="onUploadClick">上传</PrunButton>
+        <PrunButton v-if="type === 'TEXT'" primary @click="onPreviewClick">预览</PrunButton>
+        <PrunButton @click="emit('done')">取消</PrunButton>
       </Commands>
     </form>
     <p v-if="error" :class="$style.error">{{ errorMessage }}</p>
@@ -157,22 +157,20 @@ function onConfirm() {
 
   <div v-else>
     <SectionHeader>{{ planetLabel }}</SectionHeader>
-    <p v-if="plan.hasConflicts" :class="$style.error">
-      Overwrites existing settings for the highlighted rows.
-    </p>
-    <p v-if="!plan.hasData" :class="$style.note">
-      No data captured for this planet. Materials cannot be validated — run XIT GOVBURNDATA.
-    </p>
-    <p v-if="plan.ignored.length > 0" :class="$style.note">
-      Ignored (not POPI buildings): {{ plan.ignored.join(', ') }}.
+    <p v-if="plan.hasConflicts" :class="$style.error">将覆盖高亮行的现有设置。</p>
+    <p v-if="!plan.hasData" :class="$style.note"
+      >尚未收集此星球的数据，无法验证材料。请运行 XIT GOVBURNDATA。</p
+    >
+    <p v-if="plan.ignored.length > 0" :class="$style.note"
+      >已忽略（非 POPI 建筑）：{{ plan.ignored.join(', ') }}.
     </p>
     <table>
       <thead>
         <tr>
-          <th>Building</th>
-          <th>Current</th>
-          <th>New</th>
-          <th>Note</th>
+          <th>建筑</th>
+          <th>当前</th>
+          <th>新增</th>
+          <th>备注</th>
         </tr>
       </thead>
       <tbody>
@@ -186,8 +184,8 @@ function onConfirm() {
     </table>
     <form @submit.prevent>
       <Commands>
-        <PrunButton primary @click="onConfirm">CONFIRM</PrunButton>
-        <PrunButton @click="onBack">BACK</PrunButton>
+        <PrunButton primary @click="onConfirm">确认</PrunButton>
+        <PrunButton @click="onBack">返回</PrunButton>
       </Commands>
     </form>
   </div>

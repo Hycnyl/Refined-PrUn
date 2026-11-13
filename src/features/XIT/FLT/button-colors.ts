@@ -19,14 +19,14 @@ export const FLT_BUTTON_COLOR_STATUSES: {
 
 /** Current FLT unload colors plus six toned palette options for the picker. */
 export const FLT_BUTTON_COLOR_OPTIONS: { label: string; value: string }[] = [
-  { label: 'Blue', value: '#43a4df' },
-  { label: 'Orange', value: '#f7a600' },
-  { label: 'Green', value: '#5cb85c' },
-  { label: 'Red', value: '#d9534f' },
-  { label: 'Amber', value: '#f0ad4e' },
-  { label: 'Purple', value: '#b48ad8' },
-  { label: 'Rose', value: '#e8676b' },
-  { label: 'Teal', value: '#2a9d8f' },
+  { label: '蓝色', value: '#43a4df' },
+  { label: '橙色', value: '#f7a600' },
+  { label: '绿色', value: '#5cb85c' },
+  { label: '红色警告', value: '#d9534f' },
+  { label: '琥珀色', value: '#f0ad4e' },
+  { label: '紫色', value: '#b48ad8' },
+  { label: '玫红', value: '#e8676b' },
+  { label: '青绿', value: '#2a9d8f' },
 ];
 
 export const DEFAULT_FLT_BUTTON_COLORS: FltButtonColors = {

@@ -24,7 +24,7 @@ void markChangelogSeen();
       :class="$style.release">
       <SectionHeader>
         {{ release.version }}
-        <span v-if="isNew(index)" :class="$style.newTag">NEW</span>
+        <span v-if="isNew(index)" :class="$style.newTag">新建</span>
       </SectionHeader>
       <div v-for="section in release.sections" :key="section.category" :class="$style.section">
         <div :class="$style.category">{{ section.category }}</div>

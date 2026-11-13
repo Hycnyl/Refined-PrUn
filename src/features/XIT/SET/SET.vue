@@ -13,37 +13,37 @@ import ROUTE from '@src/features/XIT/SET/ROUTE.vue';
 const tabs: Tab[] = [
   {
     id: 'GAME',
-    label: 'Gameplay',
+    label: '基础设置',
     component: GAME,
   },
   {
     id: 'ACT',
-    label: 'Act',
+    label: '动作',
     component: NOBUY,
   },
   {
     id: 'FEAT',
-    label: 'Features',
+    label: '功能',
     component: FEAT,
   },
   {
     id: 'FIN',
-    label: 'Financial',
+    label: '财务报告',
     component: FIN,
   },
   {
     id: 'BFR',
-    label: 'Buffers',
+    label: '窗口缓存',
     component: BFR,
   },
   {
     id: 'SFC',
-    label: 'SFC',
+    label: '飞行控制',
     component: SFC,
   },
   {
     id: 'ROUTE',
-    label: 'Route',
+    label: '路线',
     component: ROUTE,
   },
 ];

@@ -37,7 +37,7 @@ const planetName = computed(() =>
 const pkg = computed(
   () =>
     ({
-      global: { name: `Repair: ${planetName.value ?? naturalId}` },
+      global: { name: `维修：${planetName.value ?? naturalId}` },
       groups: [
         {
           type: 'Repair' as UserData.MaterialGroupType,
@@ -69,6 +69,6 @@ const pkg = computed(
 </script>
 
 <template>
-  <div v-if="!planetName">Planet "{{ naturalId }}" not found.</div>
+  <div v-if="!planetName">星球“{{ naturalId }}”未找到。</div>
   <ExecuteActionPackage v-else :pkg="pkg" />
 </template>

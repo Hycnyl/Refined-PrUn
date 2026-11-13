@@ -22,13 +22,13 @@ function onCreateClick() {
 
 <template>
   <div :class="C.DraftConditionEditor.form">
-    <SectionHeader>New Linked Buffers Preset</SectionHeader>
+    <SectionHeader>新建联动窗口预设</SectionHeader>
     <form>
-      <Active label="Preset Name">
+      <Active label="预设名称">
         <TextInput v-model="name" />
       </Active>
       <Commands>
-        <PrunButton primary @click="onCreateClick">CREATE</PrunButton>
+        <PrunButton primary @click="onCreateClick">创建</PrunButton>
       </Commands>
     </form>
   </div>

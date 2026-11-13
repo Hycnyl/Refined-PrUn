@@ -25,7 +25,7 @@ function add(descriptor: CommandDescriptor) {
   for (let command of castArray(descriptor.command)) {
     command = command.toUpperCase();
     if (import.meta.env.DEV && lookup.has(command)) {
-      throw Error(`Duplicate command: ${command}`);
+      throw Error(`命令重复：${command}`);
     }
     lookup.set(command, descriptor);
   }

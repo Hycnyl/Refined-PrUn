@@ -62,7 +62,7 @@ function onSellClick(tile: PrunTile, confirmed: WeakSet<Element>, event: Event) 
       confirmed.add(button);
       void clickElement(button as HTMLElement);
     },
-    { message: `${message}.`, confirmLabel: 'Sell anyway' },
+    { message: `${message}.`, confirmLabel: '仍然卖出' },
   );
 }
 
@@ -220,5 +220,5 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'CXPO: Confirms a sell that would draw the CX warehouse below its route reserve, and shows reserved and free stock in the inventory row.',
+  'CXPO：卖出将使交易所仓库低于路线预留库存时要求确认，并在库存行显示预留和可用数量',
 );

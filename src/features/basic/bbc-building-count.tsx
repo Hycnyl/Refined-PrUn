@@ -38,4 +38,4 @@ function init() {
   tiles.observe('BBC', onTileReady);
 }
 
-features.add(import.meta.url, init, 'BBC: Adds a building count label to the building icons.');
+features.add(import.meta.url, init, 'BBC：为建筑图标增加建筑数量标签');

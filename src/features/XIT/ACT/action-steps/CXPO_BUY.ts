@@ -39,22 +39,22 @@ export const CXPO_BUY = act.addActionStep<Data>({
     const willFillCompletely = filled && filled.amount === data.amount;
 
     if (!willFillCompletely && allowUnfilled) {
-      let description = `Bid for ${fixed0(data.amount)} ${ticker} on ${exchange}`;
+      let description = `挂单购买 ${fixed0(data.amount)} ${ticker}，交易所 ${exchange}`;
       if (isFinite(priceLimit)) {
-        description += ` at price ${fixed02(data.priceLimit)}`;
-        description += ` (${fixed0(data.amount * data.priceLimit)} total cost)`;
+        description += `，价格 ${fixed02(data.priceLimit)}`;
+        description += ` (${fixed0(data.amount * data.priceLimit)} 总成本）`;
       }
       return description;
     }
 
-    let description = `Buy ${fixed0(amount)} ${ticker} on ${exchange}`;
+    let description = `购买 ${fixed0(amount)} ${ticker}，交易所 ${exchange}`;
     if (isFinite(priceLimit)) {
-      description += ` with price limit ${fixed02(priceLimit)}`;
+      description += `，价格限制 ${fixed02(priceLimit)}`;
     }
     if (filled) {
-      description += ` (${fixed0(filled.cost)} total cost)`;
+      description += ` (${fixed0(filled.cost)} 总成本）`;
     } else {
-      description += ' (no price data yet)';
+      description += '（暂无价格数据）';
     }
     return description;
   },
@@ -69,40 +69,37 @@ export const CXPO_BUY = act.addActionStep<Data>({
       const warehouse = warehousesStore.getByEntityNaturalId(naturalId);
       return storagesStore.getById(warehouse?.storeId);
     });
-    assert(cxWarehouse.value, `CX warehouse not found for ${exchange}`);
+    assert(cxWarehouse.value, `未找到交易所仓库：${exchange}`);
 
     if (amount <= 0) {
-      log.warning(`No ${ticker} was bought (target amount is 0)`);
+      log.warning(`没有 ${ticker} 已购买（目标数量为 0）`);
       skip();
       return;
     }
 
     const material = materialsStore.getByTicker(ticker);
-    assert(material, `Unknown material ${ticker}`);
+    assert(material, `未知材料 ${ticker}`);
 
     const canFitWeight =
       material.weight * amount <= cxWarehouse.value.weightCapacity - cxWarehouse.value.weightLoad;
     const canFitVolume =
       material.volume * amount <= cxWarehouse.value.volumeCapacity - cxWarehouse.value.volumeLoad;
-    assert(
-      canFitWeight && canFitVolume,
-      `Cannot not buy ${fixed0(amount)} ${ticker} (will not fit in the warehouse)`,
-    );
+    assert(canFitWeight && canFitVolume, `无法购买 ${fixed0(amount)} ${ticker}（仓库容量不足）`);
 
     const tile = await requestTile(`CXPO ${cxTicker}`);
     if (!tile) {
       return;
     }
 
-    setStatus('Setting up CXPO buffer...');
+    setStatus('正在配置 CXPO 窗口……');
 
     const buyButton = await $(tile.anchor, C.Button.success);
     const form = await $(tile.anchor, C.ComExPlaceOrderForm.form);
     const inputs = _$$(form, 'input');
     const quantityInput = inputs[0];
-    assert(quantityInput !== undefined, 'Missing quantity input');
+    assert(quantityInput !== undefined, '缺少数量输入框');
     const priceInput = inputs[1];
-    assert(priceInput !== undefined, 'Missing price input');
+    assert(priceInput !== undefined, '缺少价格输入框');
 
     let shouldUnwatch = false;
     let missingOrderBook = false;
@@ -128,10 +125,10 @@ export const CXPO_BUY = act.addActionStep<Data>({
       if (filled.amount < amount && !data.allowUnfilled) {
         const leftover = amount - filled.amount;
         let message =
-          `${fixed0(leftover)} ${ticker} will not be bought on ${exchange} ` +
-          `(${fixed0(filled.amount)} of ${fixed0(amount)} available`;
+          `${fixed0(leftover)} ${ticker} 不会购买于 ${exchange} ` +
+          `(${fixed0(filled.amount)}，目标 ${fixed0(amount)} 可用`;
         if (isFinite(priceLimit)) {
-          message += ` with price limit ${fixed02(priceLimit)}/u`;
+          message += `，价格限制 ${fixed02(priceLimit)}/u`;
         }
         message += ')';
         // The order book keeps updating while the buffer is open, so this effect
@@ -169,7 +166,7 @@ export const CXPO_BUY = act.addActionStep<Data>({
     watcherReady = true;
     // Vue's watchEffect swallows a throw, so fail from the step body once the book is missing.
     if (missingOrderBook) {
-      fail(`Missing ${cxTicker} order book data`);
+      fail(`缺少 ${cxTicker} 订单簿数据`);
     }
     // An empty book is often known on that first effect run, before waitAct.
     // Returning here keeps this step from arming ACT over the next buy.
@@ -182,7 +179,7 @@ export const CXPO_BUY = act.addActionStep<Data>({
       // Synthetic events from changeInputValue() have isTrusted === false.
       if (event.isTrusted && !shouldUnwatch) {
         shouldUnwatch = true;
-        log.info('Manual input detected; keeping user-entered quantity and price');
+        log.info('检测到手动输入，保留输入的数量和价格');
       }
     }
     quantityInput.addEventListener('input', onManualInput);
@@ -241,10 +238,10 @@ export const CXPO_BUY = act.addActionStep<Data>({
     await waitActionFeedback(tile);
 
     if (shouldWaitForUpdate) {
-      setStatus('Waiting for storage update...');
+      setStatus('正在等待库存更新……');
       await watchWhile(() => warehouseAmount.value === currentAmount);
     } else {
-      setStatus('Bid order created');
+      setStatus('买单已创建');
     }
 
     complete();

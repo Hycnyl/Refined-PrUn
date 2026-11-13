@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeOptions, localizeLabel } from '@src/infrastructure/i18n/labels';
 import Active from '@src/components/forms/Active.vue';
 import { sitesStore } from '@src/infrastructure/prun-api/data/sites';
 import { getEntityNameFromAddress } from '@src/infrastructure/prun-api/data/addresses';
@@ -49,17 +50,14 @@ defineExpose({ validate, save });
 </script>
 
 <template>
-  <Active label="Planet" :error="planetError">
-    <SelectInput v-model="planet" :options="planets" />
+  <Active label="星球" :error="planetError">
+    <SelectInput v-model="planet" :options="localizeOptions(planets, localizeLabel)" />
   </Active>
-  <Active
-    label="Day Threshold"
-    tooltip="All buildings older than this threshold will be repaired.
-     If no number is provided all buildings are repaired.">
+  <Active label="楼龄阈值" tooltip="维修所有楼龄超过此阈值的建筑；留空则维修全部建筑">
     <NumberInput v-model="days" optional float />
   </Active>
   <Active
-    label="Time Offset"
+    label="时间偏移"
     tooltip="The number of days in the future this repair will be conducted."
     :error="advanceDaysError">
     <NumberInput v-model="advanceDays" float />

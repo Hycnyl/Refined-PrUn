@@ -128,7 +128,7 @@ function numberCandidates(raw: string) {
 function toParsedNumber(normalized: string, raw: string): ParsedNumber | { error: string } {
   const value = Number(normalized);
   if (!Number.isFinite(value) || value <= 0 || value > Number.MAX_SAFE_INTEGER) {
-    return { error: `"${raw}" is not a finite positive number` };
+    return { error: `"${raw}”不是有限正数` };
   }
   return { value, normalized };
 }
@@ -136,20 +136,20 @@ function toParsedNumber(normalized: string, raw: string): ParsedNumber | { error
 function parseQuantity(raw: string): { amount: number } | { error: string } {
   const candidates = numberCandidates(raw);
   if (candidates.length === 0) {
-    return { error: `"${raw}" is not a supported number` };
+    return { error: `"${raw}”不是支持的数值` };
   }
   // A quantity is always whole, which settles "1,600" — 1.6 is not a candidate
   // reading of it, so a spreadsheet's grouping separator needs no ceremony.
   const whole = candidates.filter(x => !x.includes('.'));
   if (whole.length !== 1) {
-    return { error: `quantity "${raw}" is not a whole number` };
+    return { error: `数量“${raw}”不是整数` };
   }
   const parsed = toParsedNumber(whole[0], raw);
   if ('error' in parsed) {
     return parsed;
   }
   if (!Number.isSafeInteger(parsed.value)) {
-    return { error: `quantity "${raw}" is not a whole number` };
+    return { error: `数量“${raw}”不是整数` };
   }
   return { amount: parsed.value };
 }
@@ -157,11 +157,11 @@ function parseQuantity(raw: string): { amount: number } | { error: string } {
 function parsePrice(raw: string): { price: number } | { error: string } {
   const candidates = numberCandidates(raw);
   if (candidates.length === 0) {
-    return { error: `"${raw}" is not a supported number` };
+    return { error: `"${raw}”不是支持的数值` };
   }
   // A price can be fractional, so grouping cannot be told from a decimal here.
   if (candidates.length > 1) {
-    return { error: `price "${raw}" has ambiguous separators; write it without grouping` };
+    return { error: `价格“${raw}”的分隔符有歧义，请去除分组符号` };
   }
   const parsed = toParsedNumber(candidates[0], raw);
   if ('error' in parsed) {
@@ -169,13 +169,13 @@ function parsePrice(raw: string): { price: number } | { error: string } {
   }
   // CXPO_BUY writes the limit through fixed02. Do not accept one it would round.
   if ((parsed.normalized.split('.')[1]?.length ?? 0) > 2) {
-    return { error: `price "${raw}" has more than two decimal places` };
+    return { error: `价格“${raw}”超过两位小数` };
   }
   const digits = parsed.normalized.replace('.', '').replace(/^0+/, '').replace(/0+$/, '');
   if (digits.length > maxPriceSignificantFigures) {
     const suggestion = Number(parsed.value.toPrecision(maxPriceSignificantFigures));
     return {
-      error: `price "${raw}" has more than ${maxPriceSignificantFigures} significant figures (use ${suggestion})`,
+      error: `价格“${raw}”超过 ${maxPriceSignificantFigures} 位有效数字（请使用 ${suggestion})`,
     };
   }
   return { price: parsed.value };
@@ -200,7 +200,7 @@ export function parsePaste(input: string | undefined, resolveTicker: ResolveTick
 
     const delimiter = detectDelimiter(raw);
     if (result.delimiter !== undefined && result.delimiter !== delimiter) {
-      result.fatal = `Paste mixes ${delimiterNames[result.delimiter]} and ${delimiterNames[delimiter]} rows. Use one delimiter throughout.`;
+      result.fatal = `粘贴内容混用了 ${delimiterNames[result.delimiter]} 和 ${delimiterNames[delimiter]} 行，请统一使用同一种分隔符。`;
       result.rows = [];
       result.errors = [];
       return result;
@@ -211,7 +211,7 @@ export function parsePaste(input: string | undefined, resolveTicker: ResolveTick
     if (fields.length < 2 || fields.length > 3) {
       result.errors.push({
         line,
-        reason: `expected TICKER, QUANTITY[, PRICE] (got ${fields.length} fields)`,
+        reason: `应为材料代码、数量和可选价格，实际列数 ${fields.length} 列）`,
       });
       continue;
     }
@@ -219,7 +219,7 @@ export function parsePaste(input: string | undefined, resolveTicker: ResolveTick
     const [tickerRaw, quantityRaw, priceRaw] = fields;
     const ticker = resolveTicker(tickerRaw);
     if (ticker === undefined) {
-      result.errors.push({ line, reason: `unknown ticker "${tickerRaw}"` });
+      result.errors.push({ line, reason: `未知材料代码“${tickerRaw}"` });
       continue;
     }
     const quantity = parseQuantity(quantityRaw);
@@ -240,7 +240,7 @@ export function parsePaste(input: string | undefined, resolveTicker: ResolveTick
       if (previous !== undefined && previous.price !== price.price) {
         result.errors.push({
           line,
-          reason: `conflicting price for ${ticker}; line ${previous.line} used ${previous.price}`,
+          reason: `价格冲突：${ticker}；行 ${previous.line} 使用了 ${previous.price}`,
         });
         continue;
       }

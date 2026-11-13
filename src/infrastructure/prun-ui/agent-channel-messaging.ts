@@ -10,7 +10,7 @@ import {
   channelIdentifier,
 } from '@src/infrastructure/prun-api/data/agent-channel';
 
-const setupErrorMessage = `The "${channelIdentifier}" channel isn't set up - open COM, click "new group", add no other members, and name it "${channelIdentifier}".`;
+const setupErrorMessage = `“${channelIdentifier}”频道尚未设置，请打开 COM，点击“new group”，不添加其他成员，并命名为“${channelIdentifier}".`;
 
 // Verified send recipe for formless chat compose inputs - see docs/feature-patterns.md
 // "Submitting a Formless Input Programmatically". Do not deviate from this sequence.
@@ -34,7 +34,7 @@ async function verifiedSend(input: HTMLInputElement, text: string) {
     await sleep(100);
   }
   if (input.value !== '') {
-    throw new Error('The game did not accept the message (chat input never cleared).');
+    throw new Error('游戏未接受消息，聊天输入框始终未清空。');
   }
 }
 
@@ -75,11 +75,7 @@ async function waitForServerConfirmation(
   }
   const systemMessages = getSystemMessageTexts(window);
   const newest = systemMessages.slice(systemMessageCountBefore).at(-1);
-  throw new Error(
-    newest
-      ? `The game did not confirm the message was received by the server: ${newest}`
-      : 'The game did not confirm the message was received by the server.',
-  );
+  throw new Error(newest ? `游戏未确认服务器收到消息：${newest}` : '游戏未确认服务器收到消息。');
 }
 
 async function waitForComposePrompt(window: Element) {

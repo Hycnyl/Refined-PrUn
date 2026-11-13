@@ -23,8 +23,4 @@ function init() {
   tiles.observe('ADM', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'ADM: Applies the "neutral" style to the "Withdraw" vote button.',
-);
+features.add(import.meta.url, init, 'ADM：为“Withdraw”撤回投票按钮应用中性样式');

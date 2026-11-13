@@ -18,7 +18,7 @@ async function onClick() {
     primary
     data-tooltip-position="top"
     :data-tooltip="copied ? 'Copied!' : undefined"
-    @click="onClick">
-    COPY
-  </PrunButton>
+    @click="onClick"
+    >复制</PrunButton
+  >
 </template>

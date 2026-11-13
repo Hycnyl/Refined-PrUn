@@ -75,23 +75,21 @@ function downloadLocalizationTemplates() {
 
 <template>
   <div :style="{ paddingTop: '4px' }">
-    <SectionHeader>Warning: Messing with these can lead to unexpected behavior</SectionHeader>
+    <SectionHeader>警告：修改这些选项可能导致异常行为。</SectionHeader>
     <form>
-      <Active label="Relay">
+      <Active label="中继">
         <TextInput v-model="relayUrl" />
       </Active>
     </form>
-    <DebugButton v-if="!isRecordingPrunLog" @click="recordPrunLog">Record PrUn Log</DebugButton>
-    <DebugButton v-else @click="stopRecordingPrunLog">Stop Recording</DebugButton>
-    <DebugButton @click="switchPrunDebug">
-      {{ prunDebug ? 'Disable' : 'Enable' }} pu-debug
+    <DebugButton v-if="!isRecordingPrunLog" @click="recordPrunLog">记录 PrUn 日志</DebugButton>
+    <DebugButton v-else @click="stopRecordingPrunLog">停止记录</DebugButton>
+    <DebugButton @click="switchPrunDebug"> {{ prunDebug ? '禁用' : '启用' }} pu-debug </DebugButton>
+    <DebugButton @click="logUserData">输出用户数据日志</DebugButton>
+    <DebugButton @click="downloadCssDefinition">导出 prun-css.types.d.ts</DebugButton>
+    <DebugButton @click="downloadPrunStyles"
+      >导出 prun.css<span v-if="prunStyleUpdated">（新增）</span>
     </DebugButton>
-    <DebugButton @click="logUserData">Log User Data</DebugButton>
-    <DebugButton @click="downloadCssDefinition">Export prun-css.types.d.ts</DebugButton>
-    <DebugButton @click="downloadPrunStyles">
-      Export prun.css <span v-if="prunStyleUpdated">(new!)</span>
-    </DebugButton>
-    <DebugButton @click="downloadLocalizationTypes">Export localization.gen.d.ts</DebugButton>
-    <DebugButton @click="downloadLocalizationTemplates">Export localization.json</DebugButton>
+    <DebugButton @click="downloadLocalizationTypes">导出 localization.gen.d.ts</DebugButton>
+    <DebugButton @click="downloadLocalizationTemplates">导出 localization.json</DebugButton>
   </div>
 </template>

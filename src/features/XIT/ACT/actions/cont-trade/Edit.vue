@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeOptions, localizeLabel } from '@src/infrastructure/i18n/labels';
 import Active from '@src/components/forms/Active.vue';
 import SelectInput from '@src/components/forms/SelectInput.vue';
 import NumericInput from '@src/components/forms/NumericInput.vue';
@@ -34,7 +35,7 @@ const groupTargetOptions = computed(() =>
   pkg.groups
     .filter(x => x.name && x.planet)
     .map(x => ({
-      label: `[${x.name}] target`,
+      label: `[${x.name}] 的目标`,
       value: `${groupTargetPrefix}${x.name}`,
     })),
 );
@@ -80,23 +81,25 @@ defineExpose({ validate, save });
 </script>
 
 <template>
-  <Active label="Material Group">
+  <Active label="材料组">
     <SelectInput v-model="materialGroup" :options="materialGroups" />
   </Active>
 
-  <Active label="Trade Type">
-    <SelectInput v-model="tradeType" :options="tradeTypes" />
+  <Active label="交易类型">
+    <SelectInput v-model="tradeType" :options="localizeOptions(tradeTypes)" />
   </Active>
 
-  <Active label="Location">
-    <SelectInput v-model="contLocation" :options="locationOptions" />
+  <Active label="位置">
+    <SelectInput
+      v-model="contLocation"
+      :options="localizeOptions(locationOptions, localizeLabel)" />
   </Active>
 
-  <Active label="Currency">
+  <Active label="货币">
     <SelectInput v-model="currency" :options="currencies" />
   </Active>
 
-  <Active label="Days to Fulfill">
+  <Active label="履约天数">
     <NumericInput v-model="daysToFulfill" :min="minContractDays" :max="maxContractDays" :step="1" />
   </Active>
 </template>

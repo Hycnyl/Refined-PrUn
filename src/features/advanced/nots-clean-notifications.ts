@@ -125,4 +125,4 @@ function init() {
   tiles.observe('NOTS', onTileReady);
 }
 
-features.add(import.meta.url, init, 'NOTS: Hides redundant information from notifications.');
+features.add(import.meta.url, init, 'NOTS：隐藏通知中的冗余信息');

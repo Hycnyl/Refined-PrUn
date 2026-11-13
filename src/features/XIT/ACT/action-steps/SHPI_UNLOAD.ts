@@ -14,7 +14,7 @@ export const SHPI_UNLOAD = act.addActionStep<Data>({
   description: data => {
     const ship = shipsStore.getById(data.shipId);
     const shipLabel = ship?.name ?? ship?.registration ?? 'unknown ship';
-    return `Unload all cargo from ${shipLabel}`;
+    return `卸下全部货物，飞船 ${shipLabel}`;
   },
   totalMaterials: data => {
     const ship = shipsStore.getById(data.shipId);
@@ -58,7 +58,7 @@ export const SHPI_UNLOAD = act.addActionStep<Data>({
     });
     const before = totalQuantity.value;
 
-    await waitAct(`Unload all cargo from ${ship.name ?? ship.registration}?`);
+    await waitAct(`卸下全部货物，飞船 ${ship.name ?? ship.registration}?`);
     await clickElement(button);
     await waitActionFeedback(tile);
     setStatus('Waiting for storage update...');

@@ -4,7 +4,7 @@ import RefuelActWindow from '@src/features/XIT/ACT/actions/refuel/RefuelActWindo
 
 xit.add({
   command: 'REFUELACT',
-  name: 'REFUEL ALL EXCHANGES',
-  description: 'Executes a refuel action package for all ships docked at exchanges.',
+  name: '交易所飞船批量加油',
+  description: '为停靠在交易所的所有飞船执行加油动作包。',
   component: () => RefuelActWindow,
 });

@@ -10,7 +10,7 @@ async function onTileReady(tile: PrunTile) {
 
   createFragmentApp(() => (
     <PrunButton primary disabled={!nextBtn.value} onClick={onClick}>
-      FULFILL NEXT
+      履行下一项
     </PrunButton>
   )).prependTo(cmdInput);
 
@@ -57,8 +57,4 @@ function init() {
   tiles.observe('CONT', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'CONT: Adds a Fulfill Next button to sequentially fulfill contract conditions.',
-);
+features.add(import.meta.url, init, 'CONT：增加“履行下一项”按钮，依次履行合同条件');

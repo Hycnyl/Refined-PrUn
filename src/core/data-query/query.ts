@@ -52,9 +52,7 @@ export function executeDataQuery(
 ): DataQueryResult {
   const normalizedQuery = validateAndNormalizeQuery(query);
   if (normalizedQuery.sourceId !== descriptor.id) {
-    throw new DataQueryError(
-      `Query source "${normalizedQuery.sourceId}" does not match descriptor.`,
-    );
+    throw new DataQueryError(`查询来源“${normalizedQuery.sourceId}”与描述不匹配。`);
   }
 
   const snapshot = descriptor.snapshot();
@@ -103,17 +101,17 @@ export function executeDataQuery(
 
 export function validateAndNormalizeQuery(input: unknown): DataQuery {
   if (typeof input !== 'object' || input === null || Array.isArray(input)) {
-    throw new DataQueryError('Query must be an object.');
+    throw new DataQueryError('查询必须为对象。');
   }
   const query = input as DataQuery;
   if (typeof query.sourceId !== 'string' || query.sourceId.trim() === '') {
-    throw new DataQueryError('sourceId must be a non-empty string.');
+    throw new DataQueryError('sourceId 必须为非空字符串。');
   }
   if (query.search !== undefined && typeof query.search !== 'string') {
-    throw new DataQueryError('search must be a string.');
+    throw new DataQueryError('search 必须为字符串。');
   }
   if (query.filters !== undefined && !Array.isArray(query.filters)) {
-    throw new DataQueryError('filters must be an array.');
+    throw new DataQueryError('filters 必须为数组。');
   }
 
   const filters = query.filters?.map((filter, index) => validateFilter(filter, index));
@@ -121,11 +119,11 @@ export function validateAndNormalizeQuery(input: unknown): DataQuery {
   if (query.sort !== undefined) {
     const sortInput: unknown = query.sort;
     if (typeof sortInput !== 'object' || sortInput === null || Array.isArray(sortInput)) {
-      throw new DataQueryError('sort must be an object.');
+      throw new DataQueryError('sort 必须为对象。');
     }
-    validatePath(query.sort.path, 'sort path');
+    validatePath(query.sort.path, '排序路径');
     if (query.sort.direction !== 'asc' && query.sort.direction !== 'desc') {
-      throw new DataQueryError('sort direction must be "asc" or "desc".');
+      throw new DataQueryError('排序方向必须为 asc 或 desc。');
     }
     sort = { path: query.sort.path, direction: query.sort.direction };
   }
@@ -133,7 +131,7 @@ export function validateAndNormalizeQuery(input: unknown): DataQuery {
   let limit = DEFAULT_DATA_QUERY_LIMIT;
   if (query.limit !== undefined) {
     if (!Number.isInteger(query.limit) || query.limit <= 0) {
-      throw new DataQueryError('limit must be a positive integer.');
+      throw new DataQueryError('limit 必须为正整数。');
     }
     limit = Math.min(query.limit, MAX_DATA_QUERY_LIMIT);
   }
@@ -149,19 +147,19 @@ export function validateAndNormalizeQuery(input: unknown): DataQuery {
 
 function validateFilter(input: unknown, index: number): DataQueryFilter {
   if (typeof input !== 'object' || input === null || Array.isArray(input)) {
-    throw new DataQueryError(`Filter ${index + 1} must be an object.`);
+    throw new DataQueryError(`筛选 ${index + 1}必须为对象。`);
   }
   const filter = input as DataQueryFilter;
-  validatePath(filter.path, `filter ${index + 1} path`);
+  validatePath(filter.path, `筛选 ${index + 1} 路径`);
   if (!operators.has(filter.operator)) {
-    throw new DataQueryError(`Filter ${index + 1} has an unknown operator.`);
+    throw new DataQueryError(`筛选 ${index + 1}使用了未知运算符。`);
   }
   if (
     filter.operator === 'exists' &&
     filter.value !== undefined &&
     typeof filter.value !== 'boolean'
   ) {
-    throw new DataQueryError(`Filter ${index + 1} exists value must be a boolean when provided.`);
+    throw new DataQueryError(`筛选 ${index + 1}的 exists 值若提供，必须为布尔值。`);
   }
   return {
     path: filter.path,
@@ -172,11 +170,11 @@ function validateFilter(input: unknown, index: number): DataQueryFilter {
 
 function validatePath(path: string, label: string) {
   if (typeof path !== 'string' || path.trim() === '') {
-    throw new DataQueryError(`${label} must be a non-empty dot-separated path.`);
+    throw new DataQueryError(`${label}必须为非空的点分隔字段路径。`);
   }
   const segments = path.split('.');
   if (segments.some(x => x === '' || blockedPathSegments.has(x))) {
-    throw new DataQueryError(`${label} contains an invalid segment.`);
+    throw new DataQueryError(`${label}包含无效路径段。`);
   }
 }
 
@@ -326,6 +324,6 @@ function cloneSerializable<T>(value: T): T {
   try {
     return JSON.parse(JSON.stringify(value)) as T;
   } catch {
-    throw new DataQueryError('Data is not serializable.');
+    throw new DataQueryError('数据无法序列化。');
   }
 }

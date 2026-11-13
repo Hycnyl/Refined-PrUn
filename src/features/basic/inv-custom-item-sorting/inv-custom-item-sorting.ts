@@ -167,15 +167,15 @@ function sortInventory(
     );
 
     categories.push({
-      name: 'Consumables',
+      name: '消耗品',
       materials: workforce,
     });
     categories.push({
-      name: 'Inputs',
+      name: '原料',
       materials: [...inputs],
     });
     categories.push({
-      name: 'Outputs',
+      name: '产出',
       materials: [...outputs],
     });
   }
@@ -222,7 +222,7 @@ function sortInventory(
   }
 
   if (addedItems.size > 0) {
-    createFragmentApp(CategoryHeader, { label: 'Other' }).appendTo(inventory);
+    createFragmentApp(CategoryHeader, { label: '其他' }).appendTo(inventory);
   }
   let otherItems = [...remainingItems].map(x => ({
     div: x.div,
@@ -238,14 +238,14 @@ function sortInventory(
 }
 
 const categorySortingMode = {
-  label: 'CAT',
+  label: '类别',
   categories: [],
   burn: false,
   zero: false,
 };
 
 const burnSortingMode = {
-  label: 'BRN',
+  label: '消耗',
   categories: [],
   burn: true,
   zero: true,
@@ -256,11 +256,11 @@ function init() {
   tiles.observe(['INV', 'SHPI'], onTileReady);
   xit.add({
     command: 'SORT',
-    name: 'SORTING MODES',
-    description: 'Sorting mode editor.',
-    mandatoryParameters: 'Inventory Identifier',
+    name: '排序模式',
+    description: '排序模式编辑器。',
+    mandatoryParameters: '库存 ID',
     component: () => SORT,
   });
 }
 
-features.add(import.meta.url, init, 'INV/SHPI: Adds custom sorting modes to inventories.');
+features.add(import.meta.url, init, 'INV/SHPI：为库存增加自定义排序模式');

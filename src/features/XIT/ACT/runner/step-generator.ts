@@ -17,7 +17,7 @@ interface StepGeneratorOptions {
   onStatusChanged: (status: string) => void;
 }
 
-const AssertionError = new Error('Assertion failed');
+const AssertionError = new Error('断言失败');
 
 export class StepGenerator {
   constructor(private options: StepGeneratorOptions) {}
@@ -86,7 +86,7 @@ export class StepGenerator {
       }
     }
     if (steps.length === 0) {
-      this.log.error('No actions were generated');
+      this.log.error('没有生成任何操作');
       fail = true;
     }
     return { steps, fail };
@@ -98,24 +98,24 @@ export class StepGenerator {
     name: string | undefined,
   ): string | undefined {
     if (!name) {
-      this.log.error('Missing material group');
+      this.log.error('缺少材料组');
       return undefined;
     }
     const group = pkg.groups.find(x => x.name === name);
     if (!group) {
-      this.log.error('Unrecognized material group');
+      this.log.error('无法识别材料组');
       return undefined;
     }
     const planet = group.planet;
     if (!planet) {
-      this.log.warning(`Material group [${name}] has no planet configured; auto SFC will not run`);
+      this.log.warning(`材料组 [${name}] 未配置星球，自动 SFC 不会运行`);
       return undefined;
     }
     if (planet === configurableValue) {
       const groupConfig = config.materialGroups[name] ?? {};
       const configuredPlanet = (groupConfig as { planet?: string }).planet;
       if (!configuredPlanet) {
-        this.log.error(`Material group [${name}] planet not configured`);
+        this.log.error(`材料组 [${name}] 未配置星球`);
         return undefined;
       }
       return configuredPlanet;
@@ -140,11 +140,11 @@ export class StepGenerator {
 
     const info = act.getMaterialGroupInfo(group.type);
     if (!info) {
-      this.log.error('Unrecognized material group type');
+      this.log.error('无法识别材料组类型');
       return undefined;
     }
 
-    this.options.onStatusChanged(`Generating material bill for ${group.name}...`);
+    this.options.onStatusChanged(`正在生成材料清单：${group.name}...`);
     const groupConfig = config.materialGroups[name!] ?? {};
     return await info.generateMaterialBill({
       data: group,

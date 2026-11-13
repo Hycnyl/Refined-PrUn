@@ -66,7 +66,7 @@ async function onFormReady(form: HTMLElement, parameter?: string) {
     if (isSellFocused.value) {
       return fixed02(priceSell.value);
     }
-    return 'Auto';
+    return '自动';
   });
 
   watchEffectWhileNodeAlive(form, () => {
@@ -159,4 +159,4 @@ function init() {
   tiles.observe('CXPO', onTileReady);
 }
 
-features.add(import.meta.url, init, 'CXPO: Adds automatic price calculation.');
+features.add(import.meta.url, init, 'CXPO：增加自动价格计算');

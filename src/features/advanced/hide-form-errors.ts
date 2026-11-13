@@ -10,4 +10,4 @@ function init() {
   applyCssRule('.FormComponent__errorMessage___R2eGj1h', css.hidden);
 }
 
-features.add(import.meta.url, init, 'Hides error labels from form fields with incorrect input.');
+features.add(import.meta.url, init, '隐藏输入错误时的错误标签');

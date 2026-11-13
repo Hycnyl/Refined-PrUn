@@ -3,7 +3,7 @@ import { lookupLocalization } from '@src/infrastructure/prun-ui/i18n';
 
 function formatCogcLabel(programType?: string | null) {
   if (!programType) {
-    return 'COGC (Inactive)';
+    return 'COGC（未运行）';
   }
   const localized = lookupLocalization(L.CoGCProgram, `${programType}_SHORT`)();
   if (localized) {
@@ -42,5 +42,5 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'PLI: Replaces "Chamber of Global Commerce" row label with "COGC ({program type})".',
+  'PLI：将“Chamber of Global Commerce”行标签替换为“COGC（计划类型）”',
 );

@@ -16,7 +16,7 @@ function onTileReady(tile: PrunTile) {
   const onClick = (e: MouseEvent) => {
     const warehouse = warehousesStore.getByEntityNaturalId(tile.parameter);
     const storageId = storagesStore.getById(warehouse?.storeId)?.id?.substring(0, 8);
-    const cmd = storageId ? `INV ${storageId}` : `WAR ${tile.parameter}`;
+    const cmd = storageId ? `INV ${storageId}` : `仓库 ${tile.parameter}`;
     if (e.shiftKey) {
       void openCompanionBuffer(tile, cmd);
     } else {
@@ -28,7 +28,7 @@ function onTileReady(tile: PrunTile) {
     createFragmentApp(() => (
       <div class={C.ActionBar.element}>
         <PrunButton primary onClick={onClick}>
-          WAREHOUSE
+          仓库
         </PrunButton>
       </div>
     )).appendTo(container);
@@ -86,4 +86,4 @@ function init() {
   increaseDefaultBufferSize('BS', { width: 90 });
 }
 
-features.add(import.meta.url, init, 'BS: Adds a "Warehouse" button.');
+features.add(import.meta.url, init, 'BS：增加“仓库”按钮');

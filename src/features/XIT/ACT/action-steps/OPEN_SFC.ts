@@ -25,17 +25,17 @@ export const OPEN_SFC = act.addActionStep<Data>({
   type: 'OPEN_SFC',
   description: data => {
     const ship = shipsStore.getById(data.shipId);
-    const shipLabel = ship?.name ?? ship?.registration ?? 'unknown ship';
+    const shipLabel = ship?.name ?? ship?.registration ?? '未知飞船';
     return data.destination
-      ? `Open SFC for ${shipLabel}, set destination to ${getPlanetName(data.destination)}`
-      : `Open SFC for ${shipLabel}`;
+      ? `打开 SFC：${shipLabel}，设置目的地为 ${getPlanetName(data.destination)}`
+      : `打开 SFC：${shipLabel}`;
   },
   execute: async ctx => {
     const { data, log, isFirstOfType, waitAct, waitSkipOr, requestTile, complete } = ctx;
     const assert: AssertFn = ctx.assert;
 
     const ship = shipsStore.getById(data.shipId);
-    assert(ship, 'Ship not found');
+    assert(ship, '未找到飞船');
 
     // One click for the whole step — it opens SFC and fills the destination. requestTile's
     // own per-open gate is suppressed so the open doesn't cost a second click, and gating
@@ -54,11 +54,9 @@ export const OPEN_SFC = act.addActionStep<Data>({
       const container = await $(tile.anchor, C.AddressSelector.container);
       const naturalId = convertToPlanetNaturalId(data.destination) ?? data.destination;
       if (await selectAddress(container, naturalId)) {
-        log.info(`Destination set: ${destinationName} — submit the flight in SFC`);
+        log.info(`已设置目的地：${destinationName}，请在 SFC 中提交航行计划`);
       } else {
-        log.warning(
-          `Could not set destination to ${destinationName} — select it manually, then submit the flight`,
-        );
+        log.warning(`无法设置目的地为 ${destinationName}，请手动选择后提交航行计划`);
       }
     }
 

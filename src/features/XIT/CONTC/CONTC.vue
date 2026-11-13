@@ -40,15 +40,15 @@ const nonCurrent = computed(() =>
   <table v-else>
     <thead>
       <tr>
-        <th>Contract</th>
-        <th>Deadline</th>
-        <th>Condition</th>
+        <th>合同</th>
+        <th>截止日期</th>
+        <th>健康度</th>
       </tr>
     </thead>
     <template v-if="partnerViolated.length > 0">
       <thead>
         <tr>
-          <th colspan="3">Violated Conditions (Partner)</th>
+          <th colspan="3">违约条件（对方）</th>
         </tr>
       </thead>
       <tbody>
@@ -63,7 +63,7 @@ const nonCurrent = computed(() =>
     <template v-if="currentViolated.length > 0">
       <thead>
         <tr>
-          <th colspan="3">Violated Conditions (Self)</th>
+          <th colspan="3">违约条件（自身）</th>
         </tr>
       </thead>
       <tbody>
@@ -77,12 +77,12 @@ const nonCurrent = computed(() =>
     </template>
     <thead>
       <tr>
-        <th colspan="3">Current Conditions</th>
+        <th colspan="3">流动条件 (近期)</th>
       </tr>
     </thead>
     <tbody>
       <tr v-if="isEmpty(currentNonViolated)">
-        <td colspan="3">No pending conditions</td>
+        <td colspan="3">暂无待处理条件</td>
       </tr>
       <template v-else>
         <ConditionRow
@@ -95,12 +95,12 @@ const nonCurrent = computed(() =>
     </tbody>
     <thead>
       <tr>
-        <th colspan="3">Non-Current Conditions</th>
+        <th colspan="3">非流动条件 (长期)</th>
       </tr>
     </thead>
     <tbody>
       <tr v-if="isEmpty(nonCurrent)">
-        <td colspan="3">No pending conditions</td>
+        <td colspan="3">暂无待处理条件</td>
       </tr>
       <template v-else>
         <ConditionRow

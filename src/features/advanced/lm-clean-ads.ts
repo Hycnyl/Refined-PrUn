@@ -74,4 +74,4 @@ function init() {
   tiles.observe('LM', onTileReady);
 }
 
-features.add(import.meta.url, init, 'LM: Hides redundant information from ads.');
+features.add(import.meta.url, init, 'LM：隐藏广告中的冗余信息');

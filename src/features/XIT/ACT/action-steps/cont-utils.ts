@@ -70,7 +70,7 @@ export async function createNewDraft(ctx: ActionStepExecuteContext<unknown>) {
   const assert: AssertFn = ctx.assert;
   const { log, setStatus } = ctx;
 
-  setStatus('Looking for Create New button...');
+  setStatus('正在查找新建按钮……');
 
   const findCreateButton = () => {
     for (const tile of tiles.find('CONTD', true)) {
@@ -83,18 +83,18 @@ export async function createNewDraft(ctx: ActionStepExecuteContext<unknown>) {
   };
 
   const createBtn = await pollUntil(findCreateButton, 10000);
-  assert(createBtn, 'Could not find "Create New" button');
+  assert(createBtn, '未找到新建按钮');
 
   const beforeIds = new Set((contractDraftsStore.all.value ?? []).map(x => x.naturalId));
   await clickElement(createBtn);
 
-  setStatus('Waiting for draft to be created...');
+  setStatus('正在等待创建草稿……');
   const newDraft = await pollUntil(
     () => (contractDraftsStore.all.value ?? []).find(x => !beforeIds.has(x.naturalId)),
     8000,
   );
-  assert(newDraft, 'Timed out waiting for new contract draft');
-  log.info(`New draft created: ${newDraft.naturalId}`);
+  assert(newDraft, '等待新合同草稿超时');
+  log.info(`已创建新草稿：${newDraft.naturalId}`);
   return newDraft;
 }
 
@@ -110,20 +110,20 @@ export async function setDraftNameAndPreamble(
   const assert: AssertFn = ctx.assert;
   const { log, setStatus } = ctx;
 
-  setStatus('Setting contract name...');
+  setStatus('正在设置合同名称……');
 
   // Poll rather than `await $()`, which has no timeout and would hang the run
   // instead of failing it when the form never renders.
   const nameInput = await pollUntil(() => _$(anchor, 'input'), 5000);
-  assert(nameInput, 'Could not find name input');
+  assert(nameInput, '未找到名称输入框');
   selectAndChangeInputValue(nameInput, truncate(name, maxNameLength));
-  log.info(`Name set: ${name}`);
+  log.info(`已设置名称：${name}`);
 
   const preambleInput = _$(anchor, 'textarea');
-  assert(preambleInput, 'Could not find preamble input');
+  assert(preambleInput, '未找到前言输入框');
   focusElement(preambleInput);
   changeTextAreaValue(preambleInput, truncate(preamble, maxPreambleLength));
-  log.info('Preamble set');
+  log.info('已设置前言');
 }
 
 /**
@@ -138,7 +138,7 @@ export async function saveDraftDetails(
   const assert: AssertFn = ctx.assert;
   const { log, setStatus } = ctx;
 
-  setStatus('Saving draft details...');
+  setStatus('正在保存草稿详情……');
 
   const before = contractDraftsStore.getByNaturalId(draftId);
   // Read back what the form holds rather than what we meant to write, so a
@@ -148,7 +148,7 @@ export async function saveDraftDetails(
   const saveBtn = findButton(anchor, L.ContractDraft.action.save());
   assert(
     saveBtn !== undefined && !saveBtn.classList.contains(C.Button.disabled),
-    'Draft details save button is missing or disabled',
+    '草稿详情保存按钮缺失或已禁用',
   );
   await clickElement(saveBtn);
 
@@ -158,8 +158,8 @@ export async function saveDraftDetails(
       draft !== undefined && draft !== before && draft.name === name && draft.preamble === preamble
     );
   }, 8000);
-  assert(saved, 'Draft details were not saved');
-  log.info('Draft details saved');
+  assert(saved, '草稿详情未保存');
+  log.info('草稿详情已保存');
 }
 
 /**
@@ -169,20 +169,20 @@ export async function openTemplate(ctx: ActionStepExecuteContext<unknown>, ancho
   const assert: AssertFn = ctx.assert;
   const { setStatus } = ctx;
 
-  setStatus('Opening template selection...');
+  setStatus('正在打开模板选择……');
 
   const templateBtn = await pollUntil(
     () => findButton(anchor, L.ContractDraft.action.template()),
     5000,
   );
-  assert(templateBtn, 'Could not find "Select Template" button');
+  assert(templateBtn, '未找到选择模板按钮');
   await clickElement(templateBtn);
 
   const templateSelect = await pollUntil(() => {
     const container = _$(anchor, C.TemplateSelection.templateTypeSelect);
     return container === undefined ? undefined : _$(container, 'select');
   }, 5000);
-  assert(templateSelect, 'Could not find template type select');
+  assert(templateSelect, '未找到模板类型选择框');
   return templateSelect;
 }
 
@@ -203,9 +203,9 @@ export function selectTemplateType(
   const assert: AssertFn = ctx.assert;
   const mapped = templateValueMap[templateValue] ?? templateValue;
   const index = Array.from(templateSelect.options).findIndex(x => x.value === mapped);
-  assert(index >= 0, `Template "${templateValue}" not found in the template select`);
+  assert(index >= 0, `模板“${templateValue}”未在模板选择框中找到`);
   changeSelectIndex(templateSelect, index);
-  ctx.log.info(`Selected "${templateValue}" template`);
+  ctx.log.info(`已选择“${templateValue}”模板`);
 }
 
 /**
@@ -223,10 +223,10 @@ export async function setCurrency(
     () => _$$(anchor, 'select').find(x => Array.from(x.options).some(o => o.value === currency)),
     3000,
   );
-  assert(currencySelect, `Could not find currency select for ${currency}`);
+  assert(currencySelect, `未找到货币选择框：${currency}`);
   const index = Array.from(currencySelect.options).findIndex(x => x.value === currency);
   changeSelectIndex(currencySelect, index);
-  log.info(`Currency set to ${currency}`);
+  log.info(`已设置货币为 ${currency}`);
 }
 
 export interface MaterialEntry {
@@ -255,7 +255,7 @@ export async function addMaterials(
   const assert: AssertFn = ctx.assert;
   const { log, setStatus } = ctx;
 
-  setStatus('Adding materials to template...');
+  setStatus('正在向模板添加材料……');
 
   const findAddButton = () =>
     _$$(anchor, 'button').find(
@@ -269,24 +269,24 @@ export async function addMaterials(
 
     if (i > 0) {
       const addBtn = findAddButton();
-      assert(addBtn, `Could not find add button for ${material.ticker}`);
+      assert(addBtn, `未找到添加按钮：${material.ticker}`);
       await clickElement(addBtn);
     }
 
     // Index the row rather than taking the last one: the template may render
     // rows we did not add, and every entry would then overwrite the same row.
     const group = await pollUntil(() => _$$(anchor, C.TemplateSelection.group).at(i), 2000);
-    assert(group, `Could not find group for ${material.ticker}`);
+    assert(group, `未找到分组：${material.ticker}`);
 
     const amountInput = group.querySelector<HTMLInputElement>('input[inputmode="numeric"]');
-    assert(amountInput, `Could not find amount input for ${material.ticker}`);
+    assert(amountInput, `未找到数量输入框：${material.ticker}`);
     selectAndChangeInputValue(amountInput, String(material.amount));
 
     const matSelector = _$(group, C.MaterialSelector.container);
-    assert(matSelector, `Could not find material selector for ${material.ticker}`);
+    assert(matSelector, `未找到材料选择器：${material.ticker}`);
     const selected = await selectMaterial(matSelector, material.ticker);
-    assert(selected, `Could not select material ${material.ticker}`);
-    log.info(`Added: ${material.ticker} x${fixed0(material.amount)}`);
+    assert(selected, `无法选择材料 ${material.ticker}`);
+    log.info(`已添加：${material.ticker} x${fixed0(material.amount)}`);
 
     options?.setPrice?.(group, material.ticker);
   }
@@ -301,13 +301,13 @@ export function setDeadline(ctx: ActionStepExecuteContext<unknown>, anchor: Elem
 
   assert(
     Number.isInteger(days) && days >= minContractDays && days <= maxContractDays,
-    `Deadline must be from ${minContractDays} to ${maxContractDays} days`,
+    `截止期限必须介于 ${minContractDays} 到 ${maxContractDays} 天`,
   );
 
   const deadlineInput = anchor.querySelector<HTMLInputElement>('input[name="deadline"]');
-  assert(deadlineInput, 'Could not find deadline input');
+  assert(deadlineInput, '未找到截止期限输入框');
   selectAndChangeInputValue(deadlineInput, String(days));
-  log.info(`Deadline set: ${fixed0(days)} days`);
+  log.info(`已设置截止期限：${fixed0(days)} 天`);
 }
 
 /**
@@ -323,14 +323,14 @@ export async function applyTemplate(
   const assert: AssertFn = ctx.assert;
   const { log, setStatus } = ctx;
 
-  setStatus('Applying template...');
+  setStatus('正在应用模板……');
 
   const applyBtn = await pollUntil(
     () => findButton(anchor, L.TemplateSelection.action.template()),
     5000,
   );
-  assert(applyBtn, 'Could not find "Apply Template" button');
-  assert(!applyBtn.classList.contains(C.Button.disabled), 'Template form is invalid');
+  assert(applyBtn, '未找到应用模板按钮');
+  assert(!applyBtn.classList.contains(C.Button.disabled), '模板表单无效');
 
   const before = contractDraftsStore.getByNaturalId(draftId);
   await clickElement(applyBtn);
@@ -339,8 +339,8 @@ export async function applyTemplate(
     const draft = contractDraftsStore.getByNaturalId(draftId);
     return draft !== undefined && draft !== before && draft.conditions.length > 0;
   }, 8000);
-  assert(applied, 'Template conditions were not received');
-  log.info('Template applied');
+  assert(applied, '未收到模板条件');
+  log.info('模板已应用');
 }
 
 /**
@@ -354,13 +354,13 @@ export async function saveConditions(
   const assert: AssertFn = ctx.assert;
   const { log, setStatus } = ctx;
 
-  setStatus('Saving conditions...');
+  setStatus('正在保存条件……');
 
   const before = contractDraftsStore.getByNaturalId(draftId);
   const condSaveBtn = _$$(anchor, C.Button.btn).findLast(isText(L.ContractDraftSend.action.save()));
   assert(
     condSaveBtn !== undefined && !condSaveBtn.classList.contains(C.Button.disabled),
-    'Conditions save button is missing or disabled',
+    '条件保存按钮缺失或已禁用',
   );
   await clickElement(condSaveBtn);
 
@@ -373,6 +373,6 @@ export async function saveConditions(
       draft.conditions.length > 0
     );
   }, 8000);
-  assert(saved, 'Contract conditions were not saved');
-  log.info('Conditions saved');
+  assert(saved, '合同条件未保存');
+  log.info('条件已保存');
 }

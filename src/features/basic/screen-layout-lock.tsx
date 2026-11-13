@@ -29,7 +29,7 @@ async function onScreenItemReady(item: HTMLElement) {
 
   createFragmentApp(() => (
     <div class={[C.ScreenControls.delete, C.type.typeSmall, $style.lockButton]} onClick={onClick}>
-      {locked.value ? 'unlk' : 'lock'}
+      {locked.value ? '解锁' : '锁定'}
     </div>
   )).before(copy);
 }
@@ -64,4 +64,4 @@ function init() {
   applyCssRule(`.${C.TileDivider.handle}`, $style.handle);
 }
 
-features.add(import.meta.url, init, 'Adds screen locking.');
+features.add(import.meta.url, init, '增加屏幕锁定功能');

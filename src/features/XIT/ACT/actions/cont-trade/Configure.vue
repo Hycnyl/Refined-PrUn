@@ -31,10 +31,10 @@ watchEffect(() => {
 
 <template>
   <form>
-    <Active v-if="data.contLocation === configurableValue" label="Location">
+    <Active v-if="data.contLocation === configurableValue" label="位置">
       <SelectInput v-model="config.location" :options="locations" />
     </Active>
-    <Passive v-else label="Location">
+    <Passive v-else label="位置">
       <span>{{ displayLocationValue(data.contLocation) }}</span>
     </Passive>
   </form>

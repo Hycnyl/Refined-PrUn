@@ -22,7 +22,7 @@ const sortedData = computed(() => balanceHistory.value.slice().reverse());
 function confirmDataPointDelete(ev: Event, index: number) {
   index = balanceHistory.value.length - index - 1;
   showConfirmationOverlay(ev, () => deleteBalanceHistoryDataPoint(index), {
-    message: `You are about to delete a historical data point. Do you want to continue?`,
+    message: `您即将删除一条历史数据点。是否继续？`,
   });
 }
 
@@ -37,7 +37,7 @@ function deleteBalanceHistoryDataPoint(index: number) {
 
 function confirmAllDataDelete(ev: Event) {
   showConfirmationOverlay(ev, clearBalanceHistory, {
-    message: `You are about to clear all historical financial data. Do you want to continue?`,
+    message: `您即将清除所有历史财务数据。是否继续？`,
   });
 }
 
@@ -63,50 +63,40 @@ function onIgnoredMaterialsSubmit() {
 </script>
 
 <template>
-  <SectionHeader>Equity Mode</SectionHeader>
+  <SectionHeader>股东权益模式</SectionHeader>
   <Active
-    label="Equity Mode"
-    tooltip="In this mode, equity includes the market value of all assets,
-     including ships, HQ upgrades, and ARC. Not recommended for beginners,
-     as starter ships have a disproportionate value compared to starting resources.
-     Note that even with this mode disabled, your financial data history is still
-     collected in full, so you can always switch to full equity mode later."
+    label="股东权益模式"
+    tooltip="此模式下，股东权益包含所有资产的市场价值，包括飞船、总部升级和 ARC。不建议新手启用，因为初始飞船的价值远高于初始资源。关闭此模式时仍会完整采集财务历史数据，之后可随时切换"
     tooltip-position="bottom">
-    <RadioItem v-model="userData.fullEquityMode">full equity</RadioItem>
+    <RadioItem v-model="userData.fullEquityMode">完整股东权益</RadioItem>
   </Active>
-  <SectionHeader>Price Settings</SectionHeader>
-  <Active
-    label="MM Materials"
-    tooltip="Comma-separated list of Market Maker materials.
-     The price of these materials will be equal to MM Bid price.">
+  <SectionHeader>价格设置</SectionHeader>
+  <Active label="做市商材料" tooltip="以逗号分隔的做市商材料列表。这些材料的价格将等于做市商买入价">
     <TextInput
       v-model="mmMaterials"
       @keyup.enter="onMMMaterialsSubmit"
       @focusout="onMMMaterialsSubmit" />
   </Active>
-  <Active
-    label="Ignored Materials"
-    tooltip="Comma-separated list of ignored materials.
-     The price of these materials is considered to be zero.">
+  <Active label="忽略材料" tooltip="以逗号分隔的忽略材料列表。这些材料的价格将被视为零">
     <TextInput
       v-model="ignoredMaterials"
       @keyup.enter="onIgnoredMaterialsSubmit"
       @focusout="onIgnoredMaterialsSubmit" />
   </Active>
-  <SectionHeader>Collected Data Points</SectionHeader>
+  <SectionHeader>采集的数据点</SectionHeader>
   <form>
     <Commands>
       <PrunButton primary :disabled="!canCollectFinDataPoint()" @click="collectFinDataPoint">
-        Collect Data Point
+        手动采集数据点
       </PrunButton>
     </Commands>
   </form>
   <table>
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Equity</th>
-        <th>Command</th>
+        <th>日期</th>
+        <th>股东权益</th>
+        <th>命令</th>
       </tr>
     </thead>
     <tbody>
@@ -114,18 +104,17 @@ function onIgnoredMaterialsSubmit() {
         <td>{{ hhmm(balance.timestamp) }} {{ ddmmyyyy(balance.timestamp) }}</td>
         <td>{{ formatValue(calcEquity(balance)) }}</td>
         <td>
-          <PrunButton dark inline @click="confirmDataPointDelete($event, i)">delete</PrunButton>
+          <PrunButton dark inline @click="confirmDataPointDelete($event, i)">删除</PrunButton>
         </td>
       </tr>
     </tbody>
   </table>
   <SectionHeader>
-    Danger Zone
-    <Tooltip :class="$style.tooltip" tooltip="Clear all historical financial data" />
+    危险区域 <Tooltip :class="$style.tooltip" tooltip="清除所有历史财务数据" />
   </SectionHeader>
   <form>
     <Commands>
-      <PrunButton danger @click="confirmAllDataDelete">Clear Financial Data</PrunButton>
+      <PrunButton danger @click="confirmAllDataDelete">清除财务数据</PrunButton>
     </Commands>
   </form>
 </template>

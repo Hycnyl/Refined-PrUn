@@ -162,22 +162,22 @@ function formatFutureDuration(timestamp: number) {
   duration = duration.subtract(days, 'days');
   const hours = Math.floor(duration.asHours());
   if (days > 0) {
-    return `${days}d ${hours}h`;
+    return `${days}天 ${hours}小时`;
   }
 
   duration = duration.subtract(hours, 'hours');
   const minutes = Math.floor(duration.asMinutes());
   if (hours > 0) {
-    return `${hours}h ${minutes}m`;
+    return `${hours}小时 ${minutes}分`;
   }
 
   duration = duration.subtract(minutes, 'minutes');
   const seconds = Math.floor(duration.asSeconds());
   if (minutes > 0) {
-    return `${minutes}m ${seconds}s`;
+    return `${minutes}分 ${seconds}秒`;
   }
 
-  return `${seconds}s`;
+  return `${seconds}秒`;
 }
 
 function getLatestAlertTimestampByPlanet(type: PrunApi.AlertType) {
@@ -217,16 +217,16 @@ function getPlanetNaturalIdFromAlert(alert: PrunApi.Alert) {
   <LoadingSpinner v-if="rows === undefined" />
   <template v-else>
     <div :class="C.ComExOrdersPanel.filter">
-      <RadioItem v-model="gov" horizontal>GOV</RadioItem>
-      <RadioItem v-model="cogc" horizontal>COGC</RadioItem>
+      <RadioItem v-model="gov" horizontal>政府</RadioItem>
+      <RadioItem v-model="cogc" horizontal>商会</RadioItem>
     </div>
     <table>
       <thead>
         <tr>
-          <th>Planet</th>
-          <th>Type</th>
-          <th>Voting</th>
-          <th>Ends</th>
+          <th>星球</th>
+          <th>类型</th>
+          <th>投票</th>
+          <th>结束</th>
         </tr>
       </thead>
       <tbody>
@@ -244,14 +244,14 @@ function getPlanetNaturalIdFromAlert(alert: PrunApi.Alert) {
             <PrunButton
               v-else-if="isPastOrNow(row.electionStart)"
               primary
-              @click="showBuffer(`${voteCommand[row.type]} ${row.planetNaturalId}`)">
-              VOTE
-            </PrunButton>
+              @click="showBuffer(`${voteCommand[row.type]} ${row.planetNaturalId}`)"
+              >投票</PrunButton
+            >
             <template v-else>{{ formatFutureDuration(row.electionStart) }}</template>
           </td>
           <td>
             <template v-if="row.electionEnd === undefined">--</template>
-            <template v-else-if="isPastOrNow(row.electionEnd)">Now</template>
+            <template v-else-if="isPastOrNow(row.electionEnd)">现在</template>
             <template v-else>{{ formatFutureDuration(row.electionEnd) }}</template>
           </td>
         </tr>

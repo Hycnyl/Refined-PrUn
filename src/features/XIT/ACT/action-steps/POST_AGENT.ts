@@ -19,28 +19,28 @@ const postGapMs = 2000;
 
 export const POST_AGENT = act.addActionStep<Data>({
   type: 'POST_AGENT',
-  description: data => `Post [${data.pkg.global.name}] package to the agent channel`,
+  description: data => `发送 [${data.pkg.global.name}] 动作包到同步频道`,
   execute: async ctx => {
     const { data, isFirstOfType, waitAct, complete, skip, log } = ctx;
     const { id, text } = await buildAgentPackageMessage(data.pkg, data.id);
     const name = data.pkg.global.name ?? 'package';
     for (let attempt = 1; attempt <= maxPostAttempts; attempt++) {
       const isRunFirstPost = isFirstOfType && attempt === 1;
-      await waitAct(attempt === 1 ? undefined : `Retry posting [${name}] as [${id}]`, {
+      await waitAct(attempt === 1 ? undefined : `重试发送 [${name}]，编号 [${id}]`, {
         actDelayMs: isRunFirstPost ? 0 : postGapMs,
       });
       try {
         await postAgentMessage(text);
-        log.info(`Posted package as [${id}]`);
+        log.info(`已发送动作包，编号 [${id}]`);
         complete();
         return;
       } catch (e) {
         log.error(
-          `Failed to post [${name}] as [${id}]: ${e instanceof Error ? e.message : String(e)}`,
+          `发送失败 [${name}]，编号 [${id}]: ${e instanceof Error ? e.message : String(e)}`,
         );
       }
     }
-    log.error('Gave up; post this package manually to the refined-agent channel:');
+    log.error('已停止重试，请手动将此动作包发送到 refined-agent 频道：');
     log.label(text);
     skip({ silent: true });
   },

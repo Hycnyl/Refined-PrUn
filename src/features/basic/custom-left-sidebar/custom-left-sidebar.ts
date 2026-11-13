@@ -13,4 +13,4 @@ function init() {
   });
 }
 
-features.add(import.meta.url, init, 'Makes the sidebar on the left customizable via settings.');
+features.add(import.meta.url, init, '允许通过设置自定义左侧边栏');

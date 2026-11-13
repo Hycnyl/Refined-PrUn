@@ -286,7 +286,7 @@ export function planetGovBurnBill(
     }
     for (const slot of slots) {
       if (slot.ticker === '') {
-        throw new Error(`Unresolved gov burn slot for ${building.ticker}`);
+        throw new Error(`未确定的星球维护栏位：${building.ticker}`);
       }
       const upkeep = upkeeps.find(x => x.ticker === slot.ticker);
       if (!upkeep) {

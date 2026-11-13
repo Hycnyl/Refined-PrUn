@@ -173,4 +173,4 @@ function init() {
   prepareTooltips();
 }
 
-features.add(import.meta.url, init, 'Prevents tooltips from being clipped by tile boundaries.');
+features.add(import.meta.url, init, '防止提示框被窗口边界裁切');

@@ -158,20 +158,20 @@ function onCmdsClick() {
       v-if="showCmds"
       :class="[$style.cmdCell, cmdsExpanded && $style.cmdsOpen]"
       @click="onCmdsClick">
-      <PrunButton dark inline>CMDS&#x25B6;</PrunButton>
+      <PrunButton dark inline>命令▶</PrunButton>
       <div :class="$style.expandedButtons" @click.stop>
-        <PrunButton dark inline @click="showBuffer(`BBL ${siteId}`)">BUILDINGS</PrunButton>
-        <PrunButton dark inline @click="showBuffer(`BBC ${naturalId}`)">CONSTRUCT</PrunButton>
-        <PrunButton dark inline @click="showBuffer(`WF ${siteId}`)">WORKFORCE</PrunButton>
-        <PrunButton dark inline @click="showBuffer(`EXP ${siteId}`)">EXPERTS</PrunButton>
+        <PrunButton dark inline @click="showBuffer(`BBL ${siteId}`)">建筑</PrunButton>
+        <PrunButton dark inline @click="showBuffer(`BBC ${naturalId}`)">建造</PrunButton>
+        <PrunButton dark inline @click="showBuffer(`WF ${siteId}`)">劳动力</PrunButton>
+        <PrunButton dark inline @click="showBuffer(`EXP ${siteId}`)">专家</PrunButton>
         <PrunButton dark inline @click="showBuffer(`BRA ${naturalId}`)">BRA</PrunButton>
-        <PrunButton dark inline @click="showBuffer('HQ')">HQ</PrunButton>
+        <PrunButton dark inline @click="showBuffer('HQ')">总部</PrunButton>
       </div>
     </td>
     <td v-if="showBurn" :class="$style.statusCell">
       <div :class="[$style.statusContent, burnBgClass]">
         <span :class="$style.statusNum" @click="onBurnDaysClick">{{ daysText ?? '-' }}</span>
-        <PrunButton dark inline @click="showBuffer(`XIT BURNACT ${naturalId}`)">RES</PrunButton>
+        <PrunButton dark inline @click="showBuffer(`XIT BURNACT ${naturalId}`)">资源</PrunButton>
       </div>
     </td>
     <td v-if="showProd" :class="$style.statusCell">
@@ -179,7 +179,7 @@ function onCmdsClick() {
         <span :class="$style.statusNum" @click="showBuffer(`XIT PROD ${naturalId}`)">{{
           prodText ?? '-'
         }}</span>
-        <PrunButton dark inline @click="showBuffer(`XIT PROD ${naturalId}`)">PROD</PrunButton>
+        <PrunButton dark inline @click="showBuffer(`XIT PROD ${naturalId}`)">生产</PrunButton>
       </div>
     </td>
     <td v-if="showRepair" :class="$style.statusCell">
@@ -187,7 +187,7 @@ function onCmdsClick() {
         <span :class="$style.statusNum" @click="showBuffer(`XIT REP ${naturalId}`)">{{
           repairCell?.text ?? '-'
         }}</span>
-        <PrunButton dark inline @click="showBuffer(`XIT REPAIRACT ${naturalId}`)">REP</PrunButton>
+        <PrunButton dark inline @click="showBuffer(`XIT REPAIRACT ${naturalId}`)">维修</PrunButton>
       </div>
     </td>
     <td v-if="showInv" :class="$style.invCell">
@@ -227,11 +227,11 @@ function onCmdsClick() {
         <thead>
           <tr>
             <th />
-            <th>Inv</th>
-            <th>Burn</th>
-            <th>Need</th>
-            <th>Days</th>
-            <th>CMD</th>
+            <th>库存</th>
+            <th>消耗</th>
+            <th>需求</th>
+            <th>天数</th>
+            <th>命令</th>
           </tr>
         </thead>
         <tbody>

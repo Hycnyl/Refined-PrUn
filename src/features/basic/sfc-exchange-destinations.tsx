@@ -58,8 +58,4 @@ function init() {
   applyCssRule('SFC', `.${C.AddressSelector.input}`, $style.input);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'SFC: Adds destination shortcut buttons (set in XIT SET) to the destination field.',
-);
+features.add(import.meta.url, init, 'SFC：在目的地字段增加快捷按钮，在 XIT SET 中配置');

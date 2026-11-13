@@ -102,14 +102,14 @@ const formatElapsedTime = (timestamp: number | null): string => {
   const diffMs = Date.now() - timestamp;
   const diffMins = Math.floor(diffMs / 60000);
   if (diffMins < 60) {
-    return `${diffMins}m ago`;
+    return `${diffMins} 分钟前`;
   }
   const diffHours = Math.floor(diffMins / 60);
   if (diffHours < 24) {
-    return `${diffHours}h ago`;
+    return `${diffHours} 小时前`;
   }
   const diffDays = Math.floor(diffHours / 24);
-  return `${diffDays}d ago`;
+  return `${diffDays} 天前`;
 };
 
 const handleSort = (column: string) => {
@@ -547,7 +547,7 @@ onMounted(async () => {
     <!-- Top Row: Mode & Quick Link -->
     <div :class="$style.controls">
       <div :class="$style.group">
-        <span>Mode: </span>
+        <span>模式：</span>
         <button
           :class="[
             C.Button.btn,
@@ -555,23 +555,23 @@ onMounted(async () => {
             { [$style.active]: currentMode === 'transactions' },
           ]"
           @click="currentMode = 'transactions'"
-          >Transactions</button
+          >成交记录</button
         >
         <button
           :class="[C.Button.btn, C.Button.neutral, { [$style.active]: currentMode === 'stock' }]"
           @click="currentMode = 'stock'"
-          >Stock & Bids</button
+          >库存与买单</button
         >
       </div>
 
       <div style="flex-grow: 1" />
 
       <div :class="$style.group">
-        <span>Quick Link: </span>
+        <span>快捷链接：</span>
         <input
           v-model="quickTicker"
           type="text"
-          placeholder="Ticker"
+          placeholder="代码"
           :class="$style.customInput"
           style="width: 70px; text-transform: uppercase"
           @keydown.enter="openQuickLink" />
@@ -586,15 +586,15 @@ onMounted(async () => {
         <button
           :class="[C.Button.btn, $style.goBtn]"
           :disabled="!quickTicker.trim() || !quickExchange"
-          @click="openQuickLink">
-          Go
-        </button>
+          @click="openQuickLink"
+          >前往</button
+        >
       </div>
     </div>
 
     <!-- Second Row: Mode-Specific Controls -->
     <div v-if="currentMode === 'transactions'" :class="$style.controls">
-      <span>Timeframe: </span>
+      <span>时间范围：</span>
       <button
         :class="[C.Button.btn, C.Button.neutral, { [$style.active]: timeFrameHours === 24 }]"
         @click="setTimeFrame(24)"
@@ -610,20 +610,20 @@ onMounted(async () => {
         @click="setTimeFrame(72)"
         >72h</button
       >
-      <span style="margin-left: 10px">Custom (Hrs):</span>
+      <span style="margin-left: 10px">自定义（小时）：</span>
       <input
         v-model.lazy="timeFrameHours"
         type="number"
         :class="$style.customInput"
-        title="Custom Hours"
+        title="自定义小时数"
         min="1" />
     </div>
 
     <div v-else-if="currentMode === 'stock'" :class="$style.controls">
       <template v-if="hasFilters">
-        <span>CX: </span>
+        <span>交易所：</span>
         <select v-model="filterExchange" :class="[$style.customSelect, $style.exchangeSelect]">
-          <option value="ALL">ALL</option>
+          <option value="ALL">全部</option>
           <option value="CI1">CI1</option>
           <option value="NC1">NC1</option>
           <option value="AI1">AI1</option>
@@ -631,14 +631,14 @@ onMounted(async () => {
           <option value="CI2">CI2</option>
           <option value="NC2">NC2</option>
         </select>
-        <span>Category: </span>
+        <span>类别：</span>
         <select v-model="filterCategory" :class="[$style.customSelect, $style.categorySelect]">
-          <option value="ALL">ALL</option>
+          <option value="ALL">全部</option>
           <option v-for="category in categoryOptions" :key="category.id" :value="category.id">
             {{ category.name }}
           </option>
         </select>
-        <span>Search: </span>
+        <span>搜索：</span>
         <input
           v-model="stockSearchQuery"
           type="text"
@@ -646,7 +646,7 @@ onMounted(async () => {
           style="width: 45px; text-transform: uppercase" />
       </template>
       <div style="flex-grow: 1" />
-      <span>Value: </span>
+      <span>价值：</span>
       <button
         :class="[
           C.Button.btn,
@@ -655,7 +655,7 @@ onMounted(async () => {
           { [$style.active]: valueMode === 'total' },
         ]"
         @click="valueMode = 'total'"
-        >Total</button
+        >总价</button
       >
       <button
         :class="[
@@ -665,20 +665,19 @@ onMounted(async () => {
           { [$style.active]: valueMode === 'inStock' },
         ]"
         @click="valueMode = 'inStock'"
-        >In Stock</button
+        >有库存</button
       >
     </div>
 
     <div v-if="currentMode === 'stock'" :class="$style.summaryHeader">
       <div
-        >{{ valueMode === 'total' ? 'Total Inv Value:' : 'Total In-Stock Value:' }}
+        >{{ valueMode === 'total' ? '库存总价值：' : '现货总价值：' }}
         <span style="color: #f7a600; font-weight: bold"
           >{{ fixed0(totalInventoryValue) }} {{ defaultCurrency }}</span
         ></div
       >
       <div
-        >Total Bid Value:
-        <span style="color: #f7a600; font-weight: bold"
+        >买单总价值：<span style="color: #f7a600; font-weight: bold"
           >{{ fixed0(totalBidValue) }} {{ defaultCurrency }}</span
         ></div
       >
@@ -688,15 +687,15 @@ onMounted(async () => {
     <table v-if="currentMode === 'transactions'">
       <thead>
         <tr>
-          <th>Ticker</th>
-          <th style="text-align: right">Total Vol</th>
-          <th style="text-align: right; color: #5cb85c">Buys</th>
-          <th style="text-align: right; color: #d9534f">Sells</th>
+          <th>代码</th>
+          <th style="text-align: right">总成交量</th>
+          <th style="text-align: right; color: #5cb85c">买入</th>
+          <th style="text-align: right; color: #d9534f">卖出</th>
         </tr>
       </thead>
       <tbody>
         <tr v-if="isEmpty(aggregatedTickers)">
-          <td colSpan="4">No trades found.</td>
+          <td colSpan="4">未找到成交记录。</td>
         </tr>
         <template v-else>
           <TickerRow v-for="ticker in aggregatedTickers" :key="ticker.id" :data="ticker" />
@@ -709,39 +708,37 @@ onMounted(async () => {
       <thead>
         <tr>
           <th :class="$style.clickableHeader" @click="handleSort('ticker')">
-            Ticker {{ sortBy === 'ticker' ? (sortDesc ? '▼' : '▲') : '' }}
+            代码 {{ sortBy === 'ticker' ? (sortDesc ? '▼' : '▲') : '' }}
           </th>
-          <th :class="[$style.clickableHeader, $style.alignRight]" @click="handleSort('stock')">
-            In Stock (Phys/List) {{ sortBy === 'stock' ? (sortDesc ? '▼' : '▲') : '' }}
+          <th :class="[$style.clickableHeader, $style.alignRight]" @click="handleSort('stock')"
+            >库存（现货/挂单）{{ sortBy === 'stock' ? (sortDesc ? '▼' : '▲') : '' }}
           </th>
           <th :class="[$style.clickableHeader, $style.alignRight]" @click="handleSort('invValue')">
-            {{ valueMode === 'total' ? 'Inv. Value' : 'In Stock Value' }}
+            {{ valueMode === 'total' ? 'Inv. Value' : '现货价值' }}
             {{ sortBy === 'invValue' ? (sortDesc ? '▼' : '▲') : '' }}
           </th>
-          <th
-            :class="[$style.clickableHeader, $style.alignRight]"
-            @click="handleSort('activeBids')">
-            Bids {{ sortBy === 'activeBids' ? (sortDesc ? '▼' : '▲') : '' }}
+          <th :class="[$style.clickableHeader, $style.alignRight]" @click="handleSort('activeBids')"
+            >买单{{ sortBy === 'activeBids' ? (sortDesc ? '▼' : '▲') : '' }}
           </th>
-          <th :class="[$style.clickableHeader, $style.alignRight]" @click="handleSort('bidValue')">
-            Bid Value {{ sortBy === 'bidValue' ? (sortDesc ? '▼' : '▲') : '' }}
+          <th :class="[$style.clickableHeader, $style.alignRight]" @click="handleSort('bidValue')"
+            >买单价值{{ sortBy === 'bidValue' ? (sortDesc ? '▼' : '▲') : '' }}
           </th>
           <th
             :class="[$style.clickableHeader, $style.alignRight]"
-            @click="handleSort('bestBidPrice')">
-            Bid Price {{ sortBy === 'bestBidPrice' ? (sortDesc ? '▼' : '▲') : '' }}
+            @click="handleSort('bestBidPrice')"
+            >买单价格{{ sortBy === 'bestBidPrice' ? (sortDesc ? '▼' : '▲') : '' }}
           </th>
-          <th :class="[$style.clickableHeader, $style.alignRight]" @click="handleSort('lastBuy')">
-            Last Buy {{ sortBy === 'lastBuy' ? (sortDesc ? '▼' : '▲') : '' }}
+          <th :class="[$style.clickableHeader, $style.alignRight]" @click="handleSort('lastBuy')"
+            >最近买入{{ sortBy === 'lastBuy' ? (sortDesc ? '▼' : '▲') : '' }}
           </th>
-          <th :class="[$style.clickableHeader, $style.alignRight]" @click="handleSort('lastSell')">
-            Last Sell {{ sortBy === 'lastSell' ? (sortDesc ? '▼' : '▲') : '' }}
+          <th :class="[$style.clickableHeader, $style.alignRight]" @click="handleSort('lastSell')"
+            >最近卖出{{ sortBy === 'lastSell' ? (sortDesc ? '▼' : '▲') : '' }}
           </th>
         </tr>
       </thead>
       <tbody>
         <tr v-if="isEmpty(sortedStockAndBidsData)">
-          <td colSpan="8">No stock or active bids found.</td>
+          <td colSpan="8">未找到库存或有效买单。</td>
         </tr>
         <template v-else>
           <tr v-for="row in sortedStockAndBidsData" :key="row.id">

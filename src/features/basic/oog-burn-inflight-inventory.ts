@@ -4,8 +4,4 @@ function init() {
   setInboundShipInventoryEnabled(true);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'BURN: Counts in-flight ship inventory in the days-left calculation.',
-);
+features.add(import.meta.url, init, 'BURN：计算剩余天数时计入飞行中飞船的库存');

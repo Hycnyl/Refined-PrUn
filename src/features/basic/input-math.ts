@@ -79,8 +79,4 @@ function applyCssRules() {
   applyCssRule(`${selectorDynamic}:before`, $style.functionIconDynamic);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'Evaluates math expressions in numeric text fields on Enter or Tab.',
-);
+features.add(import.meta.url, init, '在数值输入框中按回车或 Tab 时计算数学表达式');

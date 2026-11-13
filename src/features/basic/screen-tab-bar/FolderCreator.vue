@@ -34,11 +34,11 @@ function dismissSuccess() {
 
 <template>
   <form @submit.prevent="onCreate">
-    <Active label="Folder Name">
+    <Active label="文件夹名称">
       <TextInput v-model="name" :focus-on-mount="true" />
     </Active>
     <Commands>
-      <PrunButton primary type="submit">CREATE</PrunButton>
+      <PrunButton primary type="submit">创建</PrunButton>
     </Commands>
   </form>
   <Teleport :to="tile.frame">
@@ -46,10 +46,9 @@ function dismissSuccess() {
       v-if="showSuccess"
       :class="[C.ActionFeedback.overlay, C.ActionFeedback.success]"
       @click="dismissSuccess">
-      <div :class="[C.ActionFeedback.message, C.fonts.fontRegular, C.type.typeLarger]">
-        Action succeeded!
-        <span :class="[C.ActionFeedback.text, C.fonts.fontRegular, C.type.typeRegular]"
-          >(click to dismiss)</span
+      <div :class="[C.ActionFeedback.message, C.fonts.fontRegular, C.type.typeLarger]"
+        >操作成功！<span :class="[C.ActionFeedback.text, C.fonts.fontRegular, C.type.typeRegular]"
+          >（点击关闭）</span
         >
       </div>
     </div>

@@ -19,14 +19,12 @@ const { analysis } = defineProps<{
   planetOnlyClick?: boolean;
 }>();
 
-const COLUMN_LIMIT_TOOLTIP =
-  'Days until storage is full at the current net production rate — when a ship visit is forced.';
+const COLUMN_LIMIT_TOOLTIP = '按当前净生产速率预计满仓的天数，届时必须安排飞船到访';
 const COLUMN_SUPPLY_TOOLTIP =
-  'Total days of consumables the base could hold when storage is filled to its threshold after ship-out (80% when filling, 95% when draining). Colors match XIT BURN: red below your red threshold, yellow below your yellow threshold.';
-const COLUMN_CURRENT_FILL_TOOLTIP =
-  "What's in base storage right now. Colored by material category.";
+  '运出货物后，库存填充至阈值时可容纳的消耗品总天数（库存增长时为 80%，减少时为 95%）；颜色同 XIT BURN，低于红色阈值显示红色，低于黄色阈值显示黄色';
+const COLUMN_CURRENT_FILL_TOOLTIP = '当前基地库存，按材料类别着色';
 const COLUMN_AFTER_RESUPPLY_TOOLTIP =
-  'Projected storage if all produced goods were shipped out and all consumables delivered up to their XIT BURN Need amount. Red hatching shows overflow past capacity.';
+  '运出全部成品并将消耗品补足至 XIT BURN 需求量后的预计库存，红色斜线表示超出容量';
 
 const currentStore = computed(() => storagesStore.getById(analysis.storeId));
 const projectedStore = computed(() => buildProjectedStore(analysis.siteId));
@@ -40,23 +38,18 @@ const stripeClass = computed(() => {
 
 const limitTooltip = computed(() => {
   if (analysis.bindingLimit === undefined) {
-    return 'Storage draining — not filling.';
+    return '库存在减少，不会满仓。';
   }
-  return analysis.bindingLimit === 't'
-    ? 'Weight is the binding limit.'
-    : 'Volume is the binding limit.';
+  return analysis.bindingLimit === 't' ? '重量是容量瓶颈。' : '体积是容量瓶颈。';
 });
 
 const supplyTooltip = computed(() => {
   if (!isFinite(analysis.daysOfSuppliesFit)) {
-    return 'No active consumers — no supplies needed.';
+    return '没有正在消耗的材料，无需补给。';
   }
   const pct = Math.round((1 - analysis.suppliesReserveFraction) * 100);
-  const reason =
-    analysis.suppliesReserveFraction >= 0.2
-      ? 'produced goods that keep accumulating'
-      : 'production variance';
-  return `${fixed01(analysis.daysOfSuppliesFit)} days total when storage is filled to ${pct}% after ship-out (remainder reserved for ${reason}).`;
+  const reason = analysis.suppliesReserveFraction >= 0.2 ? '持续积累的成品' : '生产波动';
+  return `${fixed01(analysis.daysOfSuppliesFit)} 天，当运出货物后库存填充至 ${pct}%（剩余空间预留给 ${reason}).`;
 });
 
 const supplyClass = computed(() => {
@@ -143,9 +136,9 @@ const supplyClass = computed(() => {
     <td v-if="!hideButtons">
       <div :class="$style.buttons">
         <PrunButton dark inline @click="showBuffer(`BS ${analysis.naturalId}`)">BS</PrunButton>
-        <PrunButton dark inline @click="showBuffer(`INV ${analysis.storeId.substring(0, 8)}`)">
-          INV
-        </PrunButton>
+        <PrunButton dark inline @click="showBuffer(`INV ${analysis.storeId.substring(0, 8)}`)"
+          >库存</PrunButton
+        >
       </div>
     </td>
   </tr>

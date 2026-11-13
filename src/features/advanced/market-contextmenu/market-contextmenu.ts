@@ -92,8 +92,4 @@ async function init() {
   });
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'Right click any material to quickly see material market buttons.',
-);
+features.add(import.meta.url, init, '右键点击任意材料，快速显示市场快捷按钮');

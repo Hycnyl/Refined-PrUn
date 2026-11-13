@@ -60,8 +60,8 @@ export function routeStockShortfall(
 
 export function describeRouteStockDraw(exchange: string, draw: RouteStockDraw) {
   return (
-    `This leaves ${fixed0(draw.left)} ${draw.ticker} on ${exchange}, ` +
-    `below the ${fixed0(draw.held)} held for routes`
+    `操作后将剩余 ${fixed0(draw.left)} ${draw.ticker}，交易所 ${exchange}, ` +
+    `低于路线预留量 ${fixed0(draw.held)}，已为路线预留`
   );
 }
 

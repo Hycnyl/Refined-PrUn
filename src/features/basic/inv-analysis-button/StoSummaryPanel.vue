@@ -30,7 +30,7 @@ const ready = computed(() => !!sitesStore.fetched.value);
       </tbody>
     </table>
     <LoadingSpinner v-else-if="!ready" />
-    <div v-else :class="$style.empty">No storage data for {{ naturalId }}</div>
+    <div v-else :class="$style.empty">无库存数据：{{ naturalId }}</div>
   </div>
 </template>
 

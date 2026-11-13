@@ -42,12 +42,12 @@ function onTileReady(tile: PrunTile) {
     );
     createFragmentApp(() => (
       <PrunButton primary disabled={disabled.value} onClick={maxSliders}>
-        ALL
+        全选
       </PrunButton>
     )).prependTo(contribute);
     createFragmentApp(() => (
       <PrunButton primary disabled={disabled.value} onClick={minSliders}>
-        NONE
+        全不选
       </PrunButton>
     )).prependTo(contribute);
   });
@@ -78,8 +78,4 @@ function init() {
   tiles.observe(['COGCU', 'POPID'], onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'Adds bulk controls (NONE, ALL) to contribution menus in CoGC and population upkeep tiles.',
-);
+features.add(import.meta.url, init, '在商会和人口维护的捐赠菜单中增加批量操作按钮（全不选、全选）');

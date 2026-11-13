@@ -15,4 +15,4 @@ function applyCategoryRule(category: string, rule: string) {
   applyCssRule(`.rp-category-${sanitizeCategoryName(category)}`, rule);
 }
 
-features.add(import.meta.url, init, 'Alters item colors to be more easily recognized.');
+features.add(import.meta.url, init, '优化物品颜色以提高辨识度');

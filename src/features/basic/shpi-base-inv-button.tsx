@@ -55,7 +55,7 @@ async function onTileReady(tile: PrunTile) {
           }
         }}>
         <span>
-          <span class={C.ContextControls.cmd}>INV {id}</span>
+          <span class={C.ContextControls.cmd}>库存 {id}</span>
         </span>
       </div>
     );
@@ -112,8 +112,4 @@ function init() {
   tiles.observe('SHPI', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'SHPI: Adds a Base Inv button when the ship is landed at a planet with a player base.',
-);
+features.add(import.meta.url, init, 'SHPI：飞船着陆于拥有玩家基地的星球时，增加“基地库存”按钮');

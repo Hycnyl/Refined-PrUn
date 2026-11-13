@@ -67,4 +67,4 @@ function init() {
   tiles.observe('INV', onTileReady);
 }
 
-features.add(import.meta.url, init, 'INV: Shortens storage type names in the table and filters.');
+features.add(import.meta.url, init, 'INV：缩短存储类型名称');

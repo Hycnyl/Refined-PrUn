@@ -68,7 +68,7 @@ export function showConfirmationOverlay(
     confirmLabel?: string;
   },
 ) {
-  const message = options?.message ?? 'Are you sure?';
+  const message = options?.message ?? '确定吗？';
   const confirmLabel = options?.confirmLabel ?? 'Confirm';
   const container = findMountContainer(baseElementOrEvent);
   if (!container) {

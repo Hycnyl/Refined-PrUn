@@ -52,4 +52,4 @@ function init() {
   tiles.observe('NOTS', onTileReady);
 }
 
-features.add(import.meta.url, init, 'NOTS: Replaces material name with material ticker.');
+features.add(import.meta.url, init, 'NOTS：用物品代码替换材料名称');

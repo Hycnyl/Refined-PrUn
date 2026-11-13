@@ -59,7 +59,7 @@ function onSummaryRowReady(
   });
 
   const text = computed(() =>
-    cost.value !== undefined ? `Cost: ${formatCurrency(cost.value)}` : undefined,
+    cost.value !== undefined ? `费用：${formatCurrency(cost.value)}` : undefined,
   );
   const div = createReactiveDiv(row, text);
   keepLast(row, () => row.children[damageIndex], div);
@@ -116,4 +116,4 @@ function init() {
   tiles.observe('SFC', onTileReady);
 }
 
-features.add(import.meta.url, init, 'SFC: Shows the total flight cost including fees and fuel.');
+features.add(import.meta.url, init, 'SFC：显示包含费用和燃料的航行总成本');

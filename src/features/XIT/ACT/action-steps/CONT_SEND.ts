@@ -49,8 +49,8 @@ export const CONT_SEND = act.addActionStep<Data>({
     Object.fromEntries(Object.entries(data.materials).filter(([, v]) => v > 0)),
   description: data => {
     const materialCount = Object.keys(data.materials).length;
-    const payment = data.payment !== 0 ? ` for ${fixed0(data.payment)} ${data.currency}` : '';
-    return `Create contract draft (${materialCount} materials)${payment}`;
+    const payment = data.payment !== 0 ? `，对象 ${fixed0(data.payment)} ${data.currency}` : '';
+    return `创建合同草稿（${materialCount} 种材料）${payment}`;
   },
   execute: async ctx => {
     const { data, log, setStatus, requestTile, waitAct, complete } = ctx;
@@ -67,24 +67,24 @@ export const CONT_SEND = act.addActionStep<Data>({
       }
       const material = materialsStore.getByTicker(ticker);
       if (!material) {
-        log.warning(`Material ${ticker} not found, skipping`);
+        log.warning(`材料 ${ticker}未找到，已跳过`);
         continue;
       }
       totalTonnage += material.weight * amount;
       materialDetails.push({ ticker, amount });
     }
 
-    assert(materialDetails.length > 0, 'Material group has no materials to ship');
+    assert(materialDetails.length > 0, '材料组中没有可运输的材料');
 
     if (data.payment > 0 && totalTonnage > 0) {
       log.info(
-        `Total: ${fixed2(totalTonnage)}t, ${fixed0(data.payment)} ${data.currency} (${fixed0(data.payment / totalTonnage)} ${data.currency}/t)`,
+        `总计：${fixed2(totalTonnage)}t, ${fixed0(data.payment)} ${data.currency} (${fixed0(data.payment / totalTonnage)} ${data.currency}/t)`,
       );
     }
 
     // Step 1: Create new draft. The open is gated by this step's own ACT click,
     // so it must not cost a second one.
-    await waitAct('Create new draft?');
+    await waitAct('创建新草稿？');
     const listTile = await requestTile('CONTD', { actGate: false });
     if (!listTile) {
       return;
@@ -92,7 +92,7 @@ export const CONT_SEND = act.addActionStep<Data>({
 
     const newDraft = await createNewDraft(ctx);
 
-    setStatus(`Loading draft ${newDraft.naturalId}...`);
+    setStatus(`正在加载草稿 ${newDraft.naturalId}...`);
     const draftTile = await requestTile(`CONTD ${newDraft.naturalId}`);
     if (!draftTile) {
       return;
@@ -106,17 +106,17 @@ export const CONT_SEND = act.addActionStep<Data>({
     const materialsList = materialDetails.map(x => `${x.ticker} x${fixed0(x.amount)}`).join(', ');
     const preambleText =
       data.contractNote ??
-      `Shipping contract for ${fixed2(totalTonnage)}t.\n` +
-        `Materials: ${materialsList}\n` +
+      `货运合同：${fixed2(totalTonnage)}t.\n` +
+        `材料：${materialsList}\n` +
         (data.payment > 0
-          ? `Payment: ${fixed0(data.payment)} ${data.currency} (${fixed0(data.payment / totalTonnage)} ${data.currency}/t)\n`
+          ? `运费：${fixed0(data.payment)} ${data.currency} (${fixed0(data.payment / totalTonnage)} ${data.currency}/t)\n`
           : '') +
-        (data.daysToFulfill > 0 ? `Delivery within ${fixed0(data.daysToFulfill)} days` : '');
+        (data.daysToFulfill > 0 ? `交付期限：${fixed0(data.daysToFulfill)} 天` : '');
 
     await setDraftNameAndPreamble(ctx, anchor, contractName, preambleText);
 
     // Step 2: Save draft details (name/preamble)
-    await waitAct('Save draft details?');
+    await waitAct('保存草稿详情？');
     await saveDraftDetails(ctx, anchor, newDraft.naturalId);
 
     const templateSelect = await openTemplate(ctx, anchor);
@@ -130,67 +130,58 @@ export const CONT_SEND = act.addActionStep<Data>({
     if (data.payment > 0) {
       const pricePerCommodity = Math.round(data.payment / materialDetails.length);
       const priceInput = findPriceInput(anchor);
-      assert(priceInput, 'Could not find price input');
+      assert(priceInput, '未找到价格输入框');
       selectAndChangeInputValue(priceInput, String(pricePerCommodity));
       log.info(
-        `Price set: ${fixed0(pricePerCommodity)} ${data.currency}/commodity x${materialDetails.length} = ${fixed0(pricePerCommodity * materialDetails.length)} ${data.currency} total`,
+        `已设置价格：${fixed0(pricePerCommodity)} ${data.currency}/项 ×${materialDetails.length} = ${fixed0(pricePerCommodity * materialDetails.length)} ${data.currency} 总计`,
       );
     }
 
     // Step 3: Set origin address
     const addressContainers = _$$(anchor, C.AddressSelector.container) as HTMLElement[];
 
-    assert(
-      addressContainers.length >= 1 && data.contOrigin !== undefined,
-      'Could not find origin control',
-    );
-    await waitAct(`Set origin to ${data.contOrigin}?`);
+    assert(addressContainers.length >= 1 && data.contOrigin !== undefined, '未找到来源控件');
+    await waitAct(`设置来源为 ${data.contOrigin}?`);
     const originSet = await selectAddress(addressContainers[0], data.contOrigin);
-    assert(originSet, `Could not select origin: ${data.contOrigin}`);
-    log.info(`Origin set: ${data.contOrigin}`);
+    assert(originSet, `无法选择来源：${data.contOrigin}`);
+    log.info(`已设置来源：${data.contOrigin}`);
 
     // Step 4: Set destination address
-    assert(
-      addressContainers.length >= 2 && data.contDest !== undefined,
-      'Could not find destination control',
-    );
-    await waitAct(`Set destination to ${data.contDest}?`);
+    assert(addressContainers.length >= 2 && data.contDest !== undefined, '未找到目的地控件');
+    await waitAct(`设置目的地为 ${data.contDest}?`);
     const destSet = await selectAddress(addressContainers[1], data.contDest);
-    assert(destSet, `Could not select destination: ${data.contDest}`);
-    log.info(`Destination set: ${data.contDest}`);
+    assert(destSet, `无法选择目的地：${data.contDest}`);
+    log.info(`已设置目的地：${data.contDest}`);
 
     if (data.autoProvisionStoreId !== undefined) {
-      setStatus('Setting auto-provision store...');
+      setStatus('正在设置自动供应库存……');
       // The store options only populate once the origin address resolves.
       const storeSelect = await pollUntil(() => {
         const select = _$(anchor, C.StoreSelect.container) as HTMLSelectElement | undefined;
         return select !== undefined && select.options.length > 1 ? select : undefined;
       }, 5000);
-      assert(storeSelect, 'Auto-provision store select did not appear');
+      assert(storeSelect, '未出现自动供应库存选择框');
 
       const normalizedId = data.autoProvisionStoreId.replaceAll('-', '');
       const optionIndex = Array.from(storeSelect.options).findIndex(
         x => x.value === data.autoProvisionStoreId || x.value === normalizedId,
       );
-      assert(
-        optionIndex >= 0,
-        `Could not find auto-provision store option: ${data.autoProvisionStoreId}`,
-      );
+      assert(optionIndex >= 0, `未找到自动供应库存选项：${data.autoProvisionStoreId}`);
       changeSelectIndex(storeSelect, optionIndex);
-      log.info(`Auto-provision store set: ${storeSelect.options[optionIndex].text}`);
+      log.info(`已设置自动供应库存：${storeSelect.options[optionIndex].text}`);
     }
 
     setDeadline(ctx, anchor, data.daysToFulfill);
 
     // Step 5: Apply template
-    await waitAct('Apply template?');
+    await waitAct('应用模板？');
     await applyTemplate(ctx, anchor, newDraft.naturalId);
 
     // Step 6: Save conditions, after the player has reviewed them.
-    await waitAct('Save conditions?');
+    await waitAct('保存条件？');
     await saveConditions(ctx, anchor, newDraft.naturalId);
 
-    log.success(`Contract draft ${newDraft.naturalId} ready to send`);
+    log.success(`合同草稿 ${newDraft.naturalId} 已可发送`);
     complete();
   },
 });

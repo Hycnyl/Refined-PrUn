@@ -111,7 +111,7 @@ export async function clickControl(
       row.control.danger !== true,
   );
   if (match === undefined) {
-    throw new Error(`Control not found: ${label}`);
+    throw new Error(`未找到控件：${label}`);
   }
   await clickElement(match.el);
 }
@@ -315,7 +315,7 @@ export async function clickEditorSave(editor: Element): Promise<void> {
   );
   const target = saves[saves.length - 1] as HTMLElement | undefined;
   if (target === undefined) {
-    throw new Error('Could not find SAVE in the step editor');
+    throw new Error('未找到步骤编辑器中的保存按钮');
   }
   await clickElement(target);
 }
@@ -382,7 +382,7 @@ async function clickModeWord(root: Element, label: string): Promise<void> {
     }
   }
   if (target === undefined) {
-    throw new Error(`Control not found: ${label}`);
+    throw new Error(`未找到控件：${label}`);
   }
   await clickElement(target as HTMLElement);
 }
@@ -412,7 +412,7 @@ async function applyLimit(
   const first = collectLimitNodes(editor);
   const modeIndex = modeRowIndex(first.nodes, heading);
   if (modeIndex === undefined) {
-    throw new Error(`Could not find the ${heading} row`);
+    throw new Error(`未找到 ${heading} 行`);
   }
   const modeRow = first.elements[modeIndex];
   const hasAmount = () => amountRowIndex(collectLimitNodes(editor).nodes, heading) !== undefined;
@@ -431,7 +431,7 @@ async function applyLimit(
   const amountRow = amountIndex === undefined ? undefined : after.elements[amountIndex];
   const input = amountRow === undefined ? undefined : amountInputs(amountRow)[0];
   if (input === undefined) {
-    throw new Error(`Could not find the ${heading} amount`);
+    throw new Error(`未找到 ${heading} 数量`);
   }
   selectAndChangeInputValue(input, String(limit.amount));
 }
@@ -451,7 +451,7 @@ async function fillMaterial(editor: Element, ticker: string): Promise<void> {
   );
   const match = suggestions.find(el => (el.textContent ?? '').trim() === chosen);
   if (chosen === undefined || match === undefined) {
-    throw new Error(`Could not find material ${ticker} in the list`);
+    throw new Error(`未找到材料 ${ticker}，请检查列表`);
   }
   await clickElement(match as HTMLElement);
 }
@@ -463,7 +463,7 @@ function fillRetain(editor: Element, retain: number): void {
   const row = index === undefined ? undefined : found.elements[index];
   const input = row === undefined ? undefined : amountInputs(row)[0];
   if (input === undefined) {
-    throw new Error('Could not find the Retain units amount');
+    throw new Error('未找到保留数量');
   }
   selectAndChangeInputValue(input, String(retain));
 }
@@ -481,11 +481,11 @@ export async function fillStepEditor(editor: Element, step: EditableStep): Promi
   if (step.kind === 'wait') {
     const selected = await chooseOption(editor, step.unit);
     if (!selected) {
-      throw new Error(`Could not set wait unit to ${step.unit}`);
+      throw new Error(`无法设置等待单位为 ${step.unit}`);
     }
     const input = amountInputs(editor)[0];
     if (input === undefined) {
-      throw new Error('Could not find the wait amount');
+      throw new Error('未找到等待时长');
     }
     selectAndChangeInputValue(input, String(step.amount));
     return;
@@ -570,7 +570,7 @@ export async function clickAssign(row: HTMLTableRowElement): Promise<void> {
       !el.classList.contains(C.Button.danger),
   );
   if (target === undefined) {
-    throw new Error('Could not find ASSIGN in the ship row');
+    throw new Error('未找到飞船行中的 ASSIGN 按钮');
   }
   await clickElement(target);
 }
@@ -606,7 +606,7 @@ export async function tryAssignShip(input: {
     return {
       ok: false,
       kind: 'missing',
-      reason: `${input.ship} is not in the route's Assignments list`,
+      reason: `${input.ship} 不在路线分配列表中`,
     };
   }
   if (before.state.kind === 'here') {
@@ -616,13 +616,13 @@ export async function tryAssignShip(input: {
     return {
       ok: false,
       kind: 'busy',
-      reason: `${input.ship} is on ${before.state.route} (${before.state.cmds}); not reassigning it`,
+      reason: `${input.ship} 当前位于 ${before.state.route} (${before.state.cmds}），不会重新分配`,
     };
   }
-  await input.waitAct(`Assign ${input.ship} to ${input.routeId}?`);
+  await input.waitAct(`分配 ${input.ship} 到 ${input.routeId}?`);
   const current = readShipAssignment(input.anchor, input.ship, input.routeId);
   if (current.state.kind !== 'free') {
-    return { ok: false, kind: 'unavailable', reason: `${input.ship} is no longer free to assign` };
+    return { ok: false, kind: 'unavailable', reason: `${input.ship} 已无法空闲分配` };
   }
   try {
     await clickAssign(current.rows[current.state.row]);
@@ -630,7 +630,7 @@ export async function tryAssignShip(input: {
     return {
       ok: false,
       kind: 'click',
-      reason: err instanceof Error ? err.message : `Could not click ASSIGN for ${input.ship}`,
+      reason: err instanceof Error ? err.message : `无法点击飞船的 ASSIGN：${input.ship}`,
     };
   }
   const assigned = await waitFor(
@@ -641,7 +641,7 @@ export async function tryAssignShip(input: {
     return {
       ok: false,
       kind: 'unconfirmed',
-      reason: `${input.ship} does not show ${input.routeId} after ASSIGN`,
+      reason: `${input.ship} 未显示 ${input.routeId}，已点击 ASSIGN`,
     };
   }
   await dismissAssignFeedback(input.frame);
@@ -766,17 +766,17 @@ export async function fillWaypointFlight(
     const label = flightLabel('fuel');
     const target = usageTarget(editor, label, stop.fuelUsage);
     await setLabeledSlider(editor, label, target);
-    filled.push(`fuel ${target}%`);
+    filled.push(`燃料 ${target}%`);
   }
   if (stop.reactorUsage !== undefined) {
     const label = flightLabel('reactor');
     const target = usageTarget(editor, label, stop.reactorUsage);
     await setReactorUsage(editor, target, waitAct);
-    filled.push(`reactor ${target}%`);
+    filled.push(`反应堆 ${target}%`);
   }
   if (stop.gateway !== undefined) {
     await setGateway(editor, stop.gateway);
-    filled.push(stop.gateway ? 'gateways on' : 'gateways off');
+    filled.push(stop.gateway ? '星门已开启' : '星门已关闭');
   }
   return filled.join(', ');
 }
@@ -920,7 +920,7 @@ async function setLabeledSlider(editor: Element, label: string, target: number):
   const min = Number(handle.getAttribute('aria-valuemin'));
   const max = Number(handle.getAttribute('aria-valuemax'));
   if (!Number.isFinite(min) || !Number.isFinite(max) || target < min || target > max) {
-    throw new Error(`${label} cannot take ${target}`);
+    throw new Error(`${label} 无法设为 ${target}`);
   }
   if (readNow(handle) === target) {
     return;
@@ -928,7 +928,7 @@ async function setLabeledSlider(editor: Element, label: string, target: number):
   const landed = await stepSliderTo(editor, label, target);
   if (!landed) {
     const now = readNow(labeledHandle(editor, label));
-    throw new Error(`${label} stayed at ${now === undefined ? 'empty' : String(now)}`);
+    throw new Error(`${label} 仍为 ${now === undefined ? '空' : String(now)}`);
   }
 }
 
@@ -950,22 +950,22 @@ async function setReactorUsage(
     return;
   }
   if (waitAct !== undefined) {
-    await waitAct(`Set Reactor usage to ${target}, then press ACT`);
+    await waitAct(`将反应堆用量设为 ${target}，然后点击“执行下一步”`);
   }
   if (readNow(labeledHandle(editor, label)) !== target) {
     const now = readNow(labeledHandle(editor, label));
-    throw new Error(`${label} stayed at ${now === undefined ? 'empty' : String(now)}`);
+    throw new Error(`${label} 仍为 ${now === undefined ? 'empty' : String(now)}`);
   }
 }
 
 function labeledHandle(editor: Element, label: string): HTMLElement {
   const slider = sliderFor(editor, label);
   if (slider === undefined) {
-    throw new Error(`${label} slider is not on the waypoint`);
+    throw new Error(`${label} 滑块不在途经点上`);
   }
   const handle = sliderHandle(slider);
   if (handle === undefined) {
-    throw new Error(`Could not find the ${label} handle`);
+    throw new Error(`未找到 ${label} 滑块手柄`);
   }
   return handle;
 }
@@ -973,11 +973,11 @@ function labeledHandle(editor: Element, label: string): HTMLElement {
 async function setGateway(editor: Element, on: boolean): Promise<void> {
   const select = editor.querySelector('select');
   if (select === null) {
-    throw new Error('Route preferences are not on the waypoint');
+    throw new Error('途经点上没有路线偏好设置');
   }
   const toggle = gatewayLeaf(select);
   if (toggle === undefined) {
-    throw new Error('Use gateways is not on the waypoint');
+    throw new Error('途经点上没有星门开关');
   }
   if (gatewayOn(toggle) === on) {
     return;
@@ -985,7 +985,7 @@ async function setGateway(editor: Element, on: boolean): Promise<void> {
   await clickElement(toggle);
   const flipped = await waitFor(() => gatewayOn(toggle) === on, 1500);
   if (!flipped) {
-    throw new Error('Use gateways did not change');
+    throw new Error('星门设置未改变');
   }
 }
 

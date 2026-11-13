@@ -89,8 +89,8 @@ function onSaveClick() {
     task.days = days.value ?? 7;
     const site = sitesStore.getByPlanetNaturalId(task.planet)!;
     task.text =
-      `Supply [[p:${getEntityNameFromAddress(site.address)}]] with ` +
-      `${task.days} ${task.days === 1 ? 'day' : 'days'} of consumables.`;
+      `补给 [[p:${getEntityNameFromAddress(site.address)}]]，所需 ` +
+      `${task.days} ${task.days === 1 ? '天' : '天'} 的消耗品。`;
 
     const burn = getPlanetBurn(site)?.burn;
     if (burn) {
@@ -112,8 +112,8 @@ function onSaveClick() {
     task.buildingAge = buildingAge.value ?? 50;
     const site = sitesStore.getByPlanetNaturalId(task.planet)!;
     task.text =
-      `Repair buildings on [[p:${getEntityNameFromAddress(site.address)}]] ` +
-      `older than ${task.buildingAge} ${task.days === 1 ? 'day' : 'days'}`;
+      `维修星球建筑 [[p:${getEntityNameFromAddress(site.address)}]] ` +
+      `楼龄超过 ${task.buildingAge} ${task.days === 1 ? 'day' : 'days'}`;
 
     let materials: PrunApi.MaterialAmount[] = [];
 
@@ -149,43 +149,41 @@ function onDeleteClick() {
 
 <template>
   <div :class="C.DraftConditionEditor.form">
-    <SectionHeader>Edit task</SectionHeader>
+    <SectionHeader>编辑任务</SectionHeader>
     <form>
-      <Active label="Type">
+      <Active label="类型">
         <SelectInput v-model="type" :options="types" />
       </Active>
-      <Active label="Due Date">
+      <Active label="截止日期">
         <DateInput v-model="dueDate" />
       </Active>
-      <Active
-        label="Recurring period"
-        tooltip="An amount of days the due date will advance on task completion.">
+      <Active label="重复天数" tooltip="任务完成后，将截止日期顺延的天数">
         <NumberInput v-model="recurring" />
       </Active>
       <template v-if="type === 'Text'">
-        <Active label="Text">
+        <Active label="任务内容">
           <TextInput v-model="text" />
         </Active>
       </template>
       <template v-if="type === 'Resupply'">
-        <Active label="Planet">
+        <Active label="星球">
           <PlanetSelector v-model="planet" />
         </Active>
-        <Active label="Days" tooltip="The number of days of supplies.">
+        <Active label="天数" tooltip="补给天数">
           <NumberInput v-model="days" float />
         </Active>
       </template>
       <template v-if="type === 'Repair'">
-        <Active label="Planet">
+        <Active label="星球">
           <PlanetSelector v-model="planet" />
         </Active>
-        <Active label="Building age" tooltip="The minimum building age to be included in the list.">
+        <Active label="楼龄" tooltip="计入列表的最低楼龄">
           <NumberInput v-model="buildingAge" float />
         </Active>
       </template>
       <Commands>
-        <PrunButton primary @click="onSaveClick">SAVE</PrunButton>
-        <PrunButton v-if="onDelete" danger @click="onDeleteClick">DELETE</PrunButton>
+        <PrunButton primary @click="onSaveClick">保存</PrunButton>
+        <PrunButton v-if="onDelete" danger @click="onDeleteClick">删除</PrunButton>
       </Commands>
     </form>
   </div>

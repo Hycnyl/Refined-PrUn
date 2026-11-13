@@ -266,5 +266,5 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'NOTS: Shift-click opens a notification target in a companion buffer. Ctrl-click marks it read without opening that buffer.',
+  'NOTS：按住 Shift 点击通知，在联动窗口打开目标；按住 Ctrl 点击，仅标记已读',
 );

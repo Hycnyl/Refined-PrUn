@@ -6,13 +6,12 @@ xit.add({
   command: 'LOWSTRIFE',
   name: parameters => {
     if (parameters.length === 0) {
-      return 'SHIP LOADING';
+      return '飞船装载';
     }
     const site = sitesStore.getByPlanetNaturalIdOrName(parameters.join(' '));
     const name = site ? getEntityNameFromAddress(site.address) : parameters.join(' ');
-    return `SHIP LOADING - ${name}`;
+    return `飞船装载 - ${name}`;
   },
-  description:
-    'Loads a ship with consumables for a fixed number of days and production inputs for as many days as fit, then fills the spare room with DW.',
+  description: '为飞船装载指定天数的消耗品，并尽量多装生产原料，最后用 DW 填满剩余空间。',
   component: () => LOWSTRIFE,
 });

@@ -47,7 +47,7 @@ const capitalize = (str: string) => {
 };
 
 const tooltipLines = computed(() => {
-  const lines = [`Condition: ${percent0(condition.value)}`];
+  const lines = [`健康度：${percent0(condition.value)}`];
 
   if (productionLine.efficiencyFactors.length === 0) {
     return lines;
@@ -73,7 +73,7 @@ const tooltipText = computed(() => tooltipLines.value.join('\n'));
 
     <td :class="$style.trigger" @click="onHeaderClick">
       <span :class="[$style.caret, displayInfo && $style.expanded]">▶</span>
-      <span :class="$style.collapseText">INFO</span>
+      <span :class="$style.collapseText">信息</span>
     </td>
     <td>
       <InlineFlex>

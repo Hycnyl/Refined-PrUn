@@ -25,4 +25,4 @@ function init() {
   tiles.observe('BS', onTileReady);
 }
 
-features.add(import.meta.url, init, 'BS: Opens the INV context link on the base store directly.');
+features.add(import.meta.url, init, 'BS：点击上下文栏的 INV 链接时直接打开基地库存');

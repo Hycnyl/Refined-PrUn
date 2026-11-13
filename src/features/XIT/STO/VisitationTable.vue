@@ -53,20 +53,20 @@ const rows = computed<ShipRow[]>(() => {
 </script>
 
 <template>
-  <div v-if="rows.length === 0" :class="$style.empty">No ships in fleet</div>
+  <div v-if="rows.length === 0" :class="$style.empty">舰队中没有飞船</div>
   <table v-else :class="$style.table">
     <thead>
       <tr>
-        <th rowspan="2">Ship t</th>
-        <th rowspan="2">Ship m³</th>
-        <th colspan="2">Export Frequency</th>
-        <th colspan="2">Import Frequency</th>
+        <th rowspan="2">飞船载重 (t)</th>
+        <th rowspan="2">飞船容积 (m³)</th>
+        <th colspan="2">运出频率</th>
+        <th colspan="2">补入频率</th>
       </tr>
       <tr>
-        <th>Visitation (days)</th>
-        <th>Limit</th>
-        <th>Visitation (days)</th>
-        <th>Limit</th>
+        <th>到访间隔（天）</th>
+        <th>上限</th>
+        <th>到访间隔（天）</th>
+        <th>上限</th>
       </tr>
     </thead>
     <tbody>

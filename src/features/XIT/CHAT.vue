@@ -28,10 +28,10 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <div v-if="!parameter">Error! Not Enough Parameters!</div>
+  <div v-if="!parameter">错误：参数不足！</div>
   <LoadingSpinner v-else-if="!isLoaded" />
   <div v-else :style="{ height: '100%', flexGrow: 1, paddingTop: '4px' }">
-    <div :class="$style.title">{{ parameter }} Global Site Owners</div>
+    <div :class="$style.title">{{ parameter }}全体基地所有者</div>
     <div
       v-for="message in messages"
       :key="objectId(message)"
@@ -59,13 +59,13 @@ watchEffect(async () => {
       <template v-if="message.MessageType === 'JOINED'">
         <div :class="C.Message.name" />
         <div :class="C.Message.controlsAndText">
-          <div :class="[C.Message.text, C.Message.system]">{{ message.UserName }} joined.</div>
+          <div :class="[C.Message.text, C.Message.system]">{{ message.UserName }}已加入。</div>
         </div>
       </template>
       <template v-if="message.MessageType === 'LEFT'">
         <div :class="C.Message.name" />
         <div :class="C.Message.controlsAndText">
-          <div :class="[C.Message.text, C.Message.system]">{{ message.UserName }} left.</div>
+          <div :class="[C.Message.text, C.Message.system]">{{ message.UserName }}已离开。</div>
         </div>
       </template>
     </div>

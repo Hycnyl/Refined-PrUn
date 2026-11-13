@@ -247,29 +247,29 @@ function copyBurnTable() {
   <LoadingSpinner v-if="planetBurn === undefined" />
   <template v-else>
     <div :class="C.ComExOrdersPanel.filter">
-      <RadioItem v-model="red" horizontal>RED</RadioItem>
-      <RadioItem v-model="yellow" horizontal>YELLOW</RadioItem>
-      <RadioItem v-model="green" horizontal>GREEN</RadioItem>
-      <RadioItem v-model="inf" horizontal>INF</RadioItem>
+      <RadioItem v-model="red" horizontal>红色</RadioItem>
+      <RadioItem v-model="yellow" horizontal>黄色</RadioItem>
+      <RadioItem v-model="green" horizontal>绿色</RadioItem>
+      <RadioItem v-model="inf" horizontal>无限</RadioItem>
       <div :class="$style.separator" />
       <RadioItem
         v-model="prod"
         horizontal
         :class="$style.radioItemWithTooltip"
-        data-tooltip="Toggle materials with production consumption. When off, hides materials only used in production."
-        data-tooltip-position="bottom">
-        PROD
-      </RadioItem>
+        data-tooltip="显示或隐藏有生产消耗的材料，关闭时隐藏仅用于生产的材料"
+        data-tooltip-position="bottom"
+        >生产</RadioItem
+      >
       <RadioItem
         v-model="wf"
         horizontal
         :class="$style.radioItemWithTooltip"
-        data-tooltip="Toggle materials with workforce consumption. When off, hides materials only consumed by workforce."
-        data-tooltip-position="bottom">
-        WF
-      </RadioItem>
+        data-tooltip="显示或隐藏有劳动力消耗的材料，关闭时隐藏仅供劳动力消耗的材料"
+        data-tooltip-position="bottom"
+        >劳动力</RadioItem
+      >
       <div :class="$style.separator" />
-      <RadioItem v-model="io" horizontal>I/O</RadioItem>
+      <RadioItem v-model="io" horizontal>收支</RadioItem>
       <div :class="$style.spacer" />
       <CopyButton :copy-fn="copyBurnTable" data-tooltip-position="bottom" />
     </div>
@@ -282,34 +282,29 @@ function copyBurnTable() {
           <th v-else />
           <th>
             <InlineFlex>
-              Inv
+              库存
               <Tooltip
                 position="right"
-                tooltip="How much of a material the inventory still has. Fractional amount
-                 represents the leftover materials since the last workforce consumption event." />
+                tooltip="库存中的剩余材料数量，小数部分表示自上次劳动力消耗以来剩余的材料量" />
             </InlineFlex>
           </th>
           <template v-if="io">
-            <th>In</th>
-            <th>Out</th>
-            <th>Net</th>
+            <th>流入</th>
+            <th>流出</th>
+            <th>净值</th>
           </template>
           <th v-else>
             <InlineFlex>
-              Burn
-              <Tooltip position="bottom" tooltip="How much of a material is consumed per day." />
+              消耗 <Tooltip position="bottom" tooltip="每天消耗的物质量。" />
             </InlineFlex>
           </th>
           <th>
             <InlineFlex>
-              Need
-              <Tooltip
-                position="bottom"
-                tooltip="How much of a material needs to be delivered to be fully supplied." />
+              需求 <Tooltip position="bottom" tooltip="需要补充多少量才能完全满足供应情况。" />
             </InlineFlex>
           </th>
-          <th>Days</th>
-          <th>CMD</th>
+          <th>天数</th>
+          <th>命令</th>
         </tr>
       </thead>
       <tbody :class="$style.fakeRow">

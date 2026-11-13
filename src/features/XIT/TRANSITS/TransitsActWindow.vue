@@ -7,5 +7,5 @@ const pkg = stagedRoute.value;
 
 <template>
   <ExecuteActionPackage v-if="pkg" :pkg="pkg" auto-start hide-preview close-when-done />
-  <p v-else>Stage a route with XIT TRANSITS.</p>
+  <p v-else>请通过 XIT TRANSITS 准备路线。</p>
 </template>

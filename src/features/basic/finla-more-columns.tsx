@@ -13,12 +13,12 @@ function onTableHeadReady(thead: HTMLTableSectionElement) {
   subscribe($$(thead, 'tr'), row => {
     createFragmentApp(() => (
       <th class={[C.LiquidAssetsPanel.number, hiddenIfZero(currentAssets.cxDepositsTotal)]}>
-        CX Deposits
+        交易所存款 (CX)
       </th>
     )).appendTo(row);
     createFragmentApp(() => (
       <th class={[C.LiquidAssetsPanel.number, hiddenIfZero(currentAssets.fxDepositsTotal)]}>
-        FX Deposits
+        外汇存款 (FX)
       </th>
     )).appendTo(row);
     createFragmentApp(() => (
@@ -27,7 +27,7 @@ function onTableHeadReady(thead: HTMLTableSectionElement) {
           C.LiquidAssetsPanel.number,
           hiddenIfZero(currentAssets.inventory.mmMaterialsTotal),
         ]}>
-        MM Materials
+        做市商材料
       </th>
     )).appendTo(row);
   });
@@ -76,4 +76,4 @@ function init() {
   tiles.observe('FINLA', onTileReady);
 }
 
-features.add(import.meta.url, init, 'FINLA: Adds columns for additional liquid asset types.');
+features.add(import.meta.url, init, 'FINLA：增加“CX”、“FX”和“库存”列');

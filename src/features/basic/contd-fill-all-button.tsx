@@ -50,7 +50,7 @@ function addCommodityAllButton(anchor: Element, sourceGroup: Element, sourceInpu
   };
   createFragmentApp(() => (
     <PrunButton dark inline class={$style.allButton} onClick={onClick}>
-      all
+      全部
     </PrunButton>
   )).before(sourceInput);
 }
@@ -62,7 +62,7 @@ function addAllButton(anchor: Element, sourceInput: HTMLInputElement, selector: 
       inline
       class={$style.allButton}
       onClick={() => fillAll(anchor, sourceInput, selector)}>
-      all
+      全部
     </PrunButton>
   )).before(sourceInput);
 }
@@ -110,5 +110,5 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'CONTD: Adds "all" buttons next to the first commodity/amount/price per unit fields to copy the value to every commodity section.',
+  'CONTD：在首组材料、数量和单价字段旁增加“全部”按钮，将值复制到每个材料分项',
 );

@@ -186,4 +186,4 @@ function saveOrder(tbody: Element) {
   }
 }
 
-features.add(import.meta.url, init, 'CXM: Drag-and-drop to reorder exchanges in the CXM buffer.');
+features.add(import.meta.url, init, 'CXM：在 CXM 窗口中拖放以调整交易所顺序');

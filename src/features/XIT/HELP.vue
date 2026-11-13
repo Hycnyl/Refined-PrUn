@@ -6,43 +6,43 @@ import PrunLink from '@src/components/PrunLink.vue';
   <table>
     <thead>
       <tr>
-        <th>I want to...</th>
-        <th>Command</th>
+        <th>我想...</th>
+        <th>命令</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Change Refined PrUn settings.</td>
+        <td>修改 Refined PrUn 设置。</td>
         <td>
           <PrunLink command="XIT SET" />
         </td>
       </tr>
       <tr>
-        <td>Change the feature set to Basic/Full.</td>
+        <td>切换功能集（基础版/完整版）。</td>
         <td>
           <PrunLink command="XIT SET FEAT" />
         </td>
       </tr>
       <tr>
-        <td>Disable some Refined PrUn feature.</td>
+        <td>禁用某些 Refined PrUn 功能。</td>
         <td>
           <PrunLink command="XIT SET FEAT" />
         </td>
       </tr>
       <tr>
-        <td>Find out which XIT commands are available.</td>
+        <td>查看可用的 XIT 命令。</td>
         <td>
           <PrunLink command="XIT CMDS" />
         </td>
       </tr>
       <tr>
-        <td>Import PMMG settings.</td>
+        <td>导入 PMMG 设置。</td>
         <td>
           <PrunLink command="XIT SET PMMG" />
         </td>
       </tr>
       <tr>
-        <td>Get a random corgi gif.</td>
+        <td>获取一张随机的柯基 GIF。</td>
         <td>
           <PrunLink command="XIT GIF CORGI" />
         </td>

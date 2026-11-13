@@ -91,35 +91,35 @@ function onInputKeydown(ev: KeyboardEvent) {
   <template v-else>
     <div :class="C.ComExOrdersPanel.filter">
       <div :class="$style.spacer" />
-      <PrunButton @click="showImport = true">IMPORT</PrunButton>
-      <PrunButton primary @click="emit('done')">DONE</PrunButton>
+      <PrunButton @click="showImport = true">导入</PrunButton>
+      <PrunButton primary @click="emit('done')">完成</PrunButton>
     </div>
 
-    <SectionHeader>Thresholds</SectionHeader>
+    <SectionHeader>阈值</SectionHeader>
     <form @submit.prevent>
-      <Active label="Red (days)">
+      <Active label="红色（天）">
         <NumberInput v-model="userData.govburn.config.red" float />
       </Active>
-      <Active label="Yellow (days)">
+      <Active label="黄色（天）">
         <NumberInput v-model="userData.govburn.config.yellow" float />
       </Active>
     </form>
 
-    <SectionHeader>Add Planet</SectionHeader>
+    <SectionHeader>添加星球</SectionHeader>
     <form @submit.prevent>
-      <Active label="Planet" :error="planetError">
+      <Active label="星球" :error="planetError">
         <TextInput v-model="planetInput" @keydown="onInputKeydown" />
       </Active>
       <Commands>
-        <PrunButton primary @click="addPlanet">ADD</PrunButton>
+        <PrunButton primary @click="addPlanet">添加</PrunButton>
       </Commands>
     </form>
-    <p v-if="planetError" :class="$style.error">Planet not found.</p>
+    <p v-if="planetError" :class="$style.error">未找到星球。</p>
 
     <table v-if="configuredPlanets.length > 0">
       <thead>
         <tr>
-          <th>Planet</th>
+          <th>星球</th>
           <th v-for="building in popiBuildings" :key="building.ticker">{{ building.ticker }}</th>
           <th />
         </tr>
@@ -140,7 +140,7 @@ function onInputKeydown(ev: KeyboardEvent) {
             </div>
           </td>
           <td>
-            <PrunButton danger inline @click="removePlanet(naturalId)">REMOVE</PrunButton>
+            <PrunButton danger inline @click="removePlanet(naturalId)">移除</PrunButton>
           </td>
         </tr>
       </tbody>

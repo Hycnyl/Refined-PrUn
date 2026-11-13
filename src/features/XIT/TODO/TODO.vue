@@ -30,8 +30,8 @@ function onCreateClick() {
   <TaskLists v-if="isEmpty(parameters)" />
   <TaskList v-else-if="list" :list="list" />
   <div v-else :class="$style.create">
-    <span>Task list "{{ name }}" not found.</span>
-    <PrunButton primary :class="$style.button" @click="onCreateClick">CREATE</PrunButton>
+    <span>任务列表“{{ name }}”未找到。</span>
+    <PrunButton primary :class="$style.button" @click="onCreateClick">创建</PrunButton>
   </div>
 </template>
 

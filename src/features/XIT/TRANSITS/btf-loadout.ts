@@ -35,13 +35,13 @@ export function captureLoadout(
   const stlLabel = L.BlueprintTestFlight.label.stlFuel() ?? '';
   const ftlLabel = L.BlueprintTestFlight.label.ftlFuel() ?? '';
   if (stlLabel.length === 0) {
-    return { ok: false, error: 'STL fuel label is not loaded' };
+    return { ok: false, error: '尚未加载 STL 燃料标签' };
   }
   const sliders: LoadoutSlider[] = [];
   for (const slider of _$$(anchor, 'rc-slider')) {
     const label = matchingFieldLabel(ancestorTexts(slider), labels);
     if (label === undefined) {
-      return { ok: false, error: 'a loadout slider has no label' };
+      return { ok: false, error: '装载滑块缺少标签' };
     }
     const tank = tankKind(label, stlLabel, ftlLabel);
     const handle = sliderHandle(slider);
@@ -50,14 +50,14 @@ export function captureLoadout(
       // A setting with no value, such as Fuel usage on a ship without an FTL drive,
       // is not carried to the next leg. A tank must have a level.
       if (tank !== undefined) {
-        return { ok: false, error: `${label} has no value` };
+        return { ok: false, error: `${label} 没有数值` };
       }
       continue;
     }
     sliders.push({ label, value: now, tank });
   }
   if (!sliders.some(x => x.tank === 'stl')) {
-    return { ok: false, error: 'STL fuel slider is not on the test flight' };
+    return { ok: false, error: '试飞界面没有 STL 燃料滑块' };
   }
   const select = anchor.querySelector('select');
   const gateway = select === null ? undefined : gatewayToggle(select);
@@ -107,14 +107,14 @@ export async function applyConfirmedLoadout(anchor: Element, loadout: ConfirmedL
       option => option.value === loadout.selectValue,
     );
     if (index < 0) {
-      return 'FTL preference is not on the test flight';
+      return '试飞界面没有 FTL 偏好设置';
     }
     changeSelectIndex(select, index);
   }
   if (select !== null && loadout.gatewayOn !== undefined) {
     const gateway = gatewayToggle(select);
     if (gateway === undefined) {
-      return 'gateway toggle is not on the test flight';
+      return '试飞界面没有星门开关';
     }
     if (gatewayOn(gateway) !== loadout.gatewayOn) {
       await clickElement(gateway);
@@ -146,7 +146,7 @@ export async function applyConfirmedLoadout(anchor: Element, loadout: ConfirmedL
   }, 5000);
   if (!tanksPresent) {
     const missing = ordered.find(saved => !byLabel.has(saved.label));
-    return `${missing?.label ?? 'loadout'} slider is not on the test flight`;
+    return `${missing?.label ?? 'loadout'} 滑块不在试飞界面`;
   }
   // A leg without an FTL jump shows Reactor usage as "--" with no slider, so a
   // setting that does not come back is skipped. The tanks are always there.
@@ -167,11 +167,11 @@ export async function applyConfirmedLoadout(anchor: Element, loadout: ConfirmedL
         : sliderTarget({ ...saved, tank }, loadout.priorStl, loadout.priorFtl);
     const set = await setSliderTo(slider, target);
     if (!set.ok) {
-      const at = set.now === undefined ? 'no value' : String(set.now);
-      const arrow = set.arrowMoved ? '' : ', arrow did not move it';
-      const handler = set.handler === false ? ', no key handler' : '';
-      const change = set.change ? ', change handler missed' : ', no change handler';
-      return `could not set ${saved.label} to ${target} (now ${at}${arrow}${handler}${change})`;
+      const at = set.now === undefined ? '无数值' : String(set.now);
+      const arrow = set.arrowMoved ? '' : '，方向键未能移动滑块';
+      const handler = set.handler === false ? '，没有键盘事件处理器' : '';
+      const change = set.change ? '，变更事件处理器未生效' : '，没有变更事件处理器';
+      return `无法设置 ${saved.label} 到 ${target}（当前 ${at}${arrow}${handler}${change})`;
     }
   }
   return undefined;
@@ -183,7 +183,7 @@ export async function applyConfirmedLoadout(anchor: Element, loadout: ConfirmedL
 export async function setInventory(anchor: Element, tons: number | undefined) {
   const payload = L.BlueprintTestFlight.label.payload() ?? '';
   if (payload.length === 0) {
-    return 'Inventory label is not loaded';
+    return '尚未加载库存标签';
   }
   const labels = fieldLabels();
   const find = () =>
@@ -197,17 +197,17 @@ export async function setInventory(anchor: Element, tons: number | undefined) {
   }, 5000);
   const handle = slider === undefined ? undefined : sliderHandle(slider);
   if (slider === undefined || handle === undefined) {
-    return `${payload} slider is not on the test flight`;
+    return `${payload} 滑块不在试飞界面`;
   }
   const max = Number(handle.getAttribute('aria-valuemax'));
   if (!Number.isFinite(max)) {
-    return `${payload} slider has no maximum`;
+    return `${payload} 滑块没有最大值`;
   }
   const target = payloadTarget(tons, handle, max);
   const set = await setSliderTo(slider, target);
   if (!set.ok) {
-    const at = set.now === undefined ? 'no value' : String(set.now);
-    return `could not set ${payload} to ${target} (now ${at})`;
+    const at = set.now === undefined ? '无数值' : String(set.now);
+    return `无法设置 ${payload} 到 ${target}（当前 ${at})`;
   }
   return undefined;
 }
@@ -276,13 +276,13 @@ export function tankLevelsAtTarget(anchor: Element, loadout: ConfirmedLoadout) {
     );
     const name = kind === 'stl' ? stlLabel || 'STL Fuel' : ftlLabel || 'FTL fuel';
     if (saved === undefined) {
-      return `${name} was not confirmed`;
+      return `${name} 未确认`;
     }
     const now = live.get(saved.label);
     const target = sliderTarget({ ...saved, tank: kind }, loadout.priorStl, loadout.priorFtl);
     if (now !== target) {
       const at = now === undefined ? 'no value' : String(now);
-      return `${saved.label} is ${at}, expected ${target}`;
+      return `${saved.label} 为 ${at}，应为 ${target}`;
     }
   }
   return undefined;

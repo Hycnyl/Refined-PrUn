@@ -5,7 +5,7 @@ import { deepToRaw } from '@src/utils/deep-to-raw';
 
 act.addMaterialGroup({
   type: 'Manual',
-  shortDescription: 'A fixed list of materials and quantities',
+  shortDescription: '固定材料和数量列表',
   description: data => {
     const materials = data.materials;
     if (!materials || Object.keys(materials).length == 0) {
@@ -19,7 +19,7 @@ act.addMaterialGroup({
   editComponent: Edit,
   generateMaterialBill: async ({ data, log }) => {
     if (!data.materials || Object.keys(data.materials).length == 0) {
-      log.error('Missing materials.');
+      log.error('缺少材料。');
       return undefined;
     }
     return structuredClone(deepToRaw(data.materials));

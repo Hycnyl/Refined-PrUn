@@ -23,7 +23,7 @@ export function parseSupplyText(text: string): SupplyResult {
   for (const part of trimmed.split(',')) {
     const tokens = part.trim().split(/\s+/);
     if (tokens.length !== 2) {
-      return { ok: false, error: `"${part.trim()}" should be TICKER AMOUNT, as in RAT 120` };
+      return { ok: false, error: `"${part.trim()}”应为材料代码和数量，例如 RAT 120` };
     }
     const added = addSupply(supply, tokens[0], Number(tokens[1]));
     if (added !== undefined) {
@@ -36,7 +36,7 @@ export function parseSupplyText(text: string): SupplyResult {
 // The JSON form: {"RAT": 120, "DW": 80}.
 export function checkSupply(value: unknown): SupplyResult {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) {
-    return { ok: false, error: 'supply should be an object such as {"RAT": 120}' };
+    return { ok: false, error: 'supply 应为对象，例如 {"RAT": 120}' };
   }
   const supply: Record<string, number> = {};
   for (const [ticker, amount] of Object.entries(value)) {
@@ -51,13 +51,13 @@ export function checkSupply(value: unknown): SupplyResult {
 function addSupply(supply: Record<string, number>, rawTicker: string, amount: unknown) {
   const ticker = rawTicker.trim().toUpperCase();
   if (!TICKER.test(ticker)) {
-    return `bad ticker "${rawTicker}"`;
+    return `无效材料代码“${rawTicker}"`;
   }
   if (typeof amount !== 'number' || !Number.isInteger(amount) || amount < 0) {
-    return `${ticker} amount must be a whole number, 0 or more`;
+    return `${ticker} 数量必须为不小于 0 的整数`;
   }
   if (supply[ticker] !== undefined) {
-    return `${ticker} is listed twice`;
+    return `${ticker} 重复列出`;
   }
   if (amount > 0) {
     supply[ticker] = amount;
@@ -81,7 +81,7 @@ export function parseStopSteps(lines: readonly string[] | undefined): StepsResul
   for (const [index, line] of (lines ?? []).entries()) {
     const parsed = parseRouteStep(line);
     if (!parsed.ok) {
-      return { ok: false, error: `step ${index + 1} (${line.trim()}): ${parsed.error}` };
+      return { ok: false, error: `步骤 ${index + 1} (${line.trim()}): ${parsed.error}` };
     }
     steps.push(parsed.step);
   }

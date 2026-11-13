@@ -12,7 +12,7 @@ import { userData } from '@src/store/user-data';
 
 act.addAction<Config>({
   type: 'CX Buy',
-  shortDescription: 'Buy materials from a commodity exchange',
+  shortDescription: '从商品交易所购买材料',
   description: (action, config) => {
     if (!action.group || !action.exchange) {
       return '--';
@@ -20,9 +20,9 @@ act.addAction<Config>({
 
     const exchange =
       action.exchange === configurableValue
-        ? (config?.exchange ?? 'configured exchange')
+        ? (config?.exchange ?? '配置的交易所')
         : action.exchange;
-    return 'Buying group ' + action.group + ' from ' + exchange;
+    return '购买材料组 ' + action.group + ' from ' + exchange;
   },
   editComponent: Edit,
   configureComponent: Configure,
@@ -73,7 +73,7 @@ act.addAction<Config>({
       const held = state.routeHeld[exchange] ?? {};
       for (const mat of Object.keys(materials)) {
         if ((held[mat] ?? 0) > 0) {
-          log.info(`${fixed0(held[mat]!)} ${mat} on ${exchange} is held for routes`);
+          log.info(`${fixed0(held[mat]!)} ${mat}，交易所 ${exchange} 已为路线预留`);
         }
       }
     }
@@ -81,7 +81,7 @@ act.addAction<Config>({
     // The all-materials switch stands in for listing every ticker individually.
     // It runs after the CX-inventory pass so allocation stays identical either way.
     if (userData.settings.noBuyAll && Object.keys(materials).length > 0) {
-      log.warning('No CX buys generated (XIT NOBUY is set to all materials)');
+      log.warning('未生成交易所采购（XIT NOBUY 已设为禁止购买所有材料）');
       return;
     }
 
@@ -99,7 +99,7 @@ act.addAction<Config>({
       const amount = materials[ticker];
       const priceLimit = priceLimits[ticker] ?? Infinity;
       if (isNaN(priceLimit)) {
-        log.error('Non-numerical price limit on ' + ticker);
+        log.error('价格限制不是数值：' + ticker);
         continue;
       }
 
@@ -110,10 +110,10 @@ act.addAction<Config>({
       if (filled && filled.amount < amount && !allowUnfilled) {
         const leftover = amount - filled.amount;
         let message =
-          `${fixed0(leftover)} ${ticker} will not be bought on ${exchange} ` +
-          `(${fixed0(filled.amount)} of ${fixed0(amount)} available`;
+          `${fixed0(leftover)} ${ticker} 不会购买于 ${exchange} ` +
+          `(${fixed0(filled.amount)}，目标 ${fixed0(amount)} 可用`;
         if (isFinite(priceLimit)) {
-          message += ` with price limit ${fixed02(priceLimit)}/u`;
+          message += `，价格限制 ${fixed02(priceLimit)}/u`;
         }
         message += ')';
         log.warning(message);

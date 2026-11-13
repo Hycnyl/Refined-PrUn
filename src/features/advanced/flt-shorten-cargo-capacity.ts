@@ -14,8 +14,4 @@ function init() {
   tiles.observe(['FLT', 'FLTS', 'FLTP'], onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'FLT: Removes "t" and "m³" and converts cargo capacity label to k-notation.',
-);
+features.add(import.meta.url, init, 'FLT：缩短货运容量显示');

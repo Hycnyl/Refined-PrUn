@@ -2,8 +2,8 @@ import CXTS from '@src/features/XIT/CXTS/CXTS.vue';
 
 xit.add({
   command: ['CXTS'],
-  name: 'COMMODITY EXCHANGE TRADES',
-  description: 'List of all your commodity exchange trades.',
-  optionalParameters: 'Page Size',
+  name: '商品交易所成交记录',
+  description: '所有商品交易所成交记录。',
+  optionalParameters: '每页条数',
   component: () => CXTS,
 });

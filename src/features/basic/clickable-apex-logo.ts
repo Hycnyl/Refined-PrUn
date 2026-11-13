@@ -13,8 +13,4 @@ function init() {
   });
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'Makes the APEX logo clickable and leading to the user company info screen.',
-);
+features.add(import.meta.url, init, '使左上角的 APEX Logo 可点击');

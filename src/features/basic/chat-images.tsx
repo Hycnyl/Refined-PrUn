@@ -18,7 +18,7 @@ function processLink(element: HTMLElement) {
   createFragmentApp(() => (
     <>
       <br />
-      <img src={link} alt="Chat image" style={style} />
+      <img src={link} alt="聊天图片" style={style} />
     </>
   )).appendTo(element.parentElement!);
 }
@@ -31,4 +31,4 @@ function init() {
   tiles.observe(['COMG', 'COMP', 'COMU'], onTileReady);
 }
 
-features.add(import.meta.url, init, 'Adds images to chat messages containing image URLs.');
+features.add(import.meta.url, init, '如果在聊天中发送图片链接，则直接显示图片');

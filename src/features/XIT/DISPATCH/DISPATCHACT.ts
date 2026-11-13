@@ -8,7 +8,7 @@ import DispatchActWindow from '@src/features/XIT/DISPATCH/DispatchActWindow.vue'
 
 xit.add({
   command: ['DISPATCHACT', 'DISPATCHEXEC'],
-  name: 'DISPATCH EXECUTE',
-  description: 'Executes the staged dispatch resupply/repair action package.',
+  name: '执行调度',
+  description: '执行已准备好的调度补给或维修动作包。',
   component: () => DispatchActWindow,
 });

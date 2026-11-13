@@ -120,23 +120,22 @@ function copyFlowTable() {
       <thead>
         <tr>
           <SortHeader sort-key="ticker"></SortHeader>
-          <SortHeader sort-key="delta">Delta</SortHeader>
-          <SortHeader sort-key="production">Prod</SortHeader>
-          <SortHeader sort-key="consumption">Cons</SortHeader>
-          <th>Buy</th>
-          <th>Sell</th>
+          <SortHeader sort-key="delta">变化</SortHeader>
+          <SortHeader sort-key="production">生产</SortHeader>
+          <SortHeader sort-key="consumption">消耗</SortHeader>
+          <th>买入</th>
+          <th>卖出</th>
           <SortHeader sort-key="currencyDelta">
-            <InlineFlex>
-              Value
-              <Tooltip
+            <InlineFlex
+              >价值<Tooltip
                 position="bottom"
-                tooltip="Surplus valued at the sell price, deficit at the buy price.
-                 Click a Buy or Sell price to override it, e.g. for a partner deal."
+                tooltip="盈余按卖价估值，缺口按买价估值。
+点击买价或卖价可单独设置，例如用于合作伙伴交易。"
                 :class="$style.tooltip" />
             </InlineFlex>
           </SortHeader>
-          <th>Producers</th>
-          <th>Consumers</th>
+          <th>生产基地</th>
+          <th>消耗基地</th>
         </tr>
       </thead>
       <tbody>

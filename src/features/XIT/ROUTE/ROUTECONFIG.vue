@@ -432,11 +432,11 @@ async function onExport() {
   let clipboard: string;
   try {
     await navigator.clipboard.writeText(json);
-    clipboard = 'copied to clipboard';
+    clipboard = '已复制到剪贴板';
   } catch {
-    clipboard = 'clipboard unavailable, copy from the box';
+    clipboard = '剪贴板不可用，请从文本框复制';
   }
-  setShareStatus(`Exported ${current.name}, ${clipboard}.`);
+  setShareStatus(`已导出 ${current.name}, ${clipboard}.`);
 }
 
 function onShareToggle() {
@@ -455,7 +455,7 @@ function onImport() {
   const ship = imported.ship;
   if (ship !== undefined && !shipOptions().some(x => x.value === ship)) {
     imported.ship = undefined;
-    notes.push(`ship ${ship} is not yours, so no ship is set`);
+    notes.push(`飞船 ${ship}不属于你，未设置飞船`);
   }
   const foreign = [
     ...new Set(
@@ -465,14 +465,14 @@ function onImport() {
     ),
   ];
   if (foreign.length > 0) {
-    notes.push(`no base of yours at ${foreign.join(', ')}, so the plan delivers nothing there`);
+    notes.push(`你没有基地，位置 ${foreign.join(', ')}，此站不会接收补给`);
   }
   const created = addImportedRoute(imported);
   selectedId.value = created.id;
   const count = created.stops.length;
   const note = notes.length > 0 ? `: ${notes.join('; ')}` : '';
   setShareStatus(
-    `Imported ${created.name} (${count} stop${count === 1 ? '' : 's'})${note}. ` +
+    `已导入 ${created.name} (${count} 个站点${count === 1 ? '' : 's'})${note}. ` +
       'Run TRANSITS for flight times.',
   );
 }
@@ -559,7 +559,7 @@ const fitTooltip = computed(() => {
     return fitLimitText(
       fit,
       overflow,
-      origin === undefined ? 'the origin' : labelFor(origin),
+      origin === undefined ? '起点' : labelFor(origin),
       stop === undefined ? undefined : labelFor(stop),
       fixed0,
     );
@@ -799,30 +799,30 @@ function selectShip(event: Event) {
       <div :class="[C.FormComponent.input, C.forms.input, $style.selectWrap]">
         <div :class="[C.DynamicInput.dynamic, C.forms.dynamic, $style.selectWrap]">
           <select :class="$style.select" :value="selectedId ?? ''" @change="onSelect">
-            <option value="" disabled>Route</option>
+            <option value="" disabled>路线</option>
             <option v-for="item in routes" :key="item.id" :value="item.id">{{ item.name }}</option>
           </select>
         </div>
       </div>
-      <PrunButton dark @click="onCreate">NEW</PrunButton>
-      <PrunButton dark @click="onShareToggle">IMPORT</PrunButton>
+      <PrunButton dark @click="onCreate">新建</PrunButton>
+      <PrunButton dark @click="onShareToggle">导入</PrunButton>
       <template v-if="route">
         <input v-model="draftName" :class="$style.name" />
-        <PrunButton dark @click="onRename">RENAME</PrunButton>
-        <PrunButton dark @click="onExport">EXPORT</PrunButton>
+        <PrunButton dark @click="onRename">重命名</PrunButton>
+        <PrunButton dark @click="onExport">导出</PrunButton>
         <div :class="$style.separator" />
-        <span :class="$style.daysLabel">Ship</span>
+        <span :class="$style.daysLabel">飞船</span>
         <div :class="[C.FormComponent.input, C.forms.input, $style.selectWrap]">
           <div :class="[C.DynamicInput.dynamic, C.forms.dynamic, $style.selectWrap]">
             <select :class="$style.select" :value="route.ship ?? ''" @change="selectShip">
-              <option value="" disabled>Ship</option>
+              <option value="" disabled>飞船</option>
               <option v-for="option in shipChoices" :key="option.value" :value="option.value">
                 {{ option.label }}
               </option>
             </select>
           </div>
         </div>
-        <span :class="$style.daysLabel">Supply Days</span>
+        <span :class="$style.daysLabel">补给天数</span>
         <input
           :class="$style.days"
           type="number"
@@ -832,16 +832,18 @@ function selectShip(event: Event) {
           :value="supplyDays.toFixed(1)"
           @change="onDaysChange" />
         <span :data-tooltip="fitTooltip" data-tooltip-position="bottom">
-          <PrunButton dark :disabled="selectedShip === undefined" @click="onFit">FIT</PrunButton>
+          <PrunButton dark :disabled="selectedShip === undefined" @click="onFit"
+            >容量匹配</PrunButton
+          >
         </span>
-        <span :class="$style.daysLabel">Route {{ routeDaysLabel }}d</span>
+        <span :class="$style.daysLabel">路线 {{ routeDaysLabel }}天</span>
         <RadioItem
           :class="$style.loop"
           :model-value="route.loop !== false"
           horizontal
-          @update:model-value="onLoop">
-          LOOP
-        </RadioItem>
+          @update:model-value="onLoop"
+          >循环</RadioItem
+        >
       </template>
     </div>
     <div v-if="shareOpen" :class="$style.share">
@@ -851,12 +853,12 @@ function selectShip(event: Event) {
         spellcheck="false"
         placeholder='{"name":"Route","stops":[{"kind":"cx","id":"AI1"},{"kind":"base","id":"ZV-759c"}]}' />
       <div :class="$style.shareBar">
-        <PrunButton primary @click="onImport">IMPORT AS NEW ROUTE</PrunButton>
-        <PrunButton dark @click="onShareToggle">CLOSE</PrunButton>
+        <PrunButton primary @click="onImport">导入为新路线</PrunButton>
+        <PrunButton dark @click="onShareToggle">关闭</PrunButton>
         <span :class="shareError && $style.shareError">{{ shareStatus }}</span>
       </div>
     </div>
-    <p v-if="route === undefined" :class="$style.note">Create a route to order its stops.</p>
+    <p v-if="route === undefined" :class="$style.note">创建路线后即可排列站点。</p>
     <div v-else :class="$style.panes">
       <StopPool :available="available" :assigned="assignedBases" :exchanges="sunkExchanges" />
       <div :class="$style.route" @dragenter="onDragOver" @dragover="onDragOver" @drop="onDrop">
@@ -865,12 +867,12 @@ function selectShip(event: Event) {
             <thead>
               <tr>
                 <GripHeaderCell />
-                <th>Stop</th>
+                <th>站点</th>
                 <th />
-                <th>Input</th>
-                <th>Output</th>
-                <th>Fuel</th>
-                <th>Cargo</th>
+                <th>输入</th>
+                <th>产出</th>
+                <th>燃料</th>
+                <th>货物</th>
               </tr>
             </thead>
             <tbody v-for="(stop, index) in rowStops()" :key="stopInstanceKey(stop)">
@@ -893,22 +895,22 @@ function selectShip(event: Event) {
                 <td>{{ fuelText(index) }}</td>
                 <td>
                   <PrunButton dark inline @click="toggleCargo(stop)">
-                    {{ hasCargo(stop) ? 'EDIT*' : 'EDIT' }}
+                    {{ hasCargo(stop) ? 'EDIT*' : '编辑' }}
                   </PrunButton>
                 </td>
               </tr>
               <tr v-if="cargoKey === stopInstanceKey(stop)">
                 <td colspan="7" :class="$style.cargo">
                   <label v-if="stop.kind === 'base'" :class="$style.cargoRow">
-                    <span>Deliver</span>
+                    <span>交付</span>
                     <input
                       :class="$style.cargoInput"
                       :value="formatSupply(stop.supply)"
-                      placeholder="supply days, or RAT 120, DW 80, or none"
+                      placeholder="补给天数，或 RAT 120, DW 80，或 none"
                       @change="onSupplyChange(stop, $event)" />
                   </label>
                   <label :class="$style.cargoRow">
-                    <span>Steps</span>
+                    <span>步骤</span>
                     <input
                       :class="$style.cargoInput"
                       :value="(stop.steps ?? []).join(' | ')"
@@ -921,7 +923,7 @@ function selectShip(event: Event) {
             </tbody>
           </table>
           <div :class="$style.wait">
-            <PrunButton dark @click="onWait">WAIT</PrunButton>
+            <PrunButton dark @click="onWait">等待</PrunButton>
             <input
               :class="$style.days"
               type="number"
@@ -932,44 +934,44 @@ function selectShip(event: Event) {
             <div :class="[C.FormComponent.input, C.forms.input, $style.selectWrap]">
               <div :class="[C.DynamicInput.dynamic, C.forms.dynamic, $style.selectWrap]">
                 <select :class="$style.select" :value="waitUnit" @change="onWaitUnit">
-                  <option value="days">days</option>
-                  <option value="hours">hours</option>
-                  <option value="minutes">minutes</option>
-                  <option value="seconds">seconds</option>
+                  <option value="days">天</option>
+                  <option value="hours">小时</option>
+                  <option value="minutes">分钟</option>
+                  <option value="seconds">秒</option>
                 </select>
               </div>
             </div>
           </div>
           <div v-if="originWarning" :class="$style.warning">
-            <span>
-              Routes work best when the origin is a commodity exchange. Restock and ROUTEBUY buy
-              what the route loads on that exchange.
-            </span>
-            <PrunButton dark inline @click="originWarning = false">DISMISS</PrunButton>
+            <span
+              >建议以商品交易所为路线起点。补货和 ROUTEBUY
+              会在对应交易所购买路线所需的装载物资。</span
+            >
+            <PrunButton dark inline @click="originWarning = false">忽略</PrunButton>
           </div>
           <p v-if="rtError" :class="$style.note">{{ rtError }}</p>
-          <p v-if="route.legsAfterRt" :class="$style.note">
-            TRANSITS updated this route's flight times and fuel after SET ROUTE built
-            {{ route.rtId }}. Run SET ROUTE again to put the new timing and fuel settings on the
-            game route.
-          </p>
+          <p v-if="route.legsAfterRt" :class="$style.note"
+            >在“设置路线”创建游戏路线后，TRANSITS 更新了此路线的航程和燃料数据：{{
+              route.rtId
+            }}。请再次运行“设置路线”，将新的航程和燃料设置应用到游戏路线。</p
+          >
           <div :class="$style.footer">
-            <span>Press to Determine Flight Times.</span>
+            <span>点击计算航程时间。</span>
             <span
               :class="$style.transitsGate"
-              :data-tooltip="shipChosen ? undefined : 'Set a ship above to determine flight times.'"
+              :data-tooltip="shipChosen ? undefined : '请先在上方设置飞船以计算航程。'"
               data-tooltip-position="left">
-              <PrunButton :primary="canTransit" :disabled="!canTransit" @click="openTransits">
-                TRANSITS
-              </PrunButton>
+              <PrunButton :primary="canTransit" :disabled="!canTransit" @click="openTransits"
+                >航程计算</PrunButton
+              >
             </span>
             <span
               :class="$style.transitsGate"
               :data-tooltip="rtTooltip"
               data-tooltip-position="left">
-              <PrunButton :primary="canBuildRt" :disabled="!canBuildRt" @click="onBuildRt">
-                SET ROUTE
-              </PrunButton>
+              <PrunButton :primary="canBuildRt" :disabled="!canBuildRt" @click="onBuildRt"
+                >设置路线</PrunButton
+              >
             </span>
           </div>
         </div>

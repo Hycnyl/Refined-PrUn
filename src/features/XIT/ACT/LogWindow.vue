@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeLabel } from '@src/infrastructure/i18n/labels';
 import { objectId } from '@src/utils/object-id';
 import { LogTag, LogContent } from '@src/features/XIT/ACT/runner/logger';
 
@@ -45,7 +46,9 @@ function getTagClass(tag: LogTag) {
 <template>
   <div ref="log" :class="[$style.log, C.fonts.fontRegular]">
     <div v-for="message in messages" :key="objectId(message)">
-      <b v-if="message.tag" :class="getTagClass(message.tag)">{{ message.tag }}: </b>
+      <b v-if="message.tag" :class="getTagClass(message.tag)"
+        >{{ localizeLabel(message.tag) }}：
+      </b>
       <template v-if="typeof message.message === 'string'">
         <span>{{ message.message }}</span>
       </template>

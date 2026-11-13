@@ -42,7 +42,7 @@ export interface LowstrifeLoad {
   fits: boolean;
 }
 
-export const lowstrifeGroupName = 'Item xfer';
+export const lowstrifeGroupName = '材料转移';
 
 // Units to load so `days` of net consumption are covered, plus one spare unit.
 // Zero for materials the planet does not net-consume or already holds enough of.
@@ -236,7 +236,7 @@ export function lowstrifePackage(args: {
     mtra.sfcDestination = args.planetNaturalId;
   }
   return {
-    global: { name: `LOWSTRIFE: ${args.planetName}` },
+    global: { name: `飞船装载：${args.planetName}` },
     groups: [{ type: 'Manual', name: lowstrifeGroupName, materials: args.materials }],
     actions: [mtra],
   };

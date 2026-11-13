@@ -24,7 +24,7 @@ export function buildStagingPackage(
   if (!spec.ok) {
     return spec;
   }
-  const name = routeId.id !== undefined ? `Staging RT ${routeId.id}` : 'Staging RT new route';
+  const name = routeId.id !== undefined ? `RT 路线 ${routeId.id}` : '新建 RT 路线';
   return {
     ok: true,
     pkg: {

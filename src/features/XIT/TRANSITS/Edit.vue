@@ -40,18 +40,18 @@ defineExpose({ validate, save });
 </script>
 
 <template>
-  <Active label="Ship" :error="shipError">
+  <Active label="飞船" :error="shipError">
     <select v-model="shipRegistration" :class="$style.select">
       <option v-for="option in options" :key="option.value" :value="option.value">
         {{ option.label }}
       </option>
     </select>
   </Active>
-  <Active label="Stops" :error="stopsError">
+  <Active label="站点" :error="stopsError">
     <textarea
       v-model="routeStops"
       :class="$style.textarea"
-      placeholder="One planet or CX per line"
+      placeholder="每行一个星球或交易所"
       spellcheck="false" />
   </Active>
 </template>

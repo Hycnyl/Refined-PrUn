@@ -38,7 +38,7 @@ function getEta(pkg: UserData.ActionPackageData, destinationNaturalId: string | 
   }
   const ship = getPackageShip(pkg);
   if (isShipAtDestination(ship, destinationNaturalId)) {
-    return 'Landed';
+    return '已着陆';
   }
   const flight = flightsStore.getById(ship?.flightId);
   if (!flight || getEntityNaturalIdFromAddress(flight.destination) !== destinationNaturalId) {
@@ -72,30 +72,30 @@ function openPackage(messageId: string) {
 
 <template>
   <ActionBar>
-    <PrunButton dark @click="showBuffer('XIT HELP AGT')">What is this?</PrunButton>
-    <PrunButton primary :disabled="loading" @click="refresh">REFRESH</PrunButton>
+    <PrunButton dark @click="showBuffer('XIT HELP AGT')">这是什么？</PrunButton>
+    <PrunButton primary :disabled="loading" @click="refresh">刷新</PrunButton>
   </ActionBar>
-  <div v-if="inaccessible">
-    The "{{ channelIdentifier }}" channel isn't set up yet. Open
-    <PrunLink command="COM" inline>COM</PrunLink>, click "new group", add no other members, and name
-    it "{{ channelIdentifier }}".
+  <div v-if="inaccessible"
+    >“{{ channelIdentifier }}”频道尚未设置。打开
+    <PrunLink command="COM" inline>COM</PrunLink>，点击“new
+    group”，不添加其他成员，并将频道命名为“{{ channelIdentifier }}".
   </div>
   <LoadingSpinner v-else-if="loading" />
-  <div v-else-if="!fetched">Click REFRESH to load the agent channel.</div>
+  <div v-else-if="!fetched">点击“刷新”加载同步频道。</div>
   <table v-else>
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Id</th>
-        <th>Destination</th>
-        <th>ETA</th>
-        <th>Execute</th>
-        <th>Dismiss</th>
+        <th>名称</th>
+        <th>编号</th>
+        <th>目的地</th>
+        <th>预计到达</th>
+        <th>执行</th>
+        <th>忽略</th>
       </tr>
     </thead>
     <tbody v-if="packages.length === 0">
       <tr>
-        <td colspan="6">No ready action packages.</td>
+        <td colspan="6">暂无可执行的动作包。</td>
       </tr>
     </tbody>
     <tbody v-else>
@@ -111,14 +111,14 @@ function openPackage(messageId: string) {
         <td>{{ entry.eta ?? '--' }}</td>
         <td>
           <PrunButton v-if="entry.ready" primary @click="openPackage(entry.messageId)">
-            OPEN
+            打开
           </PrunButton>
-          <template v-else>waiting for ship to land</template>
+          <template v-else>等待飞船着陆</template>
         </td>
         <td>
-          <PrunButton v-if="entry.id" dark inline @click="openAgentChannelWithDraft(entry.id)">
-            dismiss
-          </PrunButton>
+          <PrunButton v-if="entry.id" dark inline @click="openAgentChannelWithDraft(entry.id)"
+            >忽略</PrunButton
+          >
           <template v-else>--</template>
         </td>
       </tr>

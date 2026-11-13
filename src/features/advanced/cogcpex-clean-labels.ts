@@ -21,5 +21,5 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'COGCPEX: Hides "Advertising Campaign:" and "Education Events:" parts of the campaign labels.',
+  'COGCPEX：隐藏活动标签中的“Advertising Campaign:”和“Education Events:”',
 );

@@ -27,13 +27,13 @@ defineExpose({ validate, save });
 </script>
 
 <template>
-  <Active label="Route id">
+  <Active label="路线编号">
     <TextInput v-model="routeId" />
   </Active>
-  <Active label="Stops" :error="error">
+  <Active label="站点" :error="error">
     <textarea v-model="routeSpec" :class="$style.spec" />
   </Active>
-  <Active label="Ship">
+  <Active label="飞船">
     <TextInput v-model="shipId" />
   </Active>
 </template>

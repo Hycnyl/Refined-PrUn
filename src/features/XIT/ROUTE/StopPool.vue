@@ -32,12 +32,12 @@ function onDragStart(event: DragEvent, key: string) {
     <table :class="$style.table">
       <thead>
         <tr>
-          <th>Stops</th>
+          <th>站点</th>
         </tr>
       </thead>
       <tbody>
         <tr v-if="available.length > 0" :class="$style.labelRow">
-          <td :class="$style.labelCell">Available</td>
+          <td :class="$style.labelCell">可用</td>
         </tr>
         <tr v-for="entry in available" :key="entry.key" :class="$style.shipRow">
           <td :class="$style.shipCell">
@@ -54,7 +54,7 @@ function onDragStart(event: DragEvent, key: string) {
           </td>
         </tr>
         <tr v-if="assigned.length > 0" :class="$style.labelRow">
-          <td :class="$style.labelCell">Assigned</td>
+          <td :class="$style.labelCell">已分配</td>
         </tr>
         <tr v-for="entry in assigned" :key="entry.key" :class="$style.shipRow">
           <td :class="$style.shipCell">
@@ -69,7 +69,7 @@ function onDragStart(event: DragEvent, key: string) {
           </td>
         </tr>
         <tr v-if="exchanges.length > 0" :class="$style.labelRow">
-          <td :class="$style.labelCell">Exchanges</td>
+          <td :class="$style.labelCell">交易所</td>
         </tr>
         <tr v-for="entry in exchanges" :key="entry.key" :class="$style.shipRow">
           <td :class="$style.shipCell">

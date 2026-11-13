@@ -15,8 +15,4 @@ function init() {
   tiles.observe(['LM', 'CX', 'XIT'], onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'Adds a calculator button to the buffer header of LM, CX and XIT commands.',
-);
+features.add(import.meta.url, init, '在窗口标题栏增加计算器快捷按钮');

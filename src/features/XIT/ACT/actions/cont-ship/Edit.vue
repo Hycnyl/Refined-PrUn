@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeOptions, localizeLabel } from '@src/infrastructure/i18n/labels';
 import Active from '@src/components/forms/Active.vue';
 import SelectInput from '@src/components/forms/SelectInput.vue';
 import NumericInput from '@src/components/forms/NumericInput.vue';
@@ -23,7 +24,7 @@ const groupTargetOptions = computed(() =>
   pkg.groups
     .filter(x => x.name && x.planet)
     .map(x => ({
-      label: `[${x.name}] target`,
+      label: `[${x.name}] 的目标`,
       value: `${groupTargetPrefix}${x.name}`,
     })),
 );
@@ -79,31 +80,31 @@ defineExpose({ validate, save });
 </script>
 
 <template>
-  <Active label="Material Group">
+  <Active label="材料组">
     <SelectInput v-model="materialGroup" :options="materialGroups" />
   </Active>
 
-  <Active label="Origin">
-    <SelectInput v-model="contOrigin" :options="locationOptions" />
+  <Active label="来源">
+    <SelectInput v-model="contOrigin" :options="localizeOptions(locationOptions, localizeLabel)" />
   </Active>
 
-  <Active label="Destination">
-    <SelectInput v-model="contDest" :options="locationOptions" />
+  <Active label="目的地">
+    <SelectInput v-model="contDest" :options="localizeOptions(locationOptions, localizeLabel)" />
   </Active>
 
-  <Active label="Currency">
+  <Active label="货币">
     <SelectInput v-model="currency" :options="currencies" />
   </Active>
 
-  <Active label="Payment per Ton">
+  <Active label="每吨运费">
     <NumericInput v-model="paymentPerTon" :min="0" :step="1" placeholder="0" />
   </Active>
 
-  <Active label="Days to Fulfill">
+  <Active label="履约天数">
     <NumericInput v-model="daysToFulfill" :min="minContractDays" :max="maxContractDays" :step="1" />
   </Active>
 
-  <Active label="Auto-provision">
-    <RadioItem v-model="autoProvision">enable auto-provision</RadioItem>
+  <Active label="自动供应">
+    <RadioItem v-model="autoProvision">启用自动供应</RadioItem>
   </Active>
 </template>

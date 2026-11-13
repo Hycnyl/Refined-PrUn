@@ -26,17 +26,17 @@ function onCreateClick() {
 
 <template>
   <div :class="C.DraftConditionEditor.form">
-    <SectionHeader>Rename Action Package</SectionHeader>
-    <div :class="$style.description">
-      WARNING: Renaming an action package will break all existing tile links to it (including this
-      one). You can see the full list of your action packages in XIT ACT.
-    </div>
+    <SectionHeader>重命名动作包</SectionHeader>
+    <div :class="$style.description"
+      >警告：重命名动作包将破坏所有现有的窗口链接（包括此窗口）。您可以在 XIT ACT
+      中查看所有动作包列表。</div
+    >
     <form>
-      <Active label="Name" :error="nameError">
+      <Active label="名称" :error="nameError">
         <TextInput v-model="newName" />
       </Active>
       <Commands>
-        <PrunButton primary @click="onCreateClick">RENAME</PrunButton>
+        <PrunButton primary @click="onCreateClick">重命名</PrunButton>
       </Commands>
     </form>
   </div>

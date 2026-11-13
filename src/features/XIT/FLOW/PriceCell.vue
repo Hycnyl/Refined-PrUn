@@ -24,9 +24,7 @@ const text = computed(() =>
   price === undefined ? '--' : formatPrice(price) + (override ? '*' : ''),
 );
 
-const tooltip = computed(() =>
-  override ? 'Override. Click to edit, clear to reset.' : 'Click to override.',
-);
+const tooltip = computed(() => (override ? '已单独设置，点击编辑，清空恢复默认' : '点击单独设置'));
 
 function startEditing() {
   if (editing.value) {

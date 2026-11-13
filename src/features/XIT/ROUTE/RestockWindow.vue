@@ -27,8 +27,6 @@ function afterExecute() {
 </script>
 
 <template>
-  <div v-if="pkg.actions.length === 0">
-    No exchange origin has a running route lap within the resupply days.
-  </div>
+  <div v-if="pkg.actions.length === 0">补给天数内没有从交易所起点出发的路线。</div>
   <ExecuteActionPackage v-else :pkg="pkg" :after-execute="afterExecute" />
 </template>

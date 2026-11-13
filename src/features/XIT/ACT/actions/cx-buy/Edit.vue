@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeOptions, localizeLabel } from '@src/infrastructure/i18n/labels';
 import Active from '@src/components/forms/Active.vue';
 import Commands from '@src/components/forms/Commands.vue';
 import PrunButton from '@src/components/PrunButton.vue';
@@ -60,28 +61,24 @@ defineExpose({ validate, save });
 </script>
 
 <template>
-  <Active label="Material Group">
+  <Active label="材料组">
     <SelectInput v-model="materialGroup" :options="materialGroups" />
   </Active>
-  <Active label="Exchange">
-    <SelectInput v-model="exchange" :options="exchanges" />
+  <Active label="交易所">
+    <SelectInput v-model="exchange" :options="localizeOptions(exchanges, localizeLabel)" />
   </Active>
-  <Commands label="Price Limits">
-    <PrunButton primary @click="onEditPriceLimitsClick">EDIT</PrunButton>
+  <Commands label="价格限制">
+    <PrunButton primary @click="onEditPriceLimitsClick">编辑</PrunButton>
   </Commands>
   <Active
-    label="Buy Partial"
-    tooltip="Lock the order to the stock available when the package starts. If off, the amount is re-checked when the step runs. Either way, a shortage only warns.">
-    <RadioItem v-model="buyPartial">buy partial</RadioItem>
+    label="部分购买"
+    tooltip="将订单数量锁定为动作包开始时的可用库存；关闭后在执行此步骤时重新检查数量，两种情况下库存不足都只发出警告">
+    <RadioItem v-model="buyPartial">允许部分购买</RadioItem>
   </Active>
-  <Active
-    label="Allow Unfilled"
-    tooltip="Create a full bid order even if there is not enough stock on the CX.">
-    <RadioItem v-model="allowUnfilled">allow unfilled</RadioItem>
+  <Active label="允许未成交" tooltip="即使交易所库存不足，也创建完整数量的买单">
+    <RadioItem v-model="allowUnfilled">允许未成交</RadioItem>
   </Active>
-  <Active
-    label="Use CX Inventory"
-    tooltip="Whether to use stock in the CX warehouse when calculating how much needs to be bought.">
-    <RadioItem v-model="useCXInv">use cx inventory</RadioItem>
+  <Active label="使用交易所库存" tooltip="计算购买数量时，是否计入交易所仓库的库存">
+    <RadioItem v-model="useCXInv">使用交易所库存</RadioItem>
   </Active>
 </template>

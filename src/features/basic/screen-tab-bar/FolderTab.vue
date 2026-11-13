@@ -57,7 +57,7 @@ function onDropdownLeave() {
 }
 
 function rename() {
-  const name = window.prompt('Folder name:', folder.name);
+  const name = window.prompt('文件夹名称：', folder.name);
   if (name !== null && name.trim() !== '') {
     folder.name = name.trim().toUpperCase();
   }
@@ -117,9 +117,9 @@ function getScreen(id: string) {
         </a>
         <div
           :class="[C.ScreenControls.delete, C.type.typeSmall, $style.rmvBtn]"
-          @click.stop.prevent="removeScreen(screenId)">
-          rmv
-        </div>
+          @click.stop.prevent="removeScreen(screenId)"
+          >移除</div
+        >
       </div>
     </div>
   </Teleport>

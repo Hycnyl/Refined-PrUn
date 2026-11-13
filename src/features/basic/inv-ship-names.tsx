@@ -28,4 +28,4 @@ function init() {
   tiles.observe('INV', onTileReady);
 }
 
-features.add(import.meta.url, init, 'INV: Shows ship names in ship-owned inventory rows.');
+features.add(import.meta.url, init, 'INV：在飞船库存行显示飞船名称');

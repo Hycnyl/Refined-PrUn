@@ -12,10 +12,10 @@ xit.add({
     if (parameters[0]) {
       const site = sitesStore.getByPlanetNaturalIdOrName(parameters[0]);
       const name = site ? getEntityNameFromAddress(site.address) : parameters[0];
-      return `REPAIR ACTION - ${name}`;
+      return `维修动作 - ${name}`;
     }
-    return 'REPAIR ACTION';
+    return '维修动作';
   },
-  description: 'Executes a repair action package for a planet using XIT REP settings.',
+  description: '根据 XIT REP 设置为星球执行维修动作包。',
   component: () => RepairActWindow,
 });

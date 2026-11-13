@@ -31,8 +31,4 @@ function init() {
   tiles.observe('NOTS', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'NOTS: Opens the COGCPD repeat-program vote buffer on a COGC program-changed notification click.',
-);
+features.add(import.meta.url, init, 'NOTS：点击商会计划变更通知时，打开 COGCPD 续期投票窗口');

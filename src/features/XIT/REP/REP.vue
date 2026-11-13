@@ -112,11 +112,11 @@ const targetSource = computed(() => {
       ? undefined
       : userData.settings.repair.planetOverrides?.[naturalId]?.threshold;
   if (override === undefined) {
-    return 'Global repair target from XIT SET Gameplay.';
+    return 'XIT SET 基础设置中的全局维修目标';
   }
   const site = singleSite.value;
   const planetName = (site ? getEntityNameFromAddress(site.address) : undefined) ?? naturalId;
-  return `Per-planet target for ${planetName} from XIT PLANETS.`;
+  return `星球单独维修目标：${planetName}，来自 XIT PLANETS`;
 });
 </script>
 
@@ -124,30 +124,30 @@ const targetSource = computed(() => {
   <LoadingSpinner v-if="materials === undefined" />
   <template v-else>
     <form>
-      <Active label="Repair Target" :tooltip="targetSource" tooltip-position="bottom">
+      <Active label="维修目标" :tooltip="targetSource" tooltip-position="bottom">
         <span :class="$style.readOnly">{{ repairTarget }}</span>
       </Active>
       <Active
-        label="Repair Config"
-        tooltip="Repair target and red/yellow thresholds in XIT SET Gameplay."
+        label="维修配置"
+        tooltip="XIT SET 基础设置中的维修目标和红黄阈值"
         tooltip-position="bottom">
-        <PrunButton dark @click="showBuffer('XIT SET GAME REPAIR')">CONFIG</PrunButton>
+        <PrunButton dark @click="showBuffer('XIT SET GAME REPAIR')">配置</PrunButton>
       </Active>
     </form>
-    <SectionHeader>Shopping Cart</SectionHeader>
+    <SectionHeader>购物车 (所需材料汇总)</SectionHeader>
     <MaterialPurchaseTable
       :collapsible="isMultiTarget"
       :collapsed-by-default="true"
       :materials="materials" />
-    <SectionHeader>Buildings</SectionHeader>
+    <SectionHeader>建筑列表</SectionHeader>
     <table>
       <thead>
         <tr>
-          <th>Ticker</th>
-          <th v-if="isMultiTarget">Target</th>
-          <th>Age (days)</th>
-          <th>Condition</th>
-          <th v-if="repairButtonEnabled">CMD</th>
+          <th>代码</th>
+          <th v-if="isMultiTarget">目标基地</th>
+          <th>楼龄 (天)</th>
+          <th>健康度</th>
+          <th v-if="repairButtonEnabled">命令</th>
         </tr>
       </thead>
       <tbody>
@@ -164,13 +164,13 @@ const targetSource = computed(() => {
           </td>
           <td>{{ percent1(entry.condition) }}</td>
           <td v-if="repairButtonEnabled">
-            <PrunButton dark inline @click="showBuffer(`XIT REPAIRACT ${entry.naturalId}`)">
-              REP
-            </PrunButton>
+            <PrunButton dark inline @click="showBuffer(`XIT REPAIRACT ${entry.naturalId}`)"
+              >维修</PrunButton
+            >
           </td>
         </tr>
         <tr v-for="entry in visibleShips" :key="objectId(entry)">
-          <td>(Ship)</td>
+          <td>(飞船)</td>
           <td>{{ entry.target }}</td>
           <td>{{ fixed1(calculateAge(entry.lastRepair)) }}</td>
           <td>{{ percent1(entry.condition) }}</td>

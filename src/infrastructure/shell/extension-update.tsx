@@ -22,7 +22,7 @@ if (import.meta.env.PROD) {
     createFragmentApp(() => (
       <div class={[C.Connecting.processing, C.Connecting.overlay]} style={{ zIndex: '999999' }}>
         <span class={[C.Connecting.message, C.fonts.fontRegular, C.type.typeLarger]}>
-          Reloading Refined PrUn...
+          正在重新加载 Refined PrUn……
         </span>
       </div>
     )).appendTo(container);

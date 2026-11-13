@@ -5,7 +5,7 @@ import LowstrifeActWindow from '@src/features/XIT/LOWSTRIFE/LowstrifeActWindow.v
 
 xit.add({
   command: 'LOWSTRIFEACT',
-  name: 'SHIP LOADING EXECUTE',
-  description: 'Executes the ship loading action package staged by XIT LOWSTRIFE.',
+  name: '执行飞船装载',
+  description: '执行 XIT LOWSTRIFE 准备的飞船装载动作包。',
   component: () => LowstrifeActWindow,
 });

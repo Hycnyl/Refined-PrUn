@@ -295,13 +295,13 @@ function onCreateClick() {
 <template>
   <PresetList v-if="isEmpty(parameters)" />
   <div v-else-if="!preset" :class="$style.create">
-    <span>Preset "{{ parameters.join(' ') }}" not found.</span>
-    <PrunButton primary :class="$style.createButton" @click="onCreateClick">CREATE</PrunButton>
+    <span>预设“{{ parameters.join(' ') }}”未找到。</span>
+    <PrunButton primary :class="$style.createButton" @click="onCreateClick">创建</PrunButton>
   </div>
   <div v-else :class="$style.root">
     <Header>{{ preset.name }}</Header>
     <div :class="$style.inputSection">
-      <label :class="$style.label">Input</label>
+      <label :class="$style.label">输入</label>
       <input
         v-model="inputText"
         type="text"
@@ -310,16 +310,16 @@ function onCreateClick() {
         data-1p-ignore="true"
         data-lpignore="true" />
     </div>
-    <div v-if="spawning" :class="$style.status">Opening buffers...</div>
+    <div v-if="spawning" :class="$style.status">正在打开窗口……</div>
     <table>
       <thead>
         <tr>
-          <th>Commands</th>
+          <th>指令</th>
         </tr>
       </thead>
       <tbody>
         <tr v-if="preset.commands.length === 0">
-          <td>No commands.</td>
+          <td>暂无指令。</td>
         </tr>
         <template v-else>
           <tr
@@ -336,8 +336,8 @@ function onCreateClick() {
       </tbody>
     </table>
     <ActionBar>
-      <PrunButton primary @click="openEditor">EDIT CMDS</PrunButton>
-      <PrunButton primary @click="saveLayout">SAVE LAYOUT</PrunButton>
+      <PrunButton primary @click="openEditor">编辑指令</PrunButton>
+      <PrunButton primary @click="saveLayout">保存布局</PrunButton>
     </ActionBar>
   </div>
 </template>

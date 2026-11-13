@@ -166,7 +166,7 @@ const extraSteps = computed(() => {
 </script>
 
 <template>
-  <div v-if="!entry"> Package "{{ messageId }}" not found. Refresh XIT AGENT and try again. </div>
+  <div v-if="!entry">动作包“{{ messageId }}”未找到。请刷新 XIT AGENT 后重试。</div>
   <ExecuteActionPackage
     v-else-if="runPkg"
     :pkg="runPkg"

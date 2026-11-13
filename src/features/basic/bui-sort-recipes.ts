@@ -124,8 +124,4 @@ function init() {
   tiles.observe('BUI', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'BUI: Sorts the recipes and materials by category/ticker/amount sort order.',
-);
+features.add(import.meta.url, init, 'BUI：对配方和材料进行排序');

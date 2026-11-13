@@ -4,6 +4,6 @@ import { stagedLowstrife } from '@src/features/XIT/LOWSTRIFE/staged';
 </script>
 
 <template>
-  <div v-if="!stagedLowstrife">Nothing staged. Open XIT LOWSTRIFE and press EXECUTE.</div>
+  <div v-if="!stagedLowstrife">暂无待执行计划。请打开 XIT LOWSTRIFE 并点击“执行”。</div>
   <ExecuteActionPackage v-else :pkg="stagedLowstrife" />
 </template>

@@ -9,7 +9,7 @@ function onTileReady(tile: PrunTile) {
     }
     const bases = await $(container, C.StaticInput.static);
     createFragmentApp(() => (
-      <Passive label="Base Count">
+      <Passive label="基地数量">
         <span>{bases.childElementCount}</span>
       </Passive>
     )).before(container);
@@ -20,4 +20,4 @@ function init() {
   tiles.observe('CO', onTileReady);
 }
 
-features.add(import.meta.url, init, 'CO: Adds a "Base Count" row.');
+features.add(import.meta.url, init, 'CO：增加“基地数量”行');

@@ -15,7 +15,7 @@ export function buildRouteconfigPackage(
     return { ok: false, error: blocked };
   }
   if (spec.stops.length < 2) {
-    return { ok: false, error: 'Need at least 2 stops' };
+    return { ok: false, error: '至少需要 2 个站点' };
   }
   const name = routeName.trim().length > 0 ? routeName.trim() : 'Route';
   const ship = shipId.trim();

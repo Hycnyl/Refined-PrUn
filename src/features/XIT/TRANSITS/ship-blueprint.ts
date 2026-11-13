@@ -3,7 +3,7 @@ export function matchShipBlueprint<T extends { naturalId: string }>(
   naturalId: string,
 ): { blueprint: T } | { error: string } {
   if (blueprints === undefined) {
-    return { error: 'blueprints are not loaded' };
+    return { error: '尚未加载蓝图' };
   }
   const key = naturalId.toUpperCase();
   const matches = blueprints.filter(blueprint => blueprint.naturalId.toUpperCase() === key);
@@ -12,7 +12,7 @@ export function matchShipBlueprint<T extends { naturalId: string }>(
     return { blueprint };
   }
   if (matches.length === 0) {
-    return { error: `blueprint ${naturalId} has no matching blueprint` };
+    return { error: `蓝图 ${naturalId} 没有匹配的蓝图` };
   }
-  return { error: `blueprint ${naturalId} matches ${matches.length} blueprints` };
+  return { error: `蓝图 ${naturalId} 匹配了 ${matches.length} 个蓝图` };
 }

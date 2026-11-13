@@ -31,4 +31,4 @@ function init() {
   tiles.observe('LM', onTileReady);
 }
 
-features.add(import.meta.url, init, 'LM: Adds material and shipment icons to ads.');
+features.add(import.meta.url, init, 'LM：为广告增加材料和货运图标');

@@ -25,7 +25,7 @@ function onEnterPress(event: KeyboardEvent) {
   }
   const result = validate(inputValue.value);
   if (result !== true) {
-    showErrorOverlay(event, typeof result === 'string' ? result : 'Illegal arguments.');
+    showErrorOverlay(event, typeof result === 'string' ? result : '参数无效。');
     inputRef.value?.blur();
     return;
   }

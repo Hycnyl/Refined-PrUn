@@ -13,10 +13,10 @@ const prompt = shipPickPrompt();
 <template>
   <div :class="$style.root">
     <template v-if="ships !== undefined && ships.length === 0">
-      <p>None of your ships can carry this route's load.</p>
-      <PrunButton dark @click="finishShipPick(undefined)">Cancel</PrunButton>
+      <p>没有飞船能装下此路线所需物资。</p>
+      <PrunButton dark @click="finishShipPick(undefined)">取消</PrunButton>
     </template>
-    <p v-else-if="ships === undefined">No ship is waiting to be picked.</p>
+    <p v-else-if="ships === undefined">没有等待选择的飞船。</p>
     <template v-else>
       <p>{{ prompt }}</p>
       <div :class="$style.list">
@@ -28,7 +28,7 @@ const prompt = shipPickPrompt();
           {{ ship.label }}
         </PrunButton>
       </div>
-      <PrunButton dark @click="finishShipPick(undefined)">Cancel</PrunButton>
+      <PrunButton dark @click="finishShipPick(undefined)">取消</PrunButton>
     </template>
   </div>
 </template>

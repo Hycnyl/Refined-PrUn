@@ -65,11 +65,11 @@ function onExpandAllClick() {
 
 <template>
   <div :class="C.ComExOrdersPanel.filter">
-    <RadioItem v-model="headers" horizontal>Headers</RadioItem>
-    <RadioItem v-model="displayProduction" horizontal>Production</RadioItem>
-    <RadioItem v-model="inactive" horizontal>Inactive</RadioItem>
-    <RadioItem v-model="queue" horizontal>Queue</RadioItem>
-    <RadioItem v-model="notQueued" horizontal>Not Queued</RadioItem>
+    <RadioItem v-model="headers" horizontal>标题</RadioItem>
+    <RadioItem v-model="displayProduction" horizontal>生产设施</RadioItem>
+    <RadioItem v-model="inactive" horizontal>未运行</RadioItem>
+    <RadioItem v-model="queue" horizontal>队列</RadioItem>
+    <RadioItem v-model="notQueued" horizontal>未排队</RadioItem>
   </div>
   <table>
     <thead>
@@ -78,10 +78,10 @@ function onExpandAllClick() {
           {{ anyExpanded ? '-' : '+' }}
         </th>
         <th v-else />
-        <th>Planet</th>
-        <th>Efficiency</th>
-        <th>Slots</th>
-        <th>CMD</th>
+        <th>星球</th>
+        <th>效率</th>
+        <th>栏位</th>
+        <th>命令</th>
       </tr>
     </thead>
     <FakeRow />

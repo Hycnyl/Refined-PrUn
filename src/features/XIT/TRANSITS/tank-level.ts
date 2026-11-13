@@ -95,7 +95,7 @@ export function blueprintTestFlightBlock(
   naturalId: string,
 ) {
   if (blueprint === undefined) {
-    return `blueprint ${naturalId} is not loaded`;
+    return `蓝图 ${naturalId} 尚未加载`;
   }
   return undefined;
 }

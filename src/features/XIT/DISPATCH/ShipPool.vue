@@ -71,12 +71,12 @@ function onDragStart(event: DragEvent, shipId: string) {
     <table :class="$style.table">
       <thead>
         <tr>
-          <th>Ships</th>
+          <th>飞船</th>
         </tr>
       </thead>
       <tbody>
         <tr v-if="unassigned.length > 0" :class="$style.labelRow">
-          <td :class="$style.labelCell">Unassigned</td>
+          <td :class="$style.labelCell">未分配</td>
         </tr>
         <tr v-for="entry in unassigned" :key="entry.ship.id" :class="$style.shipRow">
           <td :class="$style.shipCell">
@@ -92,7 +92,7 @@ function onDragStart(event: DragEvent, shipId: string) {
           </td>
         </tr>
         <tr v-if="assigned.length > 0" :class="$style.labelRow">
-          <td :class="$style.labelCell">Assigned</td>
+          <td :class="$style.labelCell">已分配</td>
         </tr>
         <tr v-for="entry in assigned" :key="entry.ship.id" :class="$style.shipRow">
           <td :class="$style.shipCell">

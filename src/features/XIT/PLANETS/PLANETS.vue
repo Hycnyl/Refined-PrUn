@@ -88,37 +88,33 @@ function setRepairThreshold(naturalId: string, value: number | undefined) {
 
 <template>
   <LoadingSpinner v-if="rows === undefined" />
-  <div v-else-if="rows.length === 0" :class="$style.empty">No bases yet</div>
+  <div v-else-if="rows.length === 0" :class="$style.empty">暂无基地</div>
   <template v-else>
-    <div :class="$style.note">
-      Clear any number field to remove its override and use the default value from XIT SET.
-    </div>
+    <div :class="$style.note">清空数值字段即可移除单独设置，使用 XIT SET 中的默认值。</div>
     <table :class="$style.table">
       <thead>
         <tr>
-          <th :class="$style.planet">Planet</th>
+          <th :class="$style.planet">星球</th>
           <th>
             <InlineFlex>
-              Resupply Days
+              补给天数
               <Tooltip
                 position="bottom"
-                :tooltip="`Per-planet override. Leave empty to use the default (${defaultResupply} days) from XIT SET.`" />
+                :tooltip="`星球单独设置，留空使用 XIT SET 中的默认值（${defaultResupply} 天）`" />
             </InlineFlex>
           </th>
           <th>
-            <InlineFlex>
-              Pickup
-              <Tooltip
+            <InlineFlex
+              >收货<Tooltip
                 position="bottom"
-                tooltip="Cargo size (weight / volume) of the ship you collect this base's output with. XIT BS shows a green &#x1F680; next to the base's inventory bar 24 hours before the base's produced goods fill that ship — until a ship is in flight to the planet." />
+                tooltip="用于收取此基地产品的飞船容量（重量/体积）；在基地产品装满该飞船前 24 小时，XIT BS 在库存条旁显示绿色 🚀，直到有飞船飞往该星球" />
             </InlineFlex>
           </th>
           <th>
-            <InlineFlex>
-              Repair Target
-              <Tooltip
+            <InlineFlex
+              >维修目标<Tooltip
                 position="bottom"
-                :tooltip="`Per-planet repair target. Leave empty to use the default (${defaultThreshold} days) from XIT SET.`" />
+                :tooltip="`星球单独维修目标，留空使用默认值（${defaultThreshold} 天），来自 XIT SET`" />
             </InlineFlex>
           </th>
         </tr>

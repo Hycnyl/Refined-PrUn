@@ -33,8 +33,8 @@ export const CONT_TRADE = act.addActionStep<Data>({
     Object.fromEntries(Object.entries(data.materials).filter(([, v]) => v > 0)),
   description: data => {
     const materialCount = Object.keys(data.materials).length;
-    const typeLabel = data.tradeType === 'BUYING' ? 'Buy' : 'Sell';
-    return `Create ${typeLabel} contract draft (${materialCount} materials)`;
+    const typeLabel = data.tradeType === 'BUYING' ? '买入' : '卖出';
+    return `创建 ${typeLabel}合同草稿（${materialCount} 种材料）`;
   },
   execute: async ctx => {
     const { data, log, setStatus, requestTile, waitAct, complete } = ctx;
@@ -52,7 +52,7 @@ export const CONT_TRADE = act.addActionStep<Data>({
 
     const newDraft = await createNewDraft(ctx);
 
-    setStatus(`Loading draft ${newDraft.naturalId}...`);
+    setStatus(`正在加载草稿 ${newDraft.naturalId}...`);
     const draftTile = await requestTile(`CONTD ${newDraft.naturalId}`);
     if (!draftTile) {
       return;
@@ -74,9 +74,9 @@ export const CONT_TRADE = act.addActionStep<Data>({
       })
       .join(', ');
     const preambleText =
-      `${typeLabel} contract.\n` +
-      `Materials: ${materialsList}\n` +
-      (data.daysToFulfill > 0 ? `Fulfill within ${fixed0(data.daysToFulfill)} days` : '');
+      `${typeLabel} 合同。\n` +
+      `材料：${materialsList}\n` +
+      (data.daysToFulfill > 0 ? `履约期限：${fixed0(data.daysToFulfill)} 天` : '');
 
     await setDraftNameAndPreamble(ctx, anchor, contractName, preambleText);
 
@@ -98,24 +98,21 @@ export const CONT_TRADE = act.addActionStep<Data>({
         // A row left without a price would go out as a free trade, so this is a
         // hard failure rather than a skipped field.
         const price = data.prices[ticker];
-        assert(isValidContractPrice(price), `Invalid price for ${ticker}`);
+        assert(isValidContractPrice(price), `价格无效：${ticker}`);
         const priceInput = group.querySelector<HTMLInputElement>('input[inputmode="decimal"]');
-        assert(priceInput, `Could not find price input for ${ticker}`);
+        assert(priceInput, `未找到价格输入框：${ticker}`);
         selectAndChangeInputValue(priceInput, String(price));
-        log.info(`Price for ${ticker}: ${price} ${data.currency}`);
+        log.info(`价格：${ticker}: ${price} ${data.currency}`);
       },
     });
 
     // Step 3: Set location address
     const addressContainers = _$$(anchor, C.AddressSelector.container) as HTMLElement[];
-    assert(
-      addressContainers.length >= 1 && data.location.length > 0,
-      'Could not find trade location control',
-    );
-    await waitAct(`Set location to ${data.location}?`);
+    assert(addressContainers.length >= 1 && data.location.length > 0, '未找到交易地点控件');
+    await waitAct(`设置地点为 ${data.location}?`);
     const locationSet = await selectAddress(addressContainers[0], data.location);
-    assert(locationSet, `Could not select location: ${data.location}`);
-    log.info(`Location set: ${data.location}`);
+    assert(locationSet, `无法选择地点：${data.location}`);
+    log.info(`已设置地点：${data.location}`);
 
     setDeadline(ctx, anchor, data.daysToFulfill);
 
@@ -127,7 +124,7 @@ export const CONT_TRADE = act.addActionStep<Data>({
     await waitAct('Save conditions?');
     await saveConditions(ctx, anchor, newDraft.naturalId);
 
-    log.success(`Contract draft ${newDraft.naturalId} ready to send`);
+    log.success(`合同草稿 ${newDraft.naturalId} 已可发送`);
     complete();
   },
 });

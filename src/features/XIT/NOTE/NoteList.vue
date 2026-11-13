@@ -23,21 +23,21 @@ function createNewNote(ev: Event) {
 
 function confirmDelete(ev: Event, note: UserData.Note) {
   showConfirmationOverlay(ev, () => deleteNote(note), {
-    message: `Are you sure you want to delete the note "${note.name}"?`,
+    message: `确定要删除笔记“${note.name}”吗？`,
   });
 }
 </script>
 
 <template>
   <ActionBar>
-    <PrunButton primary @click="createNewNote">CREATE NEW</PrunButton>
+    <PrunButton primary @click="createNewNote">新建</PrunButton>
   </ActionBar>
   <table>
     <thead>
       <tr>
         <GripHeaderCell />
-        <th>Name</th>
-        <th>Length</th>
+        <th>名称</th>
+        <th>长度</th>
         <th />
       </tr>
     </thead>
@@ -51,11 +51,11 @@ function confirmDelete(ev: Event, note: UserData.Note) {
         </td>
         <td>
           <span>
-            {{ note.text.length.toLocaleString() }} character{{ note.text.length !== 1 ? 's' : '' }}
+            {{ note.text.length.toLocaleString() }} 个字符{{ note.text.length !== 1 ? 's' : '' }}
           </span>
         </td>
         <td>
-          <PrunButton danger @click="confirmDelete($event, note)">DELETE</PrunButton>
+          <PrunButton danger @click="confirmDelete($event, note)">删除</PrunButton>
         </td>
       </tr>
     </tbody>

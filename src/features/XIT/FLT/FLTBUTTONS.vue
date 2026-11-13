@@ -22,11 +22,11 @@ function optionLabel(value: string) {
 </script>
 
 <template>
-  <SectionHeader>Unload Button Colors</SectionHeader>
+  <SectionHeader>卸货按钮颜色</SectionHeader>
   <div :class="$style.grid">
     <div :class="$style.corner" />
-    <div :class="$style.colHeader">Empty</div>
-    <div :class="$style.colHeader">Cargo</div>
+    <div :class="$style.colHeader">空载</div>
+    <div :class="$style.colHeader">货物</div>
 
     <template v-for="row in ['Base', 'CX']" :key="row">
       <div :class="$style.rowHeader">{{ row }}</div>

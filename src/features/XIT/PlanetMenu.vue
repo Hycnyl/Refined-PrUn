@@ -8,7 +8,7 @@ import { store } from './planet-context-menu';
     <div v-if="store.naturalId">
       <PrunButton dark :class="$style.prunButton" @click="store.showBuffer('PLI')">PLI</PrunButton>
       <PrunButton dark :class="$style.prunButton" @click="store.showBuffer('COGC')"
-        >COGC</PrunButton
+        >商会</PrunButton
       >
       <PrunButton dark :class="$style.prunButton" @click="store.showBuffer('POPR')"
         >POPR</PrunButton

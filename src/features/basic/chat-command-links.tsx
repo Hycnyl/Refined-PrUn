@@ -76,4 +76,4 @@ function init() {
   tiles.observe(['COMG', 'COMP', 'COMU'], onTileReady);
 }
 
-features.add(import.meta.url, init, 'Renders text in backticks as command links.');
+features.add(import.meta.url, init, '将反引号中的文本显示为指令链接');

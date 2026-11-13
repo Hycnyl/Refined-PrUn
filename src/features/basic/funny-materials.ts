@@ -63,4 +63,4 @@ function init() {
   });
 }
 
-features.add(import.meta.url, init, 'Improves material icon rendering.');
+features.add(import.meta.url, init, '优化材料图标显示');

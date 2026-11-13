@@ -10,7 +10,7 @@ const symbol = computed(() => (isMinimized ? '+' : '-'));
 <template>
   <div :class="[C.FormComponent.containerPassive, C.forms.passive, C.forms.formComponent]">
     <label>
-      <span>Minimize</span>
+      <span>最小化</span>
     </label>
     <div :class="[C.FormComponent.input, C.forms.input]">
       <div>

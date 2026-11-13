@@ -32,4 +32,4 @@ function init() {
   tiles.observe(['FLT', 'FLTS', 'FLTP'], onTileReady);
 }
 
-features.add(import.meta.url, init, 'FLT: Adds an arrival date to the "ETA" column.');
+features.add(import.meta.url, init, 'FLT：在“预计到达”列增加到达日期');

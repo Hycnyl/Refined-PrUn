@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeOptions, localizeStorage } from '@src/infrastructure/i18n/labels';
 import Active from '@src/components/forms/Active.vue';
 import SelectInput from '@src/components/forms/SelectInput.vue';
 import { serializeStorage, storageSort } from '@src/features/XIT/ACT/actions/utils';
@@ -35,12 +36,10 @@ defineExpose({ validate, save });
 </script>
 
 <template>
-  <Active label="Origin">
-    <SelectInput v-model="origin" :options="storages" />
+  <Active label="来源">
+    <SelectInput v-model="origin" :options="localizeOptions(storages, localizeStorage)" />
   </Active>
-  <Active
-    label="Buy Missing Fuel"
-    tooltip="Whether the fuel will be bought if there is not enough stock (CX warehouse only).">
-    <RadioItem v-model="buyMissingFuel">buy fuel</RadioItem>
+  <Active label="购买缺失燃料" tooltip="库存不足时是否购买燃料，仅适用于交易所仓库">
+    <RadioItem v-model="buyMissingFuel">购买燃料</RadioItem>
   </Active>
 </template>

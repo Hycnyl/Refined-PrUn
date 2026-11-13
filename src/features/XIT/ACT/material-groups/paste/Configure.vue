@@ -26,22 +26,22 @@ const summary = computed(() => {
   }
   const errorCount = result.value.errors.length;
   if (errorCount > 0) {
-    return `${errorCount} of ${filledRowCount.value} rows have errors`;
+    return `${errorCount}，目标 ${filledRowCount.value} 行有错误`;
   }
   if (rowCount.value === 0) {
-    return 'No materials parsed';
+    return '未解析出材料';
   }
-  return `${rowCount.value} material${rowCount.value === 1 ? '' : 's'} ready`;
+  return `${rowCount.value} 种材料${rowCount.value === 1 ? '' : 's'} 已就绪`;
 });
 </script>
 
 <template>
   <form>
-    <Active label="Materials" :error="hasError">
+    <Active label="材料" :error="hasError">
       <textarea
         v-model="config.materials"
         :class="$style.textarea"
-        :placeholder="`Paste from spreadsheet or type manually\nTICKER  AMOUNT  PRICE\nRAT     100     530\n\nPrice column is optional; at most 3 significant figures.\nOne delimiter per paste: tab, comma or semicolon.`"
+        :placeholder="`从表格粘贴或手动输入\nTICKER  AMOUNT  PRICE\nRAT     100     530\n\n价格列可省略，最多 3 位有效数字。\n每次粘贴统一使用制表符、逗号或分号分隔。`"
         spellcheck="false" />
     </Active>
     <div v-if="summary" :class="[$style.summary, hasError ? $style.bad : $style.good]">
@@ -49,7 +49,7 @@ const summary = computed(() => {
     </div>
     <ul v-if="result.fatal === undefined && result.errors.length > 0" :class="$style.errors">
       <li v-for="error in result.errors" :key="error.line">
-        <span :class="$style.line">Row {{ error.line }}</span>
+        <span :class="$style.line">行 {{ error.line }}</span>
         {{ error.reason }}
       </li>
     </ul>

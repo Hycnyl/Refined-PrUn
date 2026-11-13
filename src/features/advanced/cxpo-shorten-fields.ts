@@ -15,8 +15,4 @@ function init() {
   tiles.observe('CXPO', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'CXPO: Replaces values of "Exchange" and "Material" fields with corresponding tickers.',
-);
+features.add(import.meta.url, init, 'CXPO：缩短表单字段');

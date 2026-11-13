@@ -59,8 +59,4 @@ function init() {
   tiles.observe('CONTD', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'CONTD: Adds a count input beside the add commodity/shipment button to add multiple rows at once.',
-);
+features.add(import.meta.url, init, 'CONTD：在添加材料或货运按钮旁增加数量输入框，一次添加多行');

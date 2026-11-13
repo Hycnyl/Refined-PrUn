@@ -55,6 +55,5 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'BBL: Hides "Last repair", "Established", and "Repair costs" rows ' +
-    'if they are empty or irrelevant to repairs.',
+  'BBL：隐藏那些空置或与维修无关的“上次维修”、“建立时间”和“维修成本”行' + '',
 );

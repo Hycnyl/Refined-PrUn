@@ -4,8 +4,4 @@ function init() {
   setRepairButtonEnabled(true);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  "REP: Shows a REP button in the CMD column to open XIT REPAIRACT for the row's planet.",
-);
+features.add(import.meta.url, init, 'REP：在命令列显示维修按钮，打开对应星球的 XIT REPAIRACT');

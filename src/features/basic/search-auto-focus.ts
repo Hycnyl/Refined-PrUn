@@ -14,4 +14,4 @@ function init() {
   tiles.observe(['PLI', 'SYSI'], focusSearchBar);
 }
 
-features.add(import.meta.url, init, 'Auto-focuses the search bar in PLI and SYSI.');
+features.add(import.meta.url, init, '在 PLI 和 SYSI 中自动聚焦搜索栏');

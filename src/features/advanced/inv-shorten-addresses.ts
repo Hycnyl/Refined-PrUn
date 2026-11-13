@@ -17,4 +17,4 @@ function init() {
   tiles.observe('INV', onTileReady);
 }
 
-features.add(import.meta.url, init, 'INV: Shortens addresses in the main INV command.');
+features.add(import.meta.url, init, 'INV：缩短主 INV 命令中的地址');

@@ -7,8 +7,8 @@ import DISPATCH from '@src/features/XIT/DISPATCH/DISPATCH.vue';
 
 xit.add({
   command: ['DISPATCH', 'DSP'],
-  name: 'DISPATCH',
-  description: 'Fleet-wide resupply and repair planner.',
+  name: '调度',
+  description: '为整个舰队规划补给和维修。',
   component: () => DISPATCH,
   bufferSize: [800, 500],
 });

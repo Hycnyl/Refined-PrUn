@@ -23,7 +23,7 @@ defineExpose({ validate, save });
 </script>
 
 <template>
-  <Active label="Planet" :error="planetError">
-    <TextInput v-model="planet" placeholder="Natural ID or name" />
+  <Active label="星球" :error="planetError">
+    <TextInput v-model="planet" placeholder="星球编号或名称" />
   </Active>
 </template>

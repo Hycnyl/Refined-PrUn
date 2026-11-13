@@ -80,17 +80,17 @@ function onActClick(naturalId: string) {
   <template v-else>
     <div :class="C.ComExOrdersPanel.filter">
       <div :class="$style.spacer" />
-      <PrunButton primary @click="showConfig = true">CONFIG</PrunButton>
-      <PrunButton primary @click="showBuffer('XIT GOVBURNDATA')">DATA</PrunButton>
+      <PrunButton primary @click="showConfig = true">配置</PrunButton>
+      <PrunButton primary @click="showBuffer('XIT GOVBURNDATA')">数据</PrunButton>
     </div>
-    <p v-if="rows.length === 0" :class="$style.empty">No planets configured.</p>
+    <p v-if="rows.length === 0" :class="$style.empty">尚未配置星球。</p>
     <table v-else>
       <thead>
         <tr>
-          <th>Planet</th>
+          <th>星球</th>
           <th>POPI</th>
-          <th>COGC</th>
-          <th>CMD</th>
+          <th>商会</th>
+          <th>命令</th>
         </tr>
       </thead>
       <tbody>
@@ -103,7 +103,7 @@ function onActClick(naturalId: string) {
           </td>
           <td
             v-if="!row.hasData"
-            data-tooltip="No data captured. Run XIT GOVBURNDATA."
+            data-tooltip="尚未收集数据。请运行 XIT GOVBURNDATA。"
             :class="$style.noData"
             @click="openPlanet(row.naturalId)">
             --
@@ -111,7 +111,7 @@ function onActClick(naturalId: string) {
           <GovBurnDaysCell v-else :days="row.days" :on-click="() => openPlanet(row.naturalId)" />
           <td
             v-if="row.cogcDays === undefined"
-            data-tooltip="No COGC data captured. Run XIT GOVBURNDATA."
+            data-tooltip="尚未收集商会数据。请运行 XIT GOVBURNDATA。"
             :class="$style.noData"
             @click="openPlanet(row.naturalId)">
             --
@@ -121,7 +121,7 @@ function onActClick(naturalId: string) {
             :days="row.cogcDays"
             :on-click="() => openPlanet(row.naturalId)" />
           <td>
-            <PrunButton dark inline @click="onActClick(row.naturalId)">ACT</PrunButton>
+            <PrunButton dark inline @click="onActClick(row.naturalId)">执行下一步</PrunButton>
           </td>
         </tr>
       </tbody>

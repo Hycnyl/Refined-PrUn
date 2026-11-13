@@ -8,7 +8,7 @@ export function useClipboard() {
     try {
       await navigator.clipboard.writeText(text);
     } catch (e) {
-      console.error('Failed to copy to clipboard', e);
+      console.error('复制到剪贴板失败', e);
       return;
     }
     copied.value = true;

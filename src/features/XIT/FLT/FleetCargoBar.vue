@@ -85,7 +85,7 @@ const cargoBar = computed<CargoBarData>(() => {
     const percentage = (value * 100) / divisor;
     segments.push({
       name: 'shipments',
-      class: `${CATEGORY_CSS_PREFIX}none`,
+      class: `${CATEGORY_CSS_PREFIX}无`,
       width: `${percentage}%`,
       title: formatTitle('shipments', summary.shipments.weight, summary.shipments.volume),
     });

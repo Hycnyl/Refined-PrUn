@@ -60,9 +60,9 @@ export function flightPlanFailure(
     planMatchesLeg(plan, originQuery, destinationQuery) &&
     (plan.stlFuelConsumption === null || plan.ftlFuelConsumption === null)
   ) {
-    return 'no fuel figures';
+    return '无燃料数据';
   }
-  return 'no flight plan';
+  return '无航行计划';
 }
 
 function sameNaturalId(actual: string | undefined, expected: string) {
@@ -75,13 +75,13 @@ export function formatDuration(totalSeconds: number) {
   const seconds = totalSeconds % 60;
   const parts: string[] = [];
   if (hours > 0) {
-    parts.push(`${hours}h`);
+    parts.push(`${hours}小时`);
   }
   if (minutes > 0 || hours > 0) {
-    parts.push(`${minutes}m`);
+    parts.push(`${minutes}分`);
   }
   if (seconds > 0 || parts.length === 0) {
-    parts.push(`${seconds}s`);
+    parts.push(`${seconds}秒`);
   }
   return parts.join(' ');
 }

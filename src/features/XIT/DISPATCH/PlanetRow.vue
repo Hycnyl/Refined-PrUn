@@ -218,7 +218,7 @@ function clearShip() {
       </div>
     </td>
     <td :class="$style.fitCell">
-      <PrunButton dark inline :disabled="!canFit" @click="emit('fit')">FIT</PrunButton>
+      <PrunButton dark inline :disabled="!canFit" @click="emit('fit')">容量匹配</PrunButton>
     </td>
     <td :class="$style.inputCell">
       <NumberInput v-model="config.days" :class="$style.faintInput" float />
@@ -230,13 +230,13 @@ function clearShip() {
       <NumberInput v-model="config.repAdvance" :class="$style.faintInput" float />
     </td>
     <td :class="$style.advToggleCell">
-      <RadioItem v-model="config.cxBuy" horizontal>BUY</RadioItem>
+      <RadioItem v-model="config.cxBuy" horizontal>购买</RadioItem>
     </td>
     <td :class="$style.advToggleCell">
       <RadioItem v-model="config.offloadJson" horizontal>JSON</RadioItem>
     </td>
     <td :class="$style.advToggleCell">
-      <RadioItem v-model="config.agent" horizontal>AGT</RadioItem>
+      <RadioItem v-model="config.agent" horizontal>同步</RadioItem>
     </td>
   </tr>
   <tr v-if="isBurnExpanded && burn" :class="$style.burnExpandRow">
@@ -245,11 +245,11 @@ function clearShip() {
         <thead>
           <tr>
             <th />
-            <th>Inv</th>
-            <th>Burn</th>
-            <th>Need</th>
-            <th>Days</th>
-            <th>CMD</th>
+            <th>库存</th>
+            <th>消耗</th>
+            <th>需求</th>
+            <th>天数</th>
+            <th>命令</th>
           </tr>
         </thead>
         <tbody>

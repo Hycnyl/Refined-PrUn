@@ -64,7 +64,7 @@ async function onScreenItemReady(item: HTMLElement) {
 
   createFragmentApp(() => (
     <div class={[C.ScreenControls.delete, C.type.typeSmall, $style.hideButton]} onClick={onClick}>
-      {hidden.value ? 'shw' : 'hide'}
+      {hidden.value ? '显示' : '隐藏'}
     </div>
   )).before(copy);
 }
@@ -84,4 +84,4 @@ function init() {
   applyCssRule(`.${C.ScreenControls.container}`, $style.screenControls);
 }
 
-features.add(import.meta.url, init, 'Adds a tab bar for user screens.');
+features.add(import.meta.url, init, '为用户屏幕增加标签栏');

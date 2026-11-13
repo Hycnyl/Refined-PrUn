@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeOptions, localizeStorage } from '@src/infrastructure/i18n/labels';
 import Active from '@src/components/forms/Active.vue';
 import SelectInput from '@src/components/forms/SelectInput.vue';
 import { storagesStore } from '@src/infrastructure/prun-api/data/storage';
@@ -38,13 +39,13 @@ defineExpose({ validate, save });
 </script>
 
 <template>
-  <Active label="Material Group">
+  <Active label="材料组">
     <SelectInput v-model="materialGroup" :options="materialGroups" />
   </Active>
-  <Active label="Origin">
-    <SelectInput v-model="origin" :options="storages" />
+  <Active label="来源">
+    <SelectInput v-model="origin" :options="localizeOptions(storages, localizeStorage)" />
   </Active>
-  <Active label="Destination">
-    <SelectInput v-model="destination" :options="storages" />
+  <Active label="目的地">
+    <SelectInput v-model="destination" :options="localizeOptions(storages, localizeStorage)" />
   </Active>
 </template>

@@ -28,7 +28,7 @@ function onTileReady(tile: PrunTile) {
           inline
           style={{ marginLeft: '4px' }}
           onClick={() => showBuffer(`INV ${ws.id.substring(0, 8)}`)}>
-          OPEN
+          打开
         </PrunButton>
       );
     }).appendTo(row);
@@ -39,8 +39,4 @@ function init() {
   tiles.observe('PLI', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'PLI: Adds an OPEN button to the warehouse row when the player has a warehouse.',
-);
+features.add(import.meta.url, init, 'PLI：玩家拥有仓库时，在仓库行增加“打开”按钮');

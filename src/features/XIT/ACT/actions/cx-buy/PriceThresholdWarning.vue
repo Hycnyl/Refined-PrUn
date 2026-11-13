@@ -39,17 +39,15 @@ const toneClass = computed(() =>
 
 <template>
   <div :class="C.DraftConditionEditor.form">
-    <SectionHeader>Price Warning</SectionHeader>
+    <SectionHeader>价格警告</SectionHeader>
     <Passive :label="ticker">
-      CX {{ fixed02(price) }} vs refined-PrUn {{ fixed02(refinedValue)
+      交易所存款 (CX) {{ fixed02(price) }}，对比 Refined PrUn：{{ fixed02(refinedValue)
       }}<template v-if="excessRatio !== undefined">
-        (<span :class="toneClass">{{ percent1(excessRatio) }} over</span>)</template
+        (<span :class="toneClass">{{ percent1(excessRatio) }} 超出</span>)</template
       >
     </Passive>
     <Commands>
-      <PrunButton primary @mousedown="onDismissMouseDown" @click="emit('close')"
-        >DISMISS</PrunButton
-      >
+      <PrunButton primary @mousedown="onDismissMouseDown" @click="emit('close')">忽略</PrunButton>
     </Commands>
   </div>
 </template>

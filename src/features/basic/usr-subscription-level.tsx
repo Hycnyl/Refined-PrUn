@@ -21,7 +21,7 @@ function onTileReady(tile: PrunTile) {
       return;
     }
 
-    createFragmentApp(() => <Passive label="License">{user.subscriptionLevel}</Passive>).after(
+    createFragmentApp(() => <Passive label="订阅级别">{user.subscriptionLevel}</Passive>).after(
       usernameElement,
     );
   });
@@ -31,4 +31,4 @@ function init() {
   tiles.observe('USR', onTileReady);
 }
 
-features.add(import.meta.url, init, 'USR: Adds user license info.');
+features.add(import.meta.url, init, 'USR：在用户名旁边显示订阅级别');

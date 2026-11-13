@@ -38,8 +38,4 @@ function init() {
   tiles.observe('PRODQ', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'PRODQ: Shortens material full names into their ticker with a link.',
-);
+features.add(import.meta.url, init, 'PRODQ：将材料全名缩短为代码');

@@ -80,7 +80,7 @@ async function onComExPanelReady(comExPanel: HTMLElement) {
 
   createFragmentApp(() => (
     <div class={[C.ActionBar.element, $style.container]}>
-      Search:&nbsp;
+      搜索：
       <TextInput v-model={searchText.value} />
       <PrunButton dark class={[$style.button, fa.solid]} onClick={() => (searchText.value = '')}>
         {'\uf00d'}
@@ -93,4 +93,4 @@ function init() {
   tiles.observe('CX', onTileReady);
 }
 
-features.add(import.meta.url, init, 'CX: Adds a search bar for materials.');
+features.add(import.meta.url, init, 'CX：为材料搜索增加搜索栏');

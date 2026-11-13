@@ -29,16 +29,16 @@ export function uploadJson(callback: (json: any) => void) {
             const json = JSON.parse(result);
             callback(json);
           } else {
-            alert('Invalid JSON file.');
+            alert('JSON 文件无效。');
           }
         } catch (error) {
           console.error('Error parsing JSON:', error);
-          alert('Invalid JSON file.');
+          alert('JSON 文件无效。');
         }
       };
       reader.readAsText(file);
     } else {
-      alert('Please upload a valid JSON file.');
+      alert('请上传有效的 JSON 文件。');
     }
 
     document.body.removeChild(input);

@@ -28,9 +28,9 @@ const totalCapacity = computed(() => sumBy(production.production, x => x.capacit
     <td>
       <div :class="$style.buttons">
         <PrunButton dark inline @click="showBuffer(`BS ${production.naturalId}`)">BS</PrunButton>
-        <PrunButton dark inline @click="showBuffer(`INV ${production.storeId.substring(0, 8)}`)">
-          INV
-        </PrunButton>
+        <PrunButton dark inline @click="showBuffer(`INV ${production.storeId.substring(0, 8)}`)"
+          >库存</PrunButton
+        >
       </div>
     </td>
   </tr>

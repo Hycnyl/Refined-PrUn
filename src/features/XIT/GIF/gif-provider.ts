@@ -98,7 +98,7 @@ async function fetchNextPage(cache: GifRequestCache) {
   try {
     const response = await (await fetch(encodeURI(rawUrl))).json();
     if (!response.result) {
-      throw new Error('No result');
+      throw new Error('无结果');
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cache.urls.push(...response.data.data.map((x: any) => x.file.hd.webp.url));

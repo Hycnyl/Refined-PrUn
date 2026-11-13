@@ -14,8 +14,4 @@ function init() {
   );
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'Highlights production orders with errors in PROD, PRODQ, and PRODCO.',
-);
+features.add(import.meta.url, init, 'PROD：高亮显示有错误的生产订单');

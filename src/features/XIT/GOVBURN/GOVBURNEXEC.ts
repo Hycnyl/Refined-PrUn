@@ -5,7 +5,7 @@ import GovBurnExecWindow from '@src/features/XIT/GOVBURN/GovBurnExecWindow.vue';
 
 xit.add({
   command: 'GOVBURNEXEC',
-  name: 'GOVBURN EXECUTE',
-  description: 'Executes the staged planetary upkeep resupply action package.',
+  name: '执行星球维护补给',
+  description: '执行已准备好的星球维护补给动作包。',
   component: () => GovBurnExecWindow,
 });

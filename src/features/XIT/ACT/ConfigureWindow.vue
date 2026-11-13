@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeLabel } from '@src/infrastructure/i18n/labels';
 import { ActionPackageConfig } from '@src/features/XIT/ACT/shared-types';
 import { configurableValue } from '@src/features/XIT/ACT/shared-types';
 import { deserializeStorage } from '@src/features/XIT/ACT/actions/utils';
@@ -56,7 +57,7 @@ const blocks = computed(() => {
       }
     }
     blocks.push({
-      name: `[${name}]: ${info.type} Material Group`,
+      name: `[${name}]: ${localizeLabel(info.type)} 材料组`,
       component: info.configureComponent,
       data: group,
       config: groupConfig,
@@ -74,7 +75,7 @@ const blocks = computed(() => {
       continue;
     }
     blocks.push({
-      name: `[${name}]: ${info.type} Action`,
+      name: `[${name}]: ${localizeLabel(info.type)} 动作`,
       component: info.configureComponent,
       data: action,
       config: actionConfig,

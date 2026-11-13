@@ -30,7 +30,7 @@ async function onTileReady(tile: PrunTile) {
     const id = naturalId.value;
     const warehouse = warehousesStore.getByEntityNaturalId(id);
     const storageId = storagesStore.getById(warehouse?.storeId)?.id?.substring(0, 8);
-    const cmd = storageId ? `INV ${storageId}` : `WAR ${id}`;
+    const cmd = storageId ? `INV ${storageId}` : `仓库 ${id}`;
     if (e.shiftKey) {
       void openCompanionBuffer(tile, cmd);
     } else {
@@ -51,7 +51,7 @@ async function onTileReady(tile: PrunTile) {
         class={[C.ContextControls.item, C.fonts.fontRegular, C.type.typeSmall]}
         onClick={onClick}>
         <span>
-          <span class={C.ContextControls.cmd}>WAR {id}</span>
+          <span class={C.ContextControls.cmd}>仓库 {id}</span>
         </span>
       </div>
     );
@@ -114,4 +114,4 @@ function init() {
   tiles.observe('INV', onTileReady);
 }
 
-features.add(import.meta.url, init, 'INV: Adds a "Warehouse" button to base inventories.');
+features.add(import.meta.url, init, 'INV：为基地库存增加“仓库”按钮');

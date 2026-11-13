@@ -7,7 +7,7 @@ export function cxpoInventoryLabel(stock: number, reserve: number | undefined) {
     return undefined;
   }
   const free = Math.max(0, stock - reserve);
-  return `(${Math.trunc(reserve)} Reserved) ${Math.trunc(free)} Free`;
+  return `(${Math.trunc(reserve)} 已预留）${Math.trunc(free)} 可用`;
 }
 
 export function isCxpoInventoryLabel(text: string) {

@@ -106,18 +106,18 @@ function summarize(result: ParseResult): string {
   const count = spec.materials.length;
   const parts: string[] = [];
   if (groupCount !== undefined) {
-    parts.push(`${groupCount} group${groupCount === 1 ? '' : 's'}`);
+    parts.push(`${groupCount} 个组${groupCount === 1 ? '' : 's'}`);
   }
-  parts.push(`${count} material${count === 1 ? '' : 's'}`);
+  parts.push(`${count} 种材料${count === 1 ? '' : 's'}`);
   const fields = describeSpecFields(spec);
   if (fields.length > 0) {
     parts.push(fields.join(', '));
   }
   const skippedText =
     skipped !== undefined && skipped > 0
-      ? ` (${skipped} row${skipped === 1 ? '' : 's'} skipped)`
+      ? ` (${skipped} 行${skipped === 1 ? '' : 's'} 个已跳过）`
       : '';
-  return `Parsed ${parts.join(' + ')}${skippedText}.`;
+  return `已解析 ${parts.join(' + ')}${skippedText}.`;
 }
 
 // --- PRUNplanner supply cart (materials only) ---
@@ -135,12 +135,12 @@ export function parseSupplyCart(json: string): ParseResult {
   try {
     data = JSON.parse(json);
   } catch {
-    return { error: 'Invalid JSON.', spec: emptySpec() };
+    return { error: 'JSON 无效。', spec: emptySpec() };
   }
 
   const groups = Array.isArray(data.groups) ? data.groups : [];
   if (groups.length === 0) {
-    return { error: 'No material groups found.', spec: emptySpec() };
+    return { error: '未找到材料组。', spec: emptySpec() };
   }
 
   const materials = groups.flatMap(group =>
@@ -262,7 +262,7 @@ export function parseSheetsExcel(text: string): ParseResult {
   }
 
   if (spec.materials.length === 0 && !specHasContractFields(spec)) {
-    return { error: 'No material or keyword rows found.', spec: emptySpec() };
+    return { error: '未找到材料或关键字行。', spec: emptySpec() };
   }
 
   return { spec, skipped };
@@ -326,15 +326,15 @@ export function parseContractJson(json: string): ParseResult {
   try {
     data = JSON.parse(json);
   } catch {
-    return { error: 'Invalid JSON.', spec: emptySpec() };
+    return { error: 'JSON 无效。', spec: emptySpec() };
   }
   if (typeof data !== 'object' || data === null || Array.isArray(data)) {
-    return { error: 'Expected a JSON object.', spec: emptySpec() };
+    return { error: '应为 JSON 对象。', spec: emptySpec() };
   }
 
   const materials = parseJsonMaterials(data.materials);
   if (materials === undefined) {
-    return { error: 'Invalid materials.', spec: emptySpec() };
+    return { error: '材料无效。', spec: emptySpec() };
   }
 
   const spec: ContractDraftSpec = { materials };
@@ -342,12 +342,12 @@ export function parseContractJson(json: string): ParseResult {
   if (data.type !== undefined) {
     spec.type = typeof data.type === 'string' ? parseTemplateType(data.type) : undefined;
     if (spec.type === undefined) {
-      return { error: 'Invalid type (expected BUY, SELL, or SHIP).', spec: emptySpec() };
+      return { error: '类型无效，应为 BUY、SELL 或 SHIP。', spec: emptySpec() };
     }
   }
   if (data.currency !== undefined) {
     if (typeof data.currency !== 'string' || data.currency.trim() === '') {
-      return { error: 'Invalid currency.', spec: emptySpec() };
+      return { error: '货币无效。', spec: emptySpec() };
     }
     spec.currency = data.currency.trim().toUpperCase();
   }
@@ -355,7 +355,7 @@ export function parseContractJson(json: string): ParseResult {
     const value = data[key];
     if (value !== undefined) {
       if (typeof value !== 'string' || value.trim() === '') {
-        return { error: `Invalid ${key}.`, spec: emptySpec() };
+        return { error: `无效：${key}.`, spec: emptySpec() };
       }
       spec[key] = value.trim();
     }
@@ -366,7 +366,7 @@ export function parseContractJson(json: string): ParseResult {
     } else if (typeof data.autoProvision === 'string' && data.autoProvision.trim() !== '') {
       spec.autoProvision = data.autoProvision.trim();
     } else {
-      return { error: 'Invalid autoProvision.', spec: emptySpec() };
+      return { error: 'autoProvision 无效。', spec: emptySpec() };
     }
   }
   for (const key of ['payment', 'deadline'] as const) {
@@ -374,14 +374,14 @@ export function parseContractJson(json: string): ParseResult {
     if (value !== undefined) {
       const parsed = parsePositiveNumber(String(value));
       if (parsed === undefined) {
-        return { error: `Invalid ${key}.`, spec: emptySpec() };
+        return { error: `无效：${key}.`, spec: emptySpec() };
       }
       spec[key] = parsed;
     }
   }
 
   if (spec.materials.length === 0 && !specHasContractFields(spec)) {
-    return { error: 'Empty contract.', spec: emptySpec() };
+    return { error: '合同为空。', spec: emptySpec() };
   }
 
   return { spec };

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeName } from '@src/infrastructure/i18n/labels';
 import ActionBar from '@src/components/ActionBar.vue';
 import PrunButton from '@src/components/PrunButton.vue';
 import Header from '@src/components/Header.vue';
@@ -216,7 +217,7 @@ function clearLog() {
 <template>
   <div v-if="goingToSplit" />
   <div v-else :class="$style.root">
-    <Header :class="$style.header">{{ pkg.global.name }}</Header>
+    <Header :class="$style.header">{{ localizeName(pkg.global.name) }}</Header>
     <ConfigWindow v-if="shouldShowConfigure" :pkg="pkg" :config="config" :class="$style.mainWindow">
       <template v-if="$slots['mtra-extra']" #mtra-extra>
         <slot name="mtra-extra" />
@@ -227,42 +228,42 @@ function clearLog() {
     </ConfigWindow>
     <LogWindow v-else :messages="log" :scrolling="logScrolling" :class="$style.mainWindow" />
     <div :class="$style.status">
-      <span>Status: </span>
+      <span>状态：</span>
       <span v-if="status">{{ status }}</span>
-      <span v-else-if="shouldShowConfigure">Configure group parameters ↑</span>
-      <span v-else>Press Execute to start</span>
+      <span v-else-if="shouldShowConfigure">请先配置组参数 ↑</span>
+      <span v-else>点击“执行”开始</span>
     </div>
     <ActionBar :class="$style.actionBar">
       <template v-if="shouldShowConfigure">
         <PrunButton primary :disabled="!isValidConfig" @click="onConfigureApplyClick">
-          APPLY
+          应用
         </PrunButton>
       </template>
       <template v-else-if="isPreviewing">
-        <PrunButton v-if="needsConfigure" primary @click="onConfigureClick">CONFIGURE</PrunButton>
-        <PrunButton v-if="!hidePreview" disabled>PREVIEW</PrunButton>
-        <PrunButton disabled>EXECUTE</PrunButton>
+        <PrunButton v-if="needsConfigure" primary @click="onConfigureClick">配置</PrunButton>
+        <PrunButton v-if="!hidePreview" disabled>预览</PrunButton>
+        <PrunButton disabled>执行</PrunButton>
       </template>
       <template v-else-if="!isRunning">
-        <PrunButton v-if="needsConfigure" primary @click="onConfigureClick">CONFIGURE</PrunButton>
-        <PrunButton v-if="!hidePreview" primary @click="onPreviewClick">PREVIEW</PrunButton>
+        <PrunButton v-if="needsConfigure" primary @click="onConfigureClick">配置</PrunButton>
+        <PrunButton v-if="!hidePreview" primary @click="onPreviewClick">预览</PrunButton>
         <PrunButton primary :class="$style.executeButton" @click="onExecuteClick">
-          EXECUTE
+          执行
         </PrunButton>
       </template>
       <template v-else>
-        <PrunButton v-if="needsConfigure" primary disabled>CONFIGURE</PrunButton>
-        <PrunButton v-if="!hidePreview" primary disabled>PREVIEW</PrunButton>
+        <PrunButton v-if="needsConfigure" primary disabled>配置</PrunButton>
+        <PrunButton v-if="!hidePreview" primary disabled>预览</PrunButton>
         <PrunButton
           danger
           :disabled="!actReady && !skipReady"
           :class="$style.executeButton"
           @click="onCancelClick">
-          CANCEL
+          取消
         </PrunButton>
-        <PrunButton primary :disabled="!actReady" @click="onActClick">ACT</PrunButton>
+        <PrunButton primary :disabled="!actReady" @click="onActClick">执行下一步</PrunButton>
         <PrunButton neutral :disabled="!actReady && !skipReady" @click="onSkipClick">
-          SKIP
+          跳过
         </PrunButton>
       </template>
     </ActionBar>

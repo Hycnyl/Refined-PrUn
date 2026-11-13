@@ -58,7 +58,7 @@ function onTileReady(tile: PrunTile) {
     container.style.height = '100%';
 
     if (!xitCommand) {
-      container.textContent = 'Error! No Matching Function!';
+      container.textContent = '错误：未找到匹配的功能！';
       return;
     }
 

@@ -4,8 +4,8 @@ import { getParameterSites } from './entries';
 
 xit.add({
   command: ['REP', 'REPAIR', 'REPAIRS'],
-  name: 'REPAIRS',
-  description: 'Shows the materials to repair buildings.',
+  name: '维修',
+  description: '显示建筑维修所需材料。',
   optionalParameters: 'Planet Identifier(s)',
   contextItems: parameters => {
     if (parameters.length === 0) {

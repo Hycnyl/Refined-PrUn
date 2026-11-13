@@ -34,7 +34,7 @@ function onTileReady(tile: PrunTile) {
     createFragmentApp(
       SelectButton,
       reactive({
-        label: 'hide joined',
+        label: '隐藏加入消息',
         selected: hideJoined,
         set: (value: boolean) => setState(state => (state.hideJoined = value)),
       }),
@@ -42,7 +42,7 @@ function onTileReady(tile: PrunTile) {
     createFragmentApp(
       SelectButton,
       reactive({
-        label: 'hide deleted',
+        label: '隐藏删除消息',
         selected: hideDeleted,
         set: (value: boolean) => setState(state => (state.hideDeleted = value)),
       }),
@@ -84,4 +84,4 @@ function init() {
   applyCssRule(`.${$style.hideDeleted} .${$style.deleted}`, css.hidden);
 }
 
-features.add(import.meta.url, init, 'Hides system messages in chats.');
+features.add(import.meta.url, init, '隐藏聊天中的系统消息');

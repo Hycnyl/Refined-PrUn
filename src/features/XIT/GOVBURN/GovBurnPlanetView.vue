@@ -104,8 +104,8 @@ function onRowClick(e: MouseEvent, row: BuildingRow) {
 
 <template>
   <template v-if="!captured">
-    <p>
-      No data for {{ displayName }}. Run
+    <p
+      >无数据：{{ displayName }}。请运行
       <PrunLink inline :command="`XIT GOVBURNDATA ${naturalId}`">
         XIT GOVBURNDATA {{ naturalId }}
       </PrunLink>
@@ -115,21 +115,21 @@ function onRowClick(e: MouseEvent, row: BuildingRow) {
   <table v-else>
     <thead>
       <tr>
-        <th>Building</th>
-        <th>Required</th>
-        <th>Days</th>
+        <th>建筑</th>
+        <th>所需</th>
+        <th>天数</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="row in rows" :key="row.ticker">
         <td :class="$style.building" @click="onRowClick($event, row)">
-          <template v-if="row.isCogc">COGC</template>
-          <template v-else>{{ row.ticker }} Lvl {{ row.level }}</template>
+          <template v-if="row.isCogc">商会</template>
+          <template v-else>{{ row.ticker }}等级 {{ row.level }}</template>
         </td>
         <td>{{ row.required === -1 ? '--' : row.required }}</td>
         <td
           v-if="row.required > 0 && !row.hasData"
-          data-tooltip="No data captured. Run XIT GOVBURNDATA.">
+          data-tooltip="尚未收集数据。请运行 XIT GOVBURNDATA。">
           --
         </td>
         <GovBurnDaysCell v-else :days="row.days" />

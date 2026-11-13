@@ -87,45 +87,41 @@ const noMatch = computed(
 
 <template>
   <LoadingSpinner v-if="analyses === undefined" />
-  <div v-else-if="noMatch" :class="$style.empty">No base matches "{{ parameters[0] }}"</div>
-  <div v-else-if="analyses.length === 0" :class="$style.empty">No bases yet</div>
+  <div v-else-if="noMatch" :class="$style.empty">没有基地匹配“{{ parameters[0] }}"</div>
+  <div v-else-if="analyses.length === 0" :class="$style.empty">暂无基地</div>
   <table v-else>
     <thead>
       <tr>
-        <th :class="$style.planet">Planet</th>
+        <th :class="$style.planet">星球</th>
         <th>
-          <InlineFlex>
-            Days Till Full
-            <Tooltip
+          <InlineFlex
+            >预计满仓天数<Tooltip
               position="bottom"
               tooltip="Days until storage is full at the current net production rate — when a ship visit is forced." />
           </InlineFlex>
         </th>
         <th>
-          <InlineFlex>
-            Supply Days
-            <Tooltip
+          <InlineFlex
+            >补给天数<Tooltip
               position="bottom"
               tooltip="Total days of consumables the base could hold when storage is filled to its threshold after ship-out (80% when filling, 95% when draining). Colors match XIT BURN: red below your red threshold, yellow below your yellow threshold." />
           </InlineFlex>
         </th>
         <th>
-          <InlineFlex>
-            Current Fill
-            <Tooltip
+          <InlineFlex
+            >当前占用<Tooltip
               position="bottom"
               tooltip="What's in base storage right now. Colored by material category." />
           </InlineFlex>
         </th>
         <th>
-          <InlineFlex>
-            After Resupply
-            <Tooltip
+          <InlineFlex
+            >补给后占用<Tooltip
               position="bottom"
               tooltip="Projected storage if all produced goods were shipped out and all consumables delivered up to their XIT BURN Need amount. Red hatching shows overflow past capacity." />
           </InlineFlex>
         </th>
-        <th>CMD</th>
+        <th>命令</th>
       </tr>
     </thead>
     <tbody :class="$style.fakeRow">

@@ -13,4 +13,4 @@ function init() {
   tiles.observe('SFC', onTileReady);
 }
 
-features.add(import.meta.url, init, 'SFC: Auto-closes the window on success.');
+features.add(import.meta.url, init, 'SFC：成功后自动关闭窗口');

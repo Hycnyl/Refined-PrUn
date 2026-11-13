@@ -26,32 +26,28 @@ function reset() {
 </script>
 
 <template>
-  <SectionHeader>
-    SFC Shortcuts
-    <Tooltip
+  <SectionHeader
+    >SFC 快捷键<Tooltip
       position="bottom"
       :class="$style.tooltip"
-      tooltip="Shortcut buttons next to the SFC destination field.
-         Label is the button text; Destination is
-         an exchange station (ANT) or a planet (OT-580b or Montem).
-         Add up to four shortcuts; REMOVE deletes the last one." />
+      tooltip="SFC 目的地字段旁的快捷按钮；标签为按钮文字，目的地可为交易所空间站（ANT）或星球（OT-580b 或 Montem）；最多四个，点击“移除”删除最后一个" />
   </SectionHeader>
   <ActionBar>
-    <PrunButton primary :disabled="!canAdd" @click="add">ADD NEW</PrunButton>
-    <PrunButton primary :disabled="!canRemove" @click="remove">REMOVE</PrunButton>
-    <PrunButton primary @click="reset">RESET</PrunButton>
+    <PrunButton primary :disabled="!canAdd" @click="add">新增</PrunButton>
+    <PrunButton primary :disabled="!canRemove" @click="remove">移除</PrunButton>
+    <PrunButton primary @click="reset">重置</PrunButton>
   </ActionBar>
   <table>
     <thead>
       <tr>
         <th>#</th>
-        <th>Label</th>
-        <th>Destination</th>
+        <th>标签</th>
+        <th>目的地</th>
       </tr>
     </thead>
     <tbody v-if="shortcuts.length === 0">
       <tr>
-        <td colspan="3">No shortcuts.</td>
+        <td colspan="3">暂无快捷键。</td>
       </tr>
     </tbody>
     <tbody v-else>

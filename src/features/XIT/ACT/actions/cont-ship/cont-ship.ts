@@ -12,7 +12,7 @@ import {
 
 act.addAction<Config>({
   type: 'CONT Ship',
-  shortDescription: 'Create a shipping contract draft for a material group',
+  shortDescription: '为材料组创建货运合同草稿',
   description: (action, config) => {
     if (!action.group || !action.contOrigin || !action.contDest) {
       return '--';
@@ -20,7 +20,7 @@ act.addAction<Config>({
 
     const origin =
       action.contOrigin === configurableValue
-        ? (config?.origin ?? 'configured location')
+        ? (config?.origin ?? '配置的位置')
         : displayLocationValue(action.contOrigin);
     const dest =
       action.contDest === configurableValue
@@ -30,7 +30,7 @@ act.addAction<Config>({
     const payment = action.paymentPerTon ?? 0;
     const paymentStr = payment > 0 ? ` @ ${payment}/t` : '';
 
-    return `Send contract for [${action.group}] from ${origin} to ${dest}${paymentStr}`;
+    return `发送合同，材料组 [${action.group}]，从 ${origin} 到 ${dest}${paymentStr}`;
   },
   editComponent: Edit,
   configureComponent: Configure,
@@ -51,13 +51,13 @@ act.addAction<Config>({
     const assert: AssertFn = ctx.assert;
 
     const materials = await getMaterialGroup(data.group);
-    assert(materials, 'Invalid material group');
+    assert(materials, '材料组无效');
 
     const contOrigin = resolveLocation(data.contOrigin, config?.origin, getMaterialGroupPlanet);
-    assert(contOrigin, 'Invalid origin');
+    assert(contOrigin, '来源无效');
 
     const contDest = resolveLocation(data.contDest, config?.destination, getMaterialGroupPlanet);
-    assert(contDest, 'Invalid destination');
+    assert(contDest, '目的地无效');
 
     const paymentPerTon = Number(data.paymentPerTon ?? 0);
     const daysToFulfill = data.daysToFulfill ?? 3;

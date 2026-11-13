@@ -31,7 +31,7 @@ function confirmDelete(ev: Event, list: UserData.CommandList) {
     ev,
     () => (userData.commandLists = userData.commandLists.filter(x => x !== list)),
     {
-      message: `Are you sure you want to delete the list "${list.name}"?`,
+      message: `确定要删除列表“${list.name}”吗？`,
     },
   );
 }
@@ -39,14 +39,14 @@ function confirmDelete(ev: Event, list: UserData.CommandList) {
 
 <template>
   <ActionBar>
-    <PrunButton primary @click="createNew">CREATE NEW</PrunButton>
+    <PrunButton primary @click="createNew">新建</PrunButton>
   </ActionBar>
   <table>
     <thead>
       <tr>
         <GripHeaderCell />
-        <th>Name</th>
-        <th>Length</th>
+        <th>名称</th>
+        <th>长度</th>
         <th />
       </tr>
     </thead>
@@ -60,11 +60,11 @@ function confirmDelete(ev: Event, list: UserData.CommandList) {
         </td>
         <td>
           <span>
-            {{ list.commands.length }} command{{ list.commands.length !== 1 ? 's' : '' }}
+            {{ list.commands.length }} 条指令{{ list.commands.length !== 1 ? 's' : '' }}
           </span>
         </td>
         <td>
-          <PrunButton danger @click="confirmDelete($event, list)">DELETE</PrunButton>
+          <PrunButton danger @click="confirmDelete($event, list)">删除</PrunButton>
         </td>
       </tr>
     </tbody>

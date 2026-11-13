@@ -20,22 +20,22 @@ export function supplyDaysReady(days: number) {
 
 export function setRouteBlock(input: SetRouteGateInput) {
   if (!input.shipChosen) {
-    return 'Set a ship above to build the route.';
+    return '请先在上方设置飞船以创建路线。';
   }
   if (input.stopCount < 2) {
-    return 'Add at least two stops.';
+    return '请至少添加两个站点。';
   }
   if (!input.billReady) {
-    return 'The bill is not ready.';
+    return '材料清单尚未准备好。';
   }
   if (!transitsReady(input.legs)) {
-    return 'Run TRANSITS first.';
+    return '请先运行 TRANSITS。';
   }
   if (!supplyDaysReady(input.supplyDays)) {
-    return 'Set supply days.';
+    return '请设置补给天数。';
   }
   if (input.hasOverflow || input.inputOverloaded) {
-    return 'Fix the overloaded stops.';
+    return '请处理超载的站点。';
   }
   return undefined;
 }

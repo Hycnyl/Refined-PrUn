@@ -265,9 +265,9 @@ export function formatMilkRunOverflow(
 ) {
   const over = `${fixed0(overflow.weightOver)}t / ${fixed0(overflow.volumeOver)}m³`;
   if (overflow.stopId === undefined) {
-    return `${shipLabel} would be ${over} over at CX departure.`;
+    return `${shipLabel} 将超出 ${over}，在离开交易所时。`;
   }
-  return `${shipLabel} would be ${over} over after ${stopLabel ?? overflow.stopId} due to its excess available output.`;
+  return `${shipLabel} 将超出 ${over}，在以下站点之后：${stopLabel ?? overflow.stopId}，因为可装载的产出过多。`;
 }
 
 export function fitDaysForShip(

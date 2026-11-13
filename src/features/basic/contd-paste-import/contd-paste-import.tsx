@@ -38,19 +38,19 @@ async function importSpec(anchor: Element, spec: ContractDraftSpec): Promise<str
   const issues: string[] = [];
 
   if (spec.type && !(await selectTemplateType(anchor, spec.type))) {
-    issues.push(`template ${spec.type}`);
+    issues.push(`模板 ${spec.type}`);
   }
   const isShip = currentTemplateType(anchor) === 'SHIP';
 
   if (spec.currency && !(await setCurrency(anchor, spec.currency))) {
-    issues.push(`currency ${spec.currency}`);
+    issues.push(`货币 ${spec.currency}`);
   }
 
   await importMaterials(anchor, spec.materials);
 
   if (spec.payment !== undefined) {
     if (!isShip) {
-      issues.push('payment (SHIP only)');
+      issues.push('payment（仅 SHIP）');
     } else if (!setShipPrice(anchor, spec.payment)) {
       issues.push('payment');
     }
@@ -65,7 +65,7 @@ async function importSpec(anchor: Element, spec: ContractDraftSpec): Promise<str
   };
   if (isShip) {
     if (spec.location) {
-      issues.push('location (BUY/SELL only)');
+      issues.push('location（仅 BUY/SELL）');
     }
     if (spec.origin) {
       await fillAddress(0, spec.origin, 'origin');
@@ -74,14 +74,14 @@ async function importSpec(anchor: Element, spec: ContractDraftSpec): Promise<str
       await fillAddress(1, spec.destination, 'destination');
     }
     if (spec.autoProvision !== undefined && !(await setAutoProvision(anchor, spec.autoProvision))) {
-      issues.push(`auto-provision ${spec.autoProvision}`);
+      issues.push(`自动供应 ${spec.autoProvision}`);
     }
   } else {
     if (spec.origin || spec.destination) {
-      issues.push('origin/destination (SHIP only)');
+      issues.push('origin/destination（仅 SHIP）');
     }
     if (spec.autoProvision !== undefined) {
-      issues.push('auto-provision (SHIP only)');
+      issues.push('auto-provision（仅 SHIP）');
     }
     if (spec.location) {
       await fillAddress(0, spec.location, 'location');
@@ -201,17 +201,17 @@ function quickAmounts(quantity: number, single: boolean): QuickAmount[] {
     });
   }
   options.push({
-    label: 'HLF',
+    label: '半额',
     amount: Math.floor(quantity / 2),
     resolve: stack => Math.max(1, Math.floor(stack.quantity / 2)),
   });
-  options.push({ label: 'ALL', amount: quantity, resolve: stack => stack.quantity });
+  options.push({ label: '全部', amount: quantity, resolve: stack => stack.quantity });
   const sorted = options.filter(option => option.amount >= 1).sort((a, b) => a.amount - b.amount);
   if (!single) {
     return sorted;
   }
   return [
-    { label: 'AMT', amount: quantity, resolve: stack => stack.quantity, prompt: true },
+    { label: '数量', amount: quantity, resolve: stack => stack.quantity, prompt: true },
     ...sorted,
   ];
 }
@@ -235,10 +235,10 @@ const parsers: ParserConfig[] = [
     id: 'json',
     label: 'JSON',
     placeholder:
-      'Paste contract JSON, e.g. {"type": "SHIP", "currency": "NCC", "origin": "Montem", ' +
+      '粘贴合同 JSON，例如 {"type": "SHIP", "currency": "NCC", "origin": "Montem", ' +
       '"destination": "Moria Station", "payment": 10000, "deadline": 5, ' +
       '"materials": [{"ticker": "RAT", "amount": 100}]} — BUY/SELL take "location" and ' +
-      'per-material "price" instead. Every field is optional.',
+      '使用每种材料的 price 字段，所有字段均可省略。',
     example: JSON.stringify(
       {
         type: 'SHIP',
@@ -257,12 +257,12 @@ const parsers: ParserConfig[] = [
   },
   {
     id: 'sheets',
-    label: 'Sheets/Excel',
+    label: '表格/Excel',
     placeholder:
-      'Paste rows copied from Sheets/Excel: amount, ticker, price (tab-separated). ' +
-      'Contract fields are keyword rows: template, currency, location, origin, ' +
-      'destination, payment, deadline, autoprovision — keyword in the first column, ' +
-      'value in the second.',
+      '粘贴从表格或 Excel 复制的行：数量、材料代码、价格，以制表符分隔。' +
+      '合同字段使用关键字行：template、currency、location、origin、' +
+      'destination、payment、deadline、autoprovision，第一列为关键字，' +
+      '第二列为值。',
     example:
       'template\tBUY\ncurrency\tNCC\nlocation\tMontem\ndeadline\t5\n100\tRAT\t45000\n50\tDW\t120000',
     parse: parseSheetsExcel,
@@ -270,10 +270,10 @@ const parsers: ParserConfig[] = [
   },
   {
     id: 'prunplanner',
-    label: 'Prun Planner',
-    placeholder: 'Paste PRUNplanner supply cart JSON',
+    label: 'PrUn 规划器',
+    placeholder: '粘贴 PRUNplanner 补给购物车 JSON',
     example: JSON.stringify(
-      { groups: [{ name: 'Cart', materials: { RAT: 100, DW: 50 } }] },
+      { groups: [{ name: '购物车', materials: { RAT: 100, DW: 50 } }] },
       null,
       2,
     ),
@@ -336,13 +336,13 @@ function insertPasteBox(container: Element, anchor: Element) {
   let promptNeedsFocus = false;
   const dragStatus = computed(() =>
     dragMaterials.value.length > 0
-      ? `${dragMaterials.value.length} material${dragMaterials.value.length === 1 ? '' : 's'} ready.`
+      ? `${dragMaterials.value.length} 种材料${dragMaterials.value.length === 1 ? '' : 's'} 已就绪。`
       : '',
   );
   const dragInstance = {
     kind: 'drag' as const,
     id: dragTabId,
-    label: 'Drag',
+    label: '拖入',
     spec: computed<ContractDraftSpec>(() => ({ materials: dragMaterials.value })),
     status: dragStatus,
     isInvalid: computed(() => false),
@@ -463,7 +463,7 @@ function insertPasteBox(container: Element, anchor: Element) {
     }
     return importIssues.value.length === 0
       ? 'Imported.'
-      : `Imported, but failed: ${importIssues.value.join(', ')}.`;
+      : `已导入，但部分操作失败：${importIssues.value.join(', ')}.`;
   });
 
   let importing = false;
@@ -486,7 +486,7 @@ function insertPasteBox(container: Element, anchor: Element) {
   const jsonInstance = textInstances[0];
   const onExport = async () => {
     if (isLoanTemplate(anchor)) {
-      exportStatus.value = "Loan templates aren't supported.";
+      exportStatus.value = '不支持贷款模板。';
       return;
     }
     const spec = readDraftSpec(anchor);
@@ -506,8 +506,8 @@ function insertPasteBox(container: Element, anchor: Element) {
     // out so the fresh status isn't wiped by the export's own switch to JSON.
     await nextTick();
     exportStatus.value =
-      `Exported ${materials} material${materials === 1 ? '' : 's'} + ` +
-      `${fields} field${fields === 1 ? '' : 's'} — ${clipboard}.`;
+      `已导出 ${materials} 种材料${materials === 1 ? '' : 's'} + ` +
+      `${fields} 个字段${fields === 1 ? '' : 's'} — ${clipboard}.`;
   };
 
   createFragmentApp(() => {
@@ -528,11 +528,11 @@ function insertPasteBox(container: Element, anchor: Element) {
           </div>
           {instance ? (
             <PrunButton dark inline onClick={() => (activeParser.value = '')}>
-              Hide
+              隐藏
             </PrunButton>
           ) : (
             <PrunButton dark inline onClick={() => (activeParser.value = lastVisibleTab.value)}>
-              Show
+              显示
             </PrunButton>
           )}
         </div>
@@ -552,9 +552,7 @@ function insertPasteBox(container: Element, anchor: Element) {
             onDragleave={onZoneDragLeave}
             onDrop={onZoneDrop}>
             {dragMaterials.value.length === 0 && !dragHover.value && !amountPrompt.value && (
-              <div class={$style.dropZoneHint}>
-                Drag a material stack here from another inventory
-              </div>
+              <div class={$style.dropZoneHint}>将其他库存中的材料堆拖到此处</div>
             )}
             {dragMaterials.value.map((material, index) => (
               <div class={$style.materialRow}>
@@ -601,7 +599,7 @@ function insertPasteBox(container: Element, anchor: Element) {
                   onKeydown={onPromptKeydown}
                 />
                 <PrunButton dark inline onClick={confirmPrompt}>
-                  add
+                  添加
                 </PrunButton>
                 <PrunButton dark inline onClick={() => (amountPrompt.value = undefined)}>
                   x
@@ -639,7 +637,7 @@ function insertPasteBox(container: Element, anchor: Element) {
           <div class={$style.row}>
             {instance.kind === 'text' && (
               <PrunButton dark inline onClick={() => (instance.text.value = instance.example)}>
-                Example
+                示例
               </PrunButton>
             )}
             {instance.status.value && (
@@ -671,7 +669,7 @@ function insertPasteBox(container: Element, anchor: Element) {
             )}
             {instance.canImport.value && (
               <PrunButton dark inline onClick={onImport}>
-                Apply
+                应用
               </PrunButton>
             )}
           </div>
@@ -686,9 +684,9 @@ function insertPasteBox(container: Element, anchor: Element) {
   // after it — container has its own bottom padding, so mounting outside it
   // would show that padding as a gap above this row instead of below it.
   createFragmentApp(() => (
-    <Commands label="Export" class={$style.exportRow}>
+    <Commands label="导出" class={$style.exportRow}>
       <PrunButton dark inline onClick={onExport}>
-        Export Template
+        导出模板
       </PrunButton>
     </Commands>
   )).appendTo(container);
@@ -731,8 +729,8 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'CONTD: Adds a paste box at the top of the contract template screen to fill the full ' +
-    'template (type, currency, materials, prices, locations, deadline) from contract JSON, ' +
-    'Sheets/Excel rows, PRUNplanner JSON, or dragged material stacks, and to export the ' +
-    'template back to contract JSON.',
+  'CONTD：在合同模板页顶部增加粘贴框，支持从合同 JSON、' +
+    '表格或 Excel 行、PRUNplanner JSON 或拖入的材料堆填写完整模板' +
+    '（类型、货币、材料、价格、地点和截止期限），并支持将模板' +
+    '导出为合同 JSON',
 );

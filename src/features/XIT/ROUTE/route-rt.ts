@@ -255,7 +255,7 @@ function buildSegmentedRouteSpec(
   const looping = input.loop !== false;
   const ids = transitStopIds(input.stops, false);
   if (ids.length < 2) {
-    return { ok: false, error: 'Need at least 2 stops' };
+    return { ok: false, error: '至少需要 2 个站点' };
   }
   const segments = input.segments ?? [];
   const everything = unionTickers(segments.map(segment => segmentMaterials(segment)));
@@ -330,7 +330,7 @@ export function buildRouteSpec(
   const looping = input.loop !== false;
   const ids = transitStopIds(input.stops, false);
   if (ids.length < 2) {
-    return { ok: false, error: 'Need at least 2 stops' };
+    return { ok: false, error: '至少需要 2 个站点' };
   }
   const departure = departureAmounts(input.bills, input.sourced, input.departureExtra);
   const materials = routeMaterials(input);

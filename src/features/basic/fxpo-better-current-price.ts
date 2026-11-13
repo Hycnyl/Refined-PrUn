@@ -59,4 +59,4 @@ function init() {
   tiles.observe('FXPO', onTileReady);
 }
 
-features.add(import.meta.url, init, 'FXPO: Sets the current price to the order book price.');
+features.add(import.meta.url, init, 'FXPO：将当前价格设为订单簿价格');

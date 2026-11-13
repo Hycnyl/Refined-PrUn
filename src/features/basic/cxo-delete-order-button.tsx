@@ -23,7 +23,7 @@ function onTileReady(tile: PrunTile) {
     createFragmentApp(() => (
       <ActionBar>
         <PrunButton danger onClick={onClick}>
-          DELETE
+          删除
         </PrunButton>
       </ActionBar>
     )).before(table);
@@ -34,4 +34,4 @@ function init() {
   tiles.observe(['CXO', 'FXO'], onTileReady);
 }
 
-features.add(import.meta.url, init, 'CXO/FXO: Adds a delete button.');
+features.add(import.meta.url, init, 'CXO/FXO：增加删除按钮');

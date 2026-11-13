@@ -129,7 +129,7 @@ const allRows = computed<InvRow[] | undefined>(() => {
           : undefined;
       rows.push({
         storeId: store.id,
-        type: isCx ? 'CX' : 'WAREHOUSE',
+        type: isCx ? '交易所' : '仓库',
         label,
         warehousePlanetId: isCx ? undefined : naturalId,
         contextMenuId: isCx ? undefined : (naturalId ?? undefined),
@@ -193,12 +193,12 @@ const filteredRows = computed(() => {
   <LoadingSpinner v-if="!filteredRows" />
   <template v-else>
     <div :class="C.ComExOrdersPanel.filter">
-      <RadioItem v-model="showCx" horizontal>CX</RadioItem>
+      <RadioItem v-model="showCx" horizontal>交易所存款 (CX)</RadioItem>
       <RadioItem v-model="showBase" horizontal>BS</RadioItem>
-      <RadioItem v-model="showShip" horizontal>SHP</RadioItem>
-      <RadioItem v-model="showWarehouse" horizontal>WAR</RadioItem>
+      <RadioItem v-model="showShip" horizontal>飞船</RadioItem>
+      <RadioItem v-model="showWarehouse" horizontal>仓库</RadioItem>
       <div :class="$style.separator" />
-      <RadioItem v-model="showBaseWar" horizontal>BASE WAR</RadioItem>
+      <RadioItem v-model="showBaseWar" horizontal>基地仓库</RadioItem>
       <div :class="$style.spacer" />
       <div :class="$style.searchContainer">
         <input
@@ -207,7 +207,7 @@ const filteredRows = computed(() => {
           autocomplete="off"
           data-1p-ignore="true"
           data-lpignore="true"
-          placeholder="Enter location"
+          placeholder="输入位置"
           :class="$style.searchInput" />
         <PrunButton
           v-if="locationFilter"
@@ -221,9 +221,9 @@ const filteredRows = computed(() => {
     <table :class="$style.table">
       <thead>
         <tr>
-          <th :class="$style.nameCol">Name</th>
-          <th :class="$style.typeCol">Type</th>
-          <th :class="$style.barCol">Inventory</th>
+          <th :class="$style.nameCol">名称</th>
+          <th :class="$style.typeCol">类型</th>
+          <th :class="$style.barCol">库存</th>
         </tr>
       </thead>
       <tbody>

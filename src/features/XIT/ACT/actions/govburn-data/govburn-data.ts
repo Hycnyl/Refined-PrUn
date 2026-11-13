@@ -9,15 +9,15 @@ import { popiBuildings } from '@src/features/XIT/GOVBURN/buildings';
 
 act.addAction({
   type: 'GovBurn Data',
-  shortDescription: 'Collect planetary upkeep data via POPI/POPID/COGC buffers',
-  description: action => (action.planet ? `Collect gov upkeep data for ${action.planet}` : '--'),
+  shortDescription: '通过 POPI、POPID 和 COGC 窗口收集星球维护数据',
+  description: action => (action.planet ? `收集星球维护数据：${action.planet}` : '--'),
   editComponent: Edit,
   generateSteps: async ctx => {
     const { data, emitStep } = ctx;
     const assert: AssertFn = ctx.assert;
 
     const planet = planetsStore.find(data.planet);
-    assert(planet, 'Planet not found');
+    assert(planet, '未找到星球');
     const naturalId = planet.naturalId;
 
     emitStep(OPEN_POPI({ planet: naturalId }));

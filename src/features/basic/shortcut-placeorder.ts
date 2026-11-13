@@ -44,8 +44,4 @@ function init() {
   addCommandTransformer(transform);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'CXPO: Opens the place order buffer by typing an exchange shortcut and a material ticker, like "a dw".',
-);
+features.add(import.meta.url, init, 'CXPO：输入交易所简称和材料代码即可打开下单窗口，例如“a dw”');

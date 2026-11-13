@@ -140,13 +140,13 @@ function afterExecute(
     ],
   };
 
-  log('INFO', 'Auto Offload JSON:');
+  log('INFO', '自动卸货 JSON：');
   log(null, JSON.stringify(result, null, 2));
 }
 </script>
 
 <template>
-  <div v-if="!planetName">Planet "{{ naturalId }}" not found.</div>
+  <div v-if="!planetName">星球“{{ naturalId }}”未找到。</div>
   <ExecuteActionPackage
     v-else
     :pkg="pkg"
@@ -155,16 +155,16 @@ function afterExecute(
     :config-changed="persistExchange"
     :keep-open-on-complete="keepOpenOnComplete">
     <template #mtra-extra>
-      <Active label="Refuel">
-        <RadioItem v-model="refuel">refuel</RadioItem>
+      <Active label="加油">
+        <RadioItem v-model="refuel">加油</RadioItem>
       </Active>
     </template>
     <template #extra>
-      <Active label="Generate Return JSON">
-        <RadioItem v-model="generateReturnJson">generate return json</RadioItem>
+      <Active label="生成返程 JSON">
+        <RadioItem v-model="generateReturnJson">生成返程 JSON</RadioItem>
       </Active>
-      <Active label="Agent">
-        <RadioItem v-model="agent">agent</RadioItem>
+      <Active label="同步代理">
+        <RadioItem v-model="agent">同步代理</RadioItem>
       </Active>
     </template>
   </ExecuteActionPackage>

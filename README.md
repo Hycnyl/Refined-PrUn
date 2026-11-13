@@ -1,63 +1,35 @@
-# Refined PrUn
+# Refined PrUn OOG 汉化版
 
-[link-chrome]: https://chromewebstore.google.com/detail/refined-prun/coabeheneafgglpakallmkienlidgaof 'Version published on Chrome Web Store'
+基于 [OOG 版 Refined PrUn](https://github.com/jackinabox86/refined-prun) 的自用简体中文扩展，保留 OOG 功能和 RT 编排增强，优先沿用 [SupCH/refined-prun-cn](https://github.com/SupCH/refined-prun-cn) 的已有译文。
 
-[link-firefox]: https://addons.mozilla.org/en-US/firefox/addon/refined-prun/ 'Version published on Mozilla Add-ons'
+当前功能基线：OOG 1.1.11，提交 `33a4ebe56f61e3dc195c7cad2073b04cad4344c3`。本仓库负责扩展自身的界面汉化；游戏服务器提供的原始内容、玩家自定义名称、命令和导入导出字段保留原值。
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="32" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/coabeheneafgglpakallmkienlidgaof.svg?label=%20">][link-chrome]
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/firefox/firefox.svg" width="32" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/refined-prun.svg?label=%20">][link-firefox]
+## 安装
 
-Browser extension that simplifies the Prosperous Universe interface and adds useful features
+1. 从 [Releases](https://github.com/Hycnyl/Refined-PrUn/releases/latest) 下载 `refined-prun-cn-*.zip`，解压到固定目录。
+2. 在 Chrome 打开 `chrome://extensions`，或在 Edge 打开 `edge://extensions`，开启开发者模式。
+3. 点击“加载已解压的扩展程序”，选择直接包含 `manifest.json` 的目录。
+4. 禁用其他 Refined PrUn、旧汉化版及 PMMG Extended，重新加载 [APEX](https://apex.prosperousuniverse.com)。
+5. 使用 `XIT SET` 打开设置，`XIT HELP` 查看帮助，`XIT CMDS` 查看命令列表。
 
-## Highlights 🔥
+更新时，先在旧版本的 `XIT SET` 导出用户数据，再用新包替换同一目录中的文件，在扩展管理页点击重新加载，最后刷新游戏。同一路径加载通常保留扩展本地数据；如果扩展标识变化，可在新版本中导入备份。未登录或未访问过的游戏数据仍需按 OOG 原有方式加载。
 
-<table>
-	<tr>
-		<th width="50%">
-			<p>Pending Contract Conditions
-			<p><img src="https://github.com/user-attachments/assets/21e219dd-5923-4a47-831a-3eb527e99f8d">
-		<th width="50%">
-			<p>Commodity Exchange Trades
-			<p><img src="https://github.com/user-attachments/assets/b0139e1e-153a-4fc7-b88a-f2954add66bf">
-	<tr>
-		<th width="50%">
-			<p>Detailed Balance Statement
-			<p><img src="https://github.com/user-attachments/assets/f0452cf4-2a18-4336-a2f7-0b03ba6ef941">
-		<th width="50%">
-			<p>HQ Upgrade Calculator
-			<p><img src="https://github.com/user-attachments/assets/3a514d76-85b5-4b58-ba5c-2a1a52a8deff">
-	<tr>
-		<th width="50%">
-			<p>CONTD partner search results are shown above the search bar
-			<p><img src="https://github.com/user-attachments/assets/2e9864e4-e13f-4f06-893b-701d9687dbf9">
-		<th width="50%">
-			<p>SHPT and BLCK destination labels
-			<p><img src="https://github.com/user-attachments/assets/d1c2f806-1b14-4a27-b5a7-1466c9dcaee9">
-	<tr>
-		<th width="50%">
-			<p>Better LM ads
-			<p><img src="https://github.com/user-attachments/assets/a33aae8a-972b-4ac5-8389-361f71231250">
-		<th width="50%">
-			<p>Improved monochrome icon set
-			<p><img src="https://github.com/user-attachments/assets/9fc42ef8-e2c6-43e9-8797-56601389205e">
-</table>
+本项目只提供一份可解压加载的扩展包，不发布扩展商店版本。程序中的 RT 指令语法、内部动作类型、库存标识和 JSON 字段保留英文，以兼容既有数据；相应界面标签显示为中文。
 
----
+## 构建与发布
 
-## In-game preview
+使用 Node.js 22.16.0 或更高版本，以及 package.json 指定的 pnpm 10.32.1。首次检出需要 Git LFS 以获取图标和字体。
 
-<img width="1920" alt="Screenshot 2024-11-17 at 21 54 03" src="https://github.com/user-attachments/assets/ed442f0e-297e-4f62-b539-7057e4a3b30f">
-
-## Building
-
-To build this extension, you will need to install [pnpm](https://pnpm.io/) v9.x
-
-Then, in the repository root, run
-
-```
-pnpm install
-pnpm build
+```sh
+git lfs pull
+corepack pnpm install --frozen-lockfile
+corepack pnpm build
 ```
 
-The extension will be built in the `dist` folder
+产物位于 `dist/`。也可运行 `bash scripts/build-dist.sh` 生成根目录的 `dist.zip`，压缩包不进入版本控制。
 
+GitHub Actions 在推送和 PR 时执行类型检查、Lint、现有测试和构建，并保存 `refined-prun-cn-unpacked` 构建产物。主分支提交消息以 `release:` 开头，或手动运行工作流并勾选发布时，全部检查通过后由 Actions 创建 GitHub Release 和扩展 ZIP。版本由 `VERSION`、`public/manifest.json` 和 `package.json` 共同维护；Chrome 数字版本使用四段，例如 `1.1.11.1`，显示版本使用 `1.1.11-cn.1`。
+
+## 致谢与许可
+
+功能来自 [refined-prun/refined-prun](https://github.com/refined-prun/refined-prun)、[agm-114/refined-prun](https://github.com/agm-114/refined-prun) 和 [jackinabox86/refined-prun](https://github.com/jackinabox86/refined-prun)，中文文案参考 [SupCH/refined-prun-cn](https://github.com/SupCH/refined-prun-cn)。沿用原项目的 [MIT 许可证](LICENSE)。

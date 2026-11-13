@@ -139,11 +139,11 @@ export class AgentQueryConnection {
 
   private handleMessage(data: unknown) {
     if (typeof data !== 'string') {
-      this.failAndClose('Only text agent messages are supported.', 1003);
+      this.failAndClose('仅支持文本代理消息。', 1003);
       return;
     }
     if (data.length > maxIncomingMessageSize) {
-      this.failAndClose('Agent message exceeds the size limit.', 1009);
+      this.failAndClose('代理消息超出大小限制。', 1009);
       return;
     }
 
@@ -151,18 +151,18 @@ export class AgentQueryConnection {
     try {
       parsed = JSON.parse(data) as unknown;
     } catch {
-      this.sendError(undefined, 'Malformed JSON message.');
+      this.sendError(undefined, 'JSON 消息格式错误。');
       return;
     }
     if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
-      this.sendError(undefined, 'Message must be an object.');
+      this.sendError(undefined, '消息必须为对象。');
       return;
     }
     const message = parsed as AgentRequest;
 
     if (!this.authenticated) {
       if (message.type !== 'authenticated') {
-        this.failAndClose('Agent sent a request before authentication.', 1008);
+        this.failAndClose('代理在认证前发送了请求。', 1008);
         return;
       }
       this.clearAuthenticationTimer();
@@ -173,7 +173,7 @@ export class AgentQueryConnection {
     }
 
     if (typeof message.id !== 'string' || message.id.length === 0 || message.id.length > 128) {
-      this.sendError(undefined, 'Request id must be a string between 1 and 128 characters.');
+      this.sendError(undefined, '请求 ID 必须为 1 至 128 个字符的字符串。');
       return;
     }
 
@@ -189,7 +189,7 @@ export class AgentQueryConnection {
         this.handleQuery(message.id, message.query);
         break;
       default:
-        this.sendError(message.id, 'Unknown or unauthorized agent request type.');
+        this.sendError(message.id, '未知或未授权的代理请求类型。');
         break;
     }
   }
@@ -221,7 +221,7 @@ export class AgentQueryConnection {
       const fallback = JSON.stringify({
         type: 'error',
         ...(requestId ? { id: requestId } : {}),
-        error: 'Agent response exceeds the size limit. Narrow the query or reduce its limit.',
+        error: '代理响应超出大小限制，请缩小查询范围或降低数量上限。',
       });
       socket.send(fallback);
       return;
@@ -257,26 +257,26 @@ export function validateAgentEndpoint(endpoint: string) {
   try {
     url = new URL(endpoint);
   } catch {
-    throw Error('Agent endpoint must be a valid WebSocket URL.');
+    throw Error('代理地址必须为有效的 WebSocket 网址。');
   }
   if (url.protocol !== 'ws:' && url.protocol !== 'wss:') {
-    throw Error('Agent endpoint must use ws:// or wss://.');
+    throw Error('代理地址必须使用 ws:// 或 wss://。');
   }
   if (url.hostname !== '127.0.0.1' && url.hostname !== '[::1]') {
-    throw Error('Agent endpoint must use the literal loopback address 127.0.0.1 or [::1].');
+    throw Error('代理地址必须使用本机回环地址 127.0.0.1 或 [::1]。');
   }
   if (url.username || url.password || url.search || url.hash) {
-    throw Error('Agent endpoint must not contain credentials, query parameters, or a fragment.');
+    throw Error('代理地址不能包含凭据、查询参数或片段标识。');
   }
   return url.toString();
 }
 
 export function validateAgentToken(token: string) {
   if (typeof token !== 'string' || token.length < 32 || token.length > 256) {
-    throw Error('Agent token must contain between 32 and 256 characters.');
+    throw Error('代理令牌长度必须为 32 至 256 个字符。');
   }
   if ([...token].some(x => x.charCodeAt(0) <= 31 || x.charCodeAt(0) === 127)) {
-    throw Error('Agent token must not contain control characters.');
+    throw Error('代理令牌不能包含控制字符。');
   }
 }
 

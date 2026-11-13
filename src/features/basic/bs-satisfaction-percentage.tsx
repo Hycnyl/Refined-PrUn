@@ -29,8 +29,4 @@ function init() {
   tiles.observe('BS', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'BS: Adds a workforce satisfaction percentage label to the satisfaction progress bar.',
-);
+features.add(import.meta.url, init, 'BS：在劳动力表格中增加满意度百分比');

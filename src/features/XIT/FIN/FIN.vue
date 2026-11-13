@@ -21,7 +21,7 @@ function formatRatio(ratio: number | undefined) {
     return '--';
   }
   if (!isFinite(ratio)) {
-    return 'N/A';
+    return '不适用';
   }
   const absRatio = Math.abs(ratio);
   if (absRatio > 1000) {
@@ -59,77 +59,77 @@ function formatPercentage(ratio: number | undefined) {
 const figures = computed(() => {
   return [
     {
-      name: 'Quick Assets',
+      name: '速动资产',
       value: formatCurrency(liveBalanceSummary.quickAssets),
       tooltip:
-        'Quick Assets are: Cash and Cash Equivalents, Current Accounts Receivable, and' +
-        ' Current Loans Receivable (see XIT FINBS for more details). These assets are' +
-        ' either liquid or close-to-liquid and are used in Quick Ratio calculation.',
+        '速动资产包括：现金及现金等等价物、当前应收账款和' +
+        '当前应收贷款（详见 XIT FINBS）。这些资产' +
+        '要么是流动性的，要么接近流动性，用于计算速动比率。',
     },
     {
-      name: 'Current Assets',
+      name: '流动资产',
       value: formatCurrency(liveBalanceSummary.currentAssets),
     },
-    { name: 'Total Assets', value: formatCurrency(liveBalanceSummary.assets) },
-    { name: 'Equity', value: formatCurrency(liveBalanceSummary.equity) },
+    { name: '总资产', value: formatCurrency(liveBalanceSummary.assets) },
+    { name: '股东权益', value: formatCurrency(liveBalanceSummary.equity) },
     {
-      name: 'Quick Liabilities',
+      name: '速动负债',
       value: formatCurrency(liveBalanceSummary.quickLiabilities),
       tooltip:
-        'Quick Liabilities are: Current Accounts Payable and Current Loans Payable (see XIT FINBS' +
-        ' for more details). These liabilities represent immediate financial obligations and are' +
-        ' used in Quick Ratio calculation.',
+        '速动负债包括：当前应付账款和当前应付贷款（详见 XIT FINBS）。' +
+        '这些负债代表即时财务义务，' +
+        '用于计算速动比率。',
     },
     {
-      name: 'Current Liabilities',
+      name: '流动负债',
       value: formatCurrency(liveBalanceSummary.currentLiabilities),
     },
     {
-      name: 'Total Liabilities',
+      name: '总负债',
       value: formatCurrency(liveBalanceSummary.liabilities),
     },
     {
-      name: 'Liquidation Value',
+      name: '清算价值',
       hidden: !userData.fullEquityMode,
       value: formatCurrency(liveBalanceSummary.liquidationValue),
       tooltip:
-        'The market value of all company’s assets that can be converted to cash directly. ' +
-        'The Liquidation Value excludes such assets as ships, HQ upgrades, and ARC, since ' +
-        'they cannot be sold on the market.',
+        '公司所有可直接转换为现金的资产的市场价值。' +
+        '清算价值不包括飞船、总部升级和 ARC 等资产，' +
+        '因为它们不能在市场上出售。',
     },
     {
-      name: 'Quick Ratio',
+      name: '速动比率',
       value: formatRatio(liveBalanceSummary.acidTestRatio),
       tooltip:
-        "The quick, or acid-test ratio, compares a company's quick assets to its quick" +
-        ' liabilities to see if it has enough cash to pay its immediate liabilities,' +
-        ' such as short-term debt. Generally, a ratio of 1.0 or more indicates a company can pay' +
-        ' its short-term obligations, while a ratio of less than 1.0 indicates it might struggle' +
-        ' to pay them.',
+        '速动比率（又称酸性测试比率）将公司的速动资产与其速动负债进行比较，' +
+        '以确定其是否有足够的现金来支付' +
+        '短期债务等即时负债。通常，比率为 1.0 或更高表示公司能够支付' +
+        '其短期义务，而低于 1.0 则表示可能难以' +
+        '支付。',
     },
     {
-      name: 'Debt Ratio',
+      name: '资产负债率',
       value: formatPercentage(liveBalanceSummary.debtRatio),
       tooltip:
-        'The debt ratio is defined as the ratio of total debt to total assets. A debt ratio' +
-        ' of greater than 100% means a company has more debt than assets while a debt ratio' +
-        ' of less than 100% indicates that a company has more assets than debt.',
+        '资产负债率定义为总负债与总资产的比率。资产负债率' +
+        '大于 100% 意味着公司的债务多于资产，' +
+        '而小于 100% 则表示资产多于债务。',
     },
   ];
 });
 </script>
 
 <template>
-  <FinHeader>Key Figures</FinHeader>
+  <FinHeader>关键指标</FinHeader>
   <KeyFigures :figures="figures" />
-  <FinHeader>Inventory Breakdown</FinHeader>
+  <FinHeader>库存明细</FinHeader>
   <table>
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Non-Current Assets</th>
-        <th>Current Assets</th>
-        <th>Total Assets</th>
+        <th>名称</th>
+        <th>非流动资产</th>
+        <th>流动资产</th>
+        <th>总资产</th>
       </tr>
     </thead>
     <tbody>

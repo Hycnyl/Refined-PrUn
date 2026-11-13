@@ -41,9 +41,9 @@ export function gameRoutesNow(): GameRouteRef[] {
   }));
 }
 
-const NO_RT = 'Build this route from ROUTECONFIG before assigning a ship.';
-const NO_LOAD = "ROUTECONFIG could not plan this route's load.";
-const PICK_SHIP = "ASSIGN asks for a ship that can carry this route's load.";
+const NO_RT = '分配飞船前，请先通过 ROUTECONFIG 创建此路线。';
+const NO_LOAD = 'ROUTECONFIG 无法计算此路线的装载计划。';
+const PICK_SHIP = '“分配”将要求选择能装下此路线物资的飞船。';
 
 function hasShip(route: UserData.ShippingRoute) {
   return (route.ship?.trim().length ?? 0) > 0;
@@ -100,7 +100,7 @@ export async function ensureRouteShip(route: UserData.ShippingRoute) {
   const fits = shipsThatFit(route);
   const picked = await beginShipPick(
     fits.map(x => ({ label: x.label })),
-    `${route.name} has no ship. Pick one that can carry its load.`,
+    `${route.name} 未设置飞船，请选择能装下所需物资的飞船。`,
   );
   const ship = fits.find(x => x.label === picked);
   if (ship === undefined) {

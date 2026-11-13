@@ -25,8 +25,4 @@ function init() {
   tiles.observe(['LM', 'LMA'], onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'LM: Colors the BUYING and SELLING in green and red respectively.',
-);
+features.add(import.meta.url, init, 'LM：为广告中的“买入”和“卖出”按钮着色');

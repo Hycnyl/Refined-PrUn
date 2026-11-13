@@ -308,7 +308,7 @@ export function formatFuelCell(stl: TankStop | undefined, ftl: TankStop | undefi
     return '--';
   }
   if (stl?.refuel === true || ftl?.refuel === true) {
-    return 'refuel';
+    return '加油';
   }
   return `${Math.round(stl?.level ?? 0)} STL / ${Math.round(ftl?.level ?? 0)} FTL`;
 }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeOptions, localizeLabel } from '@src/infrastructure/i18n/labels';
 import Active from '@src/components/forms/Active.vue';
 import { sitesStore } from '@src/infrastructure/prun-api/data/sites';
 import { getEntityNameFromAddress } from '@src/infrastructure/prun-api/data/addresses';
@@ -64,29 +65,23 @@ defineExpose({ validate, save });
 </script>
 
 <template>
-  <Active label="Planet" :error="planetError">
-    <SelectInput v-model="planet" :options="planets" />
+  <Active label="星球" :error="planetError">
+    <SelectInput v-model="planet" :options="localizeOptions(planets, localizeLabel)" />
   </Active>
   <Active
-    label="Days"
+    label="天数"
     tooltip="The number of days of supplies to refill the planet with."
     :error="daysError">
     <NumberInput v-if="!configureDaysOnExecution" v-model="days" float />
-    <RadioItem v-model="configureDaysOnExecution">configure on execution</RadioItem>
+    <RadioItem v-model="configureDaysOnExecution">执行时配置</RadioItem>
   </Active>
-  <Active
-    label="Material Exclusions"
-    tooltip="Materials to be excluded from the group. List material tickers separated by commas.">
+  <Active label="排除材料" tooltip="从组中排除的材料，使用逗号分隔材料代码">
     <TextInput v-model="exclusions" />
   </Active>
-  <Active
-    label="Use Base Inv"
-    tooltip="Whether to count the materials currently in the base towards the totals.">
-    <RadioItem v-model="useBaseInventory">use base inv</RadioItem>
+  <Active label="使用基地库存" tooltip="计算总需求时，是否计入基地现有库存">
+    <RadioItem v-model="useBaseInventory">使用基地库存</RadioItem>
   </Active>
-  <Active
-    label="Workforce Only"
-    tooltip="Whether to limit the materials in the group to workforce consumables only.">
-    <RadioItem v-model="workforceOnly">workforce only</RadioItem>
+  <Active label="仅限劳动力" tooltip="是否仅包含劳动力消耗品">
+    <RadioItem v-model="workforceOnly">仅限劳动力</RadioItem>
   </Active>
 </template>

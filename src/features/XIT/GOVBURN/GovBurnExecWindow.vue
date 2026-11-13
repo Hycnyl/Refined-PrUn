@@ -7,6 +7,6 @@ useMinBufferHeight();
 </script>
 
 <template>
-  <div v-if="!stagedGovBurn">Nothing staged. Open XIT GOVBURNACT and press EXECUTE.</div>
+  <div v-if="!stagedGovBurn">暂无待执行计划。请打开 XIT GOVBURNACT 并点击“执行”。</div>
   <ExecuteActionPackage v-else :pkg="stagedGovBurn.pkg" />
 </template>

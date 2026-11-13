@@ -136,5 +136,5 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'Shift-click a production line button to open PRODCO and PRODQ as a companion pair.',
+  '按住 Shift 点击生产线按钮，将 PRODCO 和 PRODQ 作为一组联动窗口打开',
 );

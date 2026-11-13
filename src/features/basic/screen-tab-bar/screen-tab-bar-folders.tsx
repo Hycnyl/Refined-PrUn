@@ -20,11 +20,11 @@ function init() {
   subscribe($$(document, C.ScreenControls.container), onContainerReady);
   xit.add({
     command: 'FLDR',
-    name: 'NEW FOLDER',
-    description: 'Create a new screen folder.',
+    name: '新建文件夹',
+    description: '创建屏幕文件夹。',
     component: () => FolderCreator,
     bufferSize: [450, 110],
   });
 }
 
-features.add(import.meta.url, init, 'Adds folder management to the screen tab bar.');
+features.add(import.meta.url, init, '为屏幕标签栏增加文件夹管理');

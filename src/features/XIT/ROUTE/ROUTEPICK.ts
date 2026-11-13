@@ -2,8 +2,8 @@ import RoutePickWindow from '@src/features/XIT/ROUTE/RoutePickWindow.vue';
 
 xit.add({
   command: 'ROUTEPICK',
-  name: 'PICK SHIP',
-  description: 'Picks a free ship for a non-looping route.',
+  name: '选择飞船',
+  description: '为非循环路线选择空闲飞船。',
   component: () => RoutePickWindow,
   bufferSize: [360, 280],
 });

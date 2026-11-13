@@ -9,7 +9,7 @@ interface Data {
 
 export const OPEN_POPI = act.addActionStep<Data>({
   type: 'OPEN_POPI',
-  description: data => `Open POPI ${data.planet} for infrastructure data`,
+  description: data => `打开 POPI ${data.planet} 以收集基础设施数据`,
   execute: async ctx => {
     const { data, log, requestTile, complete, fail } = ctx;
     const tile = await requestTile(`POPI ${data.planet}`);
@@ -27,8 +27,8 @@ export const OPEN_POPI = act.addActionStep<Data>({
           .map(x => `${x.ticker} ${x.level}`);
         log.info(
           present.length > 0
-            ? `${data.planet} buildings: ${present.join(', ')}`
-            : `${data.planet} buildings: none`,
+            ? `${data.planet} 建筑：${present.join(', ')}`
+            : `${data.planet} 建筑：无`,
         );
         complete();
         return;

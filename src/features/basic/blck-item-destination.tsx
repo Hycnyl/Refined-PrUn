@@ -23,4 +23,4 @@ function init() {
   });
 }
 
-features.add(import.meta.url, init, 'Adds a destination address to BLCK items.');
+features.add(import.meta.url, init, '在 BLCK 物品中显示目的地地址');

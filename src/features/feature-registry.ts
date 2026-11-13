@@ -19,10 +19,10 @@ const log = {
 function logError(id: string, error: unknown): void {
   const message = error instanceof Error ? error.message : String(error);
 
-  const searchIssueUrl = new URL('https://github.com/refined-prun/refined-prun/issues');
+  const searchIssueUrl = new URL('https://github.com/Hycnyl/Refined-PrUn/issues');
   searchIssueUrl.searchParams.set('q', `is:issue is:open label:bug ${id}`);
 
-  const newIssueUrl = new URL('https://github.com/refined-prun/refined-prun/issues/new');
+  const newIssueUrl = new URL('https://github.com/Hycnyl/Refined-PrUn/issues/new');
   newIssueUrl.searchParams.set('template', 'bug_report.yml');
   newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
   newIssueUrl.searchParams.set('version', config.version.toString());
@@ -37,8 +37,8 @@ function logError(id: string, error: unknown): void {
   console.group(`❌ Refined PrUn: ${id}`);
   // One parameter improves Safari formatting.
   console.log(`📕 ${config.version}`, error);
-  console.log('🔍 Search issue', searchIssueUrl.href);
-  console.log('🚨 Report issue', newIssueUrl.href);
+  console.log('🔍 查找问题', searchIssueUrl.href);
+  console.log('🚨 报告问题', newIssueUrl.href);
   console.groupEnd();
 }
 

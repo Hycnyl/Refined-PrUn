@@ -210,11 +210,11 @@ const billLine = computed(() => {
     .map(([ticker, amount]) => `${ticker} ${fixed0(amount)}`)
     .join(', ');
   const totals = billTotals(bill.value);
-  return `Bill: ${parts} (${fixed02(totals.weight)}t, ${fixed02(totals.volume)}m³)`;
+  return `清单：${parts} (${fixed02(totals.weight)}t, ${fixed02(totals.volume)}m³)`;
 });
 
 const pkg = computed<UserData.ActionPackageData>(() => ({
-  global: { name: `GovBurn Resupply ${naturalId.value}` },
+  global: { name: `星球维护补给 ${naturalId.value}` },
   groups: [
     {
       type: 'Manual',
@@ -256,10 +256,10 @@ function onExecuteClick() {
 
 <template>
   <div :class="$style.root">
-    <Header :class="$style.header">GovBurn Resupply {{ displayName }}</Header>
+    <Header :class="$style.header">星球维护补给 {{ displayName }}</Header>
     <template v-if="!captured">
-      <p>
-        No data for {{ displayName }}. Run
+      <p
+        >无数据：{{ displayName }}。请运行
         <PrunLink inline :command="`XIT GOVBURNDATA ${naturalId}`">
           XIT GOVBURNDATA {{ naturalId }}
         </PrunLink>
@@ -267,35 +267,35 @@ function onExecuteClick() {
       </p>
     </template>
     <template v-else-if="!canPlanResupply">
-      <p>
-        No buildings configured for {{ displayName }}. Configure them in
+      <p
+        >尚未配置建筑：{{ displayName }}。配置请打开
         <PrunLink inline command="XIT GOVBURN">XIT GOVBURN</PrunLink>
         .
       </p>
     </template>
     <template v-else>
       <div :class="$style.pane">
-        <Active label="Days">
+        <Active label="天数">
           <SelectInput v-model="resupplyDays" :options="dayOptions" />
         </Active>
         <Active
-          label="CX Buy"
-          tooltip="Ignore stock already in the CX warehouse and try to buy the full bill. Remembered for this planet only.">
-          <RadioItem v-model="forceCXBuy">force CX buy</RadioItem>
+          label="交易所购买"
+          tooltip="忽略交易所仓库已有库存，尝试购买完整清单；仅为当前星球记住此选项">
+          <RadioItem v-model="forceCXBuy">强制从交易所购买</RadioItem>
         </Active>
 
         <table v-if="buildingRows.length > 0">
           <thead>
             <tr>
-              <th>Building</th>
-              <th v-for="i in Math.max(0, ...buildingRows.map(x => x.n))" :key="i">Slot {{ i }}</th>
+              <th>建筑</th>
+              <th v-for="i in Math.max(0, ...buildingRows.map(x => x.n))" :key="i">栏位 {{ i }}</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="row in buildingRows" :key="row.ticker">
               <td>{{ row.ticker }} {{ row.level }}</td>
               <template v-if="!row.hasUpkeeps">
-                <td :colspan="row.n" :class="$style.noData">no data</td>
+                <td :colspan="row.n" :class="$style.noData">无数据</td>
               </template>
               <template v-else>
                 <td
@@ -314,20 +314,20 @@ function onExecuteClick() {
           </tbody>
         </table>
 
-        <p v-if="captured?.cogc !== undefined" :class="$style.cogcSummary">
-          COGC: {{ cogcRefills(horizonDays) }} refill(s) included
-        </p>
+        <p v-if="captured?.cogc !== undefined" :class="$style.cogcSummary"
+          >商会：{{ cogcRefills(horizonDays) }} 次补充已计入</p
+        >
       </div>
-      <p v-if="allResolved && !billNotEmpty" :class="$style.summary">
-        Reserves already cover {{ horizonDays }} days — nothing to buy.
-      </p>
+      <p v-if="allResolved && !billNotEmpty" :class="$style.summary"
+        >储备已满足 {{ horizonDays }} 天需求，无需购买。</p
+      >
       <template v-else>
         <p v-if="allResolved" :class="$style.summary">{{ billLine }}</p>
-        <p v-else :class="$style.summary">Resolve all upkeep slots to continue.</p>
+        <p v-else :class="$style.summary">请先处理所有维护栏位。</p>
       </template>
       <ActionBar :class="$style.actionBar">
         <PrunButton v-if="allResolved && billNotEmpty" primary @click="onExecuteClick">
-          EXECUTE
+          执行
         </PrunButton>
       </ActionBar>
     </template>

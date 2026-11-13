@@ -86,8 +86,4 @@ function init() {
   tiles.observe('INV', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'INV: Shows in-flight ship destinations in the Location column.',
-);
+features.add(import.meta.url, init, 'INV：在“位置”列显示飞行中飞船的目的地');

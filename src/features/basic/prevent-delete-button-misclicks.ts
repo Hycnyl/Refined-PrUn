@@ -6,10 +6,7 @@ function onTileReady(tile: PrunTile) {
         return;
       }
 
-      button.setAttribute(
-        'data-tooltip',
-        'Please hold shift when clicking this button (misclick prevention)',
-      );
+      button.setAttribute('data-tooltip', '请按住 Shift 再点击此按钮，防止误操作');
       button.setAttribute('data-tooltip-position', 'top');
       e.preventDefault();
       e.stopPropagation();
@@ -21,8 +18,4 @@ function init() {
   tiles.observe(['COMG', 'COMP', 'COMU'], onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'Makes the "delete" button in chats work only when shift is held down.',
-);
+features.add(import.meta.url, init, '聊天中的删除按钮仅在按住 Shift 时生效');

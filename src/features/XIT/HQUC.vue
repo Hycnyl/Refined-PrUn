@@ -21,14 +21,14 @@ function reset() {
 
 <template>
   <form>
-    <Active label="From">
+    <Active label="来源">
       <NumberInput v-model="from" />
     </Active>
-    <Active label="To">
+    <Active label="目的地">
       <NumberInput v-model="to" />
     </Active>
     <Commands>
-      <PrunButton primary @click="reset">RESET</PrunButton>
+      <PrunButton primary @click="reset">重置</PrunButton>
     </Commands>
   </form>
   <MaterialPurchaseTable :materials="materials" />

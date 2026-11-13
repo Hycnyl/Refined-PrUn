@@ -10,11 +10,11 @@ xit.add({
     const parameter = parameters.join(' ');
     if (parameter) {
       const planet = planetsStore.find(parameter);
-      return `GOVBURN DATA - ${planet?.name ?? parameter}`;
+      return `星球维护数据 - ${planet?.name ?? parameter}`;
     }
-    return 'GOVBURN DATA';
+    return '星球维护数据';
   },
-  description: 'Collects planetary infrastructure upkeep data via POPI/POPID buffers.',
+  description: '通过 POPI 和 POPID 窗口收集星球基础设施维护数据。',
   optionalParameters: 'Planet Identifier',
   component: () => GovBurnDataWindow,
 });

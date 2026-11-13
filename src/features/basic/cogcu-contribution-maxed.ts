@@ -20,4 +20,4 @@ function init() {
   tiles.observe('COGCU', onTileReady);
 }
 
-features.add(import.meta.url, init, 'COGCU: Automatically maxes the contribution sliders.');
+features.add(import.meta.url, init, 'COGCU：自动将捐赠滑块设为最大值');

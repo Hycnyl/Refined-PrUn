@@ -78,8 +78,4 @@ function init() {
   tiles.observe('POPI', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'POPI: Shift-click the details button to open the POPID buffer as a companion.',
-);
+features.add(import.meta.url, init, 'POPI：按住 Shift 点击详情按钮，在联动窗口打开 POPID');

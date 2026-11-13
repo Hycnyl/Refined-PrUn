@@ -10,7 +10,7 @@ export interface RouteLeg {
 
 export function planRouteLegs(stops: RouteStop[]): { error?: string; legs: RouteLeg[] } {
   if (stops.length < 2) {
-    return { error: 'Enter at least two stops', legs: [] };
+    return { error: '请至少输入两个站点', legs: [] };
   }
   const legs: RouteLeg[] = [];
   for (let i = 0; i < stops.length - 1; i++) {
@@ -26,11 +26,11 @@ export function planRouteLegs(stops: RouteStop[]): { error?: string; legs: Route
       destinationQuery: destination.query,
     };
     if (origin.query === undefined) {
-      leg.error = origin.error ?? `unknown stop "${origin.raw}"`;
+      leg.error = origin.error ?? `未知站点“${origin.raw}"`;
     } else if (destination.query === undefined) {
-      leg.error = destination.error ?? `unknown stop "${destination.raw}"`;
+      leg.error = destination.error ?? `未知站点“${destination.raw}"`;
     } else if (origin.query.toUpperCase() === destination.query.toUpperCase()) {
-      leg.error = 'equal origin and destination';
+      leg.error = '起点和目的地相同';
     }
     legs.push(leg);
   }

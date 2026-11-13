@@ -15,20 +15,17 @@ config.exchange ??= exchanges[0];
 
 <template>
   <form>
-    <Active
-      v-if="data.skippable"
-      label="Skip CX Buy"
-      tooltip="Whether to skip purchasing materials and only perform the transfer.">
-      <RadioItem v-model="config.skip">skip cx buy</RadioItem>
+    <Active v-if="data.skippable" label="跳过交易所购买" tooltip="是否跳过购买材料，仅执行转移">
+      <RadioItem v-model="config.skip">跳过交易所购买</RadioItem>
     </Active>
-    <Active v-if="!config.skip" label="Exchange">
+    <Active v-if="!config.skip" label="交易所">
       <SelectInput v-model="config.exchange" :options="exchanges" />
     </Active>
     <Active
       v-if="!config.skip"
-      label="Prices Preview"
-      tooltip="Before buying, load missing ticker prices from the CX category listing and show a ranked cost preview. Act pauses 2s; Skip continues to the purchases.">
-      <RadioItem v-model="userData.settings.cxPricesPreview">prices preview</RadioItem>
+      label="价格预览"
+      tooltip="购买前从交易所类别列表加载缺失价格，并显示按费用排序的预览；点击“执行下一步”暂停 2 秒，点击“跳过”继续采购">
+      <RadioItem v-model="userData.settings.cxPricesPreview">预览价格</RadioItem>
     </Active>
   </form>
 </template>

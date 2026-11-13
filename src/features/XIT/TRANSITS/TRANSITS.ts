@@ -4,9 +4,8 @@ import TransitsWindow from '@src/features/XIT/TRANSITS/TRANSITS.vue';
 
 xit.add({
   command: 'TRANSITS',
-  name: 'TRANSITS',
-  description:
-    'Flight time and fuel for each leg of a planet or CX route, via blueprint test flight.',
+  name: '航程计算',
+  description: '通过蓝图试飞计算星球或交易所路线各航段的时间和燃料。',
   component: () => TransitsWindow,
   bufferSize: [520, 480],
 });

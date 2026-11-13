@@ -45,7 +45,7 @@ export class ActionRunner {
     extraSteps?: ActionStep[],
   ) {
     if (this.isRunning) {
-      this.log.error('Action Package is already running');
+      this.log.error('动作包已在运行');
       return;
     }
     // Create a copy to prevent changes during execution.
@@ -59,7 +59,7 @@ export class ActionRunner {
     }
     this.log.info(formatTotals(steps));
     if (fail) {
-      this.log.info('Generated steps for valid actions:');
+      this.log.info('已为有效动作生成步骤：');
     }
     for (const step of steps) {
       const stepInfo = act.getActionStepInfo(step.type);
@@ -83,13 +83,13 @@ export class ActionRunner {
     const copy = structuredClone(deepToRaw(pkg));
     const { steps, fail } = await this.stepGenerator.generateSteps(copy, config, false);
     if (fail) {
-      this.log.error('Action Package execution failed');
+      this.log.error('动作包执行失败');
       return;
     }
     if (extraSteps && extraSteps.length > 0) {
       steps.push(...extraSteps);
     }
-    this.log.info('Action Package execution started');
+    this.log.info('动作包执行已开始');
     this.log.info(formatTotals(steps));
     this.stepMachine = new StepMachine(steps, {
       ...this.options,
@@ -139,9 +139,9 @@ function formatTotals(steps: ActionStep[]): LogPart[] {
     }
   }
   return [
-    { text: 'Total Weight ' },
+    { text: '总重量 ' },
     { text: `${fixed02(totalWeight)}t`, yellow: true },
-    { text: ', Total Volume ' },
+    { text: '，总体积 ' },
     { text: `${fixed02(totalVolume)}m³`, yellow: true },
   ];
 }

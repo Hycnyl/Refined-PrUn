@@ -14,8 +14,8 @@ watch(inputText, x => {
 </script>
 
 <template>
-  <div :class="[C.RadioItem.value, C.fonts.fontRegular, C.type.typeSmall, $style.label]">
-    Audio Volume: {{ percent0(userData.settings.audioVolume) }}
+  <div :class="[C.RadioItem.value, C.fonts.fontRegular, C.type.typeSmall, $style.label]"
+    >音量：{{ percent0(userData.settings.audioVolume) }}
   </div>
   <RangeInput
     v-model="inputText"

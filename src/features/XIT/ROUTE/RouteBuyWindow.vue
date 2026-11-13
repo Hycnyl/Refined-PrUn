@@ -10,11 +10,11 @@ const staged = stagedRouteAssign.value;
 </script>
 
 <template>
-  <div v-if="staged === undefined">Nothing staged. Assign a route from XIT ROUTEBURN.</div>
+  <div v-if="staged === undefined">暂无待执行计划。请从 XIT ROUTEBURN 分配路线。</div>
   <div v-else-if="staged.shortLines !== undefined" :class="$style.short">
-    <p>{{ staged.originLabel }} is short of this route's load. A base is not bought for.</p>
+    <p>{{ staged.originLabel }}缺少此路线所需的装载物资。基地不会自动采购。</p>
     <p v-for="line in staged.shortLines" :key="line.ticker">
-      {{ line.ticker }}: have {{ line.free }} free, need {{ line.need }}
+      {{ line.ticker }}：可用 {{ line.free }}，需要 {{ line.need }}
     </p>
   </div>
   <ExecuteActionPackage v-else :pkg="staged.pkg" :extra-steps="staged.steps" />

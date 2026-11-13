@@ -50,8 +50,4 @@ function init() {
   tiles.observeAll(onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'Adds buttons to hide and show context controls for tiles containing them.',
-);
+features.add(import.meta.url, init, '在窗口标题栏增加隐藏控件按钮');

@@ -6,45 +6,41 @@ import { channelIdentifier } from '@src/infrastructure/prun-api/data/agent-chann
 
 <template>
   <div :class="$style.help">
-    <SectionHeader>What is XIT AGT?</SectionHeader>
+    <SectionHeader>什么是 XIT AGT？</SectionHeader>
     <div :class="$style.description">
-      <p>
-        XIT AGT (Agent) keeps action packages ready for later, such as unloading a resupply ship
-        after it lands. It works with
-        <PrunLink command="XIT DSP" inline>XIT DSP</PrunLink> (Dispatch) and
-        <PrunLink command="XIT ACT" inline>XIT ACT</PrunLink> to help you deliver supplies, collect
-        base output, and continue to the next stop.
-      </p>
-      <p>
-        It is useful when one ship serves several bases, or when you switch devices. Your saved
-        packages are available on each device with Refined PrUn, so you do not need to copy unload
-        instructions between them.
-      </p>
+      <p
+        >XIT AGT（同步代理）保存稍后执行的动作包，例如补给飞船着陆后的卸货操作。配合
+        <PrunLink command="XIT DSP" inline>XIT DSP</PrunLink>（调度）和
+        <PrunLink command="XIT ACT" inline>XIT ACT</PrunLink
+        >，可运送补给、收取基地产品并前往下一站。</p
+      >
+      <p
+        >当一艘飞船服务多个基地或需要切换设备时，此功能很实用。保存的动作包可在每台装有 Refined PrUn
+        的设备上使用，无需在设备间复制卸货指令。</p
+      >
     </div>
-    <SectionHeader>First-time setup</SectionHeader>
-    <div :class="$style.description">
-      Open <PrunLink command="COM" inline>COM</PrunLink>, click "new group", add no other members,
-      and name the group "{{ channelIdentifier }}".
+    <SectionHeader>首次设置</SectionHeader>
+    <div :class="$style.description"
+      >打开 <PrunLink command="COM" inline>COM</PrunLink>，点击“new
+      group”，不添加其他成员，并将群组命名为“{{ channelIdentifier }}".
     </div>
-    <SectionHeader>Use it with Dispatch</SectionHeader>
+    <SectionHeader>配合调度使用</SectionHeader>
     <div :class="$style.description">
       <ol :class="$style.steps">
-        <li>
-          In <PrunLink command="XIT DSP" inline>XIT DSP</PrunLink>, assign a ship and enable AGT in
-          the Agent column for each base you want it to serve.
-        </li>
-        <li>
-          Run the dispatch package through to the end. It saves an "Auto Offload" package for each
-          selected stop.
-        </li>
-        <li>
-          After the ship lands, return to XIT AGT and click REFRESH. Click OPEN for that stop, then
-          EXECUTE, and follow the ACT prompts to unload supplies and load base output.
-        </li>
-        <li>
-          For a route with more stops, Agent fills in the next destination in SFC. Check and submit
-          the flight there, then repeat after landing.
-        </li>
+        <li
+          >在
+          <PrunLink command="XIT DSP" inline>XIT DSP</PrunLink>
+          中，为需要服务的每个基地分配飞船，并启用同步代理列中的 AGT。</li
+        >
+        <li>执行调度动作包直到完成。它会为每个选定站点保存一个“自动卸货”动作包。</li>
+        <li
+          >飞船着陆后，返回 XIT AGT 并点击“刷新”。打开对应站点的动作包，点击“执行”，再按 ACT
+          提示卸下补给并装载基地产品。</li
+        >
+        <li
+          >若路线还有后续站点，同步代理会在 SFC
+          中填写下一目的地。检查并提交航行计划，着陆后重复操作。</li
+        >
       </ol>
     </div>
   </div>

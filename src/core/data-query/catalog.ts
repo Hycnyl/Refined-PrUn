@@ -13,7 +13,7 @@ export class DataCatalog {
   constructor(descriptors: DataSourceDescriptor[]) {
     for (const descriptor of descriptors) {
       if (this.descriptors.has(descriptor.id)) {
-        throw new DataQueryError(`Duplicate data source ID "${descriptor.id}".`);
+        throw new DataQueryError(`数据源 ID 重复：“${descriptor.id}".`);
       }
       this.descriptors.set(descriptor.id, descriptor);
     }
@@ -48,10 +48,10 @@ export class DataCatalog {
   load(sourceId: string, parameter?: string) {
     const descriptor = this.getRequired(sourceId);
     if (!descriptor.load) {
-      throw new DataQueryError(`Data source "${sourceId}" does not support loading.`);
+      throw new DataQueryError(`数据源“${sourceId}”不支持加载。`);
     }
     if (descriptor.load.parameter === 'siteId' && !parameter?.trim()) {
-      throw new DataQueryError('A site ID is required for this data source.');
+      throw new DataQueryError('此数据源需要基地 ID。');
     }
     descriptor.load.execute(parameter?.trim());
   }
@@ -59,7 +59,7 @@ export class DataCatalog {
   private getRequired(sourceId: string) {
     const descriptor = this.descriptors.get(sourceId);
     if (!descriptor) {
-      throw new DataQueryError(`Unknown data source ID "${sourceId}".`);
+      throw new DataQueryError(`未知数据源 ID：“${sourceId}".`);
     }
     return descriptor;
   }

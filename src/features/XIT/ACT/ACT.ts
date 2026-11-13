@@ -15,15 +15,15 @@ xit.add({
   command: ['ACT', 'ACTION'],
   name: parameters => {
     if (parameters.length === 0) {
-      return 'ACTION PACKAGES';
+      return '自动化动作包';
     }
     if (parameters[0].toUpperCase() == 'GEN' || parameters[0].toUpperCase() == 'EDIT') {
-      return 'EDIT ACTION PACKAGE';
+      return '编辑动作包';
     }
-    return 'EXECUTE ACTION PACKAGE';
+    return '执行动作包';
   },
-  description: 'Allows to automate certain tasks.',
-  optionalParameters: 'GEN and/or Action Name',
+  description: '自动化执行特定任务。',
+  optionalParameters: 'GEN 和/或动作包名称',
   contextItems: parameters => (parameters.length > 0 ? [{ cmd: 'XIT ACT' }] : []),
   component: () => ACT,
 });

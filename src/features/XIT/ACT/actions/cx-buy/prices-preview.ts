@@ -105,25 +105,25 @@ export function formatPreviewTotal(purchases: PreviewPurchase[]): LogPart[] {
       shortfall += purchase.shortfall;
     }
   }
-  const parts: LogPart[] = [{ text: 'Total cost ' }, { text: fixed0(total), yellow: true }];
+  const parts: LogPart[] = [{ text: '总成本 ' }, { text: fixed0(total), yellow: true }];
   if (atLimit > 0) {
     parts.push(
       { text: ' (' },
-      { text: `${fixed0(atLimit)} at limit`, yellow: true },
+      { text: `${fixed0(atLimit)}（按限价）`, yellow: true },
       { text: ')' },
     );
   }
   if (shortfall > 0) {
     parts.push(
       { text: ' (' },
-      { text: `${fixed0(shortfall)} unavailable`, yellow: true },
+      { text: `${fixed0(shortfall)} 不可用`, yellow: true },
       { text: ')' },
     );
   }
   if (unpriced > 0) {
     parts.push(
       { text: ' (' },
-      { text: `${fixed0(unpriced)} no CX price data`, yellow: true },
+      { text: `${fixed0(unpriced)} 无交易所价格数据`, yellow: true },
       { text: ')' },
     );
   }
@@ -137,19 +137,19 @@ export function formatPreviewPurchase(purchase: PreviewPurchase): LogPart[] {
       text: `${purchase.ticker} ${fixed0(purchase.amount)} @ ${fixed02(purchase.unitPrice)}`,
     });
     if (purchase.projectedCost > 0) {
-      parts.push({ text: ' at limit' });
+      parts.push({ text: '（按限价）' });
     }
     parts.push({ text: ` (${fixed0(purchase.cost)})` });
   } else {
     parts.push({
       text: `${purchase.ticker} ${fixed0(purchase.shortfall)} ${
-        purchase.noData ? 'no CX price data' : 'unavailable'
+        purchase.noData ? '无交易所价格数据' : '不可用'
       }`,
     });
     return parts;
   }
   if (purchase.shortfall > 0) {
-    parts.push({ text: ` (${fixed0(purchase.shortfall)} unavailable)` });
+    parts.push({ text: ` (${fixed0(purchase.shortfall)} 不可用）` });
   }
   if (purchase.excessPercent === undefined) {
     return parts;
@@ -163,10 +163,10 @@ function formatPreviewExcess(excessPercent: number, tone: PreviewPurchase['tone'
   // A price under the refined-PrUn value is not a warning. Keep the minus out of
   // the label and leave the threshold colors for a real overage.
   if (excessPercent < 0) {
-    return { text: `${fixed02(Math.abs(excessPercent))}% under` };
+    return { text: `${fixed02(Math.abs(excessPercent))}% 低于` };
   }
   return {
-    text: `${fixed02(excessPercent)}% over`,
+    text: `${fixed02(excessPercent)}% 高于`,
     yellow: tone === 'yellow',
     red: tone === 'red',
   };

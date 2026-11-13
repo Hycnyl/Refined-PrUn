@@ -80,15 +80,15 @@ const timeFormat = computed({
 
 const exchangeChartTypes: { label: string; value: UserData.ExchangeChartType }[] = [
   {
-    label: 'Smooth',
+    label: '平滑 (Smooth)',
     value: 'SMOOTH',
   },
   {
-    label: 'Aligned',
+    label: '对齐 (Aligned)',
     value: 'ALIGNED',
   },
   {
-    label: 'Raw',
+    label: '原生 (Raw)',
     value: 'RAW',
   },
 ];
@@ -97,7 +97,7 @@ const currencySettings = computed(() => userData.settings.currency);
 
 const currencyPresets: { label: string; value: UserData.CurrencyPreset }[] = [
   {
-    label: 'Default',
+    label: '默认',
     value: 'DEFAULT',
   },
   {
@@ -117,29 +117,29 @@ const currencyPresets: { label: string; value: UserData.CurrencyPreset }[] = [
     value: 'NCC',
   },
   {
-    label: 'Custom',
+    label: '自定义',
     value: 'CUSTOM',
   },
 ];
 
 const currencyPosition: { label: string; value: UserData.CurrencyPosition }[] = [
   {
-    label: 'After',
+    label: '后置',
     value: 'AFTER',
   },
   {
-    label: 'Before',
+    label: '前置',
     value: 'BEFORE',
   },
 ];
 
 const currencySpacing: { label: string; value: UserData.CurrencySpacing }[] = [
   {
-    label: 'Has space',
+    label: '有空格',
     value: 'HAS_SPACE',
   },
   {
-    label: 'No space',
+    label: '无空格',
     value: 'NO_SPACE',
   },
 ];
@@ -176,8 +176,7 @@ async function restoreBackupAndReload(ev: Event, backup: UserDataBackup) {
       window.location.reload();
     },
     {
-      message:
-        'Are you sure you want to restore this backup? This will overwrite your current data.',
+      message: '确定要恢复此备份吗？这将覆盖您当前的数据。',
     },
   );
 }
@@ -196,97 +195,88 @@ function confirmResetAllData(ev: Event) {
 </script>
 
 <template>
-  <SectionHeader>Appearance</SectionHeader>
+  <SectionHeader>界面外观</SectionHeader>
   <form>
-    <Active label="Time format">
+    <Active label="时间格式">
       <SelectInput v-model="timeFormat" :options="timeFormats" />
     </Active>
-    <Active label="Default CX Chart Type">
+    <Active label="默认交易所图表类型">
       <SelectInput v-model="userData.settings.defaultChartType" :options="exchangeChartTypes" />
     </Active>
   </form>
   <SectionHeader>
-    Currency Symbol
+    货币符号
     <Tooltip
       :class="$style.tooltip"
-      tooltip="Currency symbol used when displaying money values.
-       Only shown in UI added by Refined PrUn." />
+      tooltip="显示货币价值时使用的货币符号。仅在 Refined PrUn 添加的 UI 中显示" />
   </SectionHeader>
   <form>
-    <Active label="Symbol">
+    <Active label="符号">
       <SelectInput v-model="currencySettings.preset" :options="currencyPresets" />
     </Active>
-    <Active v-if="currencySettings.preset === 'CUSTOM'" label="Custom symbol">
+    <Active v-if="currencySettings.preset === 'CUSTOM'" label="自定义符号">
       <TextInput v-model="currencySettings.custom" />
     </Active>
-    <Active v-if="currencySettings.preset !== 'DEFAULT'" label="Position">
+    <Active v-if="currencySettings.preset !== 'DEFAULT'" label="位置">
       <SelectInput v-model="currencySettings.position" :options="currencyPosition" />
     </Active>
     <Active
       v-if="currencySettings.preset !== 'DEFAULT'"
-      label="Spacing"
-      tooltip="The space between symbol and value.">
+      label="间距"
+      tooltip="符号与数值之间的空格">
       <SelectInput v-model="currencySettings.spacing" :options="currencySpacing" />
     </Active>
   </form>
-  <SectionHeader>Burn Settings</SectionHeader>
+  <SectionHeader>消耗监控设置 (BURN)</SectionHeader>
   <form>
-    <Active
-      label="Red"
-      tooltip="Threshold for red consumable level in burn calculations (in days).">
+    <Active label="红色警告" tooltip="消耗计算中红色级别的阈值（天）">
       <NumberInput v-model="userData.settings.burn.red" float />
     </Active>
-    <Active
-      label="Yellow"
-      tooltip="Threshold for yellow consumable level in burn calculations (in days).">
+    <Active label="黄色警告" tooltip="消耗计算中黄色级别的阈值（天）">
       <NumberInput v-model="userData.settings.burn.yellow" float />
     </Active>
     <Active
-      label="Resupply"
-      tooltip="Default target amount of supplied days for the 'Need' column in XIT BURN.
-       Can be overridden per planet in XIT PLANETS.">
+      label="补给目标"
+      tooltip="XIT BURN 中“需求”列的默认补给目标天数，可在 XIT PLANETS 中按星球单独设置">
       <NumberInput v-model="userData.settings.burn.resupply" float />
     </Active>
-    <Active label="Base-specific" tooltip="Per-planet resupply amounts in XIT PLANETS.">
+    <Active label="按基地设置" tooltip="在 XIT PLANETS 中按星球单独设置补给量">
       <PrunButton primary @click="showBuffer('XIT PLANETS')">XIT PLS</PrunButton>
     </Active>
   </form>
-  <SectionHeader ref="repairSection">Repair Settings</SectionHeader>
+  <SectionHeader ref="repairSection">维修设置</SectionHeader>
   <form>
     <Active
-      label="Target"
-      tooltip="Default repair target in days. Replaces the age threshold that used to live in XIT REP.
-       Can be overridden per planet in XIT PLANETS.">
+      label="目标基地"
+      tooltip="默认维修目标天数，替代原先 XIT REP 中的楼龄阈值，可在 XIT PLANETS 中按星球单独设置">
       <NumberInput v-model="userData.settings.repair.threshold" float />
     </Active>
-    <Active label="Red" tooltip="Countdown turns red at or below this many days remaining.">
+    <Active label="红色警告" tooltip="剩余天数不高于此值时，倒计时显示为红色">
       <NumberInput v-model="userData.settings.repair.red" float />
     </Active>
-    <Active label="Yellow" tooltip="Countdown turns yellow at or below this many days remaining.">
+    <Active label="黄色警告" tooltip="剩余天数不高于此值时，倒计时显示为黄色">
       <NumberInput v-model="userData.settings.repair.yellow" float />
     </Active>
     <Active
-      label="Countdown"
-      tooltip="Repair cells in XIT BS and XIT DISPATCH count up by default.
-       Turn this on to count down to the planet's repair target, or the global target when it has none.">
-      <RadioItem v-model="userData.settings.repair.countdown">count down</RadioItem>
+      label="倒计时"
+      tooltip="XIT BS 和 XIT DISPATCH 中的维修天数默认递增；启用后显示距星球维修目标的倒计时，未单独设置时使用全局目标">
+      <RadioItem v-model="userData.settings.repair.countdown">倒计时</RadioItem>
     </Active>
-    <Active label="Base-specific" tooltip="Per-planet repair targets in XIT PLANETS.">
+    <Active label="按基地设置" tooltip="在 XIT PLANETS 中按星球单独设置维修目标">
       <PrunButton primary @click="showBuffer('XIT PLANETS')">XIT PLS</PrunButton>
     </Active>
   </form>
   <SectionHeader>
-    Left Sidebar Buttons
+    左侧边栏按钮
     <Tooltip
       :class="$style.tooltip"
-      tooltip="Create hotkeys on the left sidebar.
-         The first value is what will be displayed, the second is the command." />
+      tooltip="在左侧边栏创建快捷键。第一个值是显示名称，第二个是命令" />
   </SectionHeader>
   <form v-draggable="[userData.settings.sidebar, grip.draggable]">
     <Active
       v-for="(button, i) in userData.settings.sidebar"
       :key="objectId(button)"
-      :label="`Button ${i + 1}`"
+      :label="`按钮 ${i + 1}`"
       :class="$style.sidebarRow">
       <div :class="$style.sidebarInputPair">
         <GripChar :class="[$style.grip, grip.class]" />
@@ -298,39 +288,37 @@ function confirmResetAllData(ev: Event) {
   </form>
   <form>
     <Commands>
-      <PrunButton primary @click="confirmResetSidebar">RESET</PrunButton>
-      <PrunButton primary @click="addSidebarButton">ADD NEW</PrunButton>
+      <PrunButton primary @click="confirmResetSidebar">重置</PrunButton>
+      <PrunButton primary @click="addSidebarButton">新增</PrunButton>
     </Commands>
   </form>
-  <SectionHeader>Import/Export</SectionHeader>
+  <SectionHeader>导入/导出</SectionHeader>
   <form>
     <Commands>
-      <PrunButton primary @click="importUserDataAndReload">Import User Data</PrunButton>
-      <PrunButton primary @click="exportUserData">Export User Data</PrunButton>
-      <PrunButton primary @click="showBuffer('XIT SET FINMERGE')">Merge Backups</PrunButton>
+      <PrunButton primary @click="importUserDataAndReload">导入用户数据</PrunButton>
+      <PrunButton primary @click="exportUserData">导出用户数据</PrunButton>
+      <PrunButton primary @click="showBuffer('XIT SET FINMERGE')">合并备份</PrunButton>
     </Commands>
   </form>
   <template v-if="backups.length > 0">
-    <SectionHeader>Backups</SectionHeader>
+    <SectionHeader>备份</SectionHeader>
     <form>
       <Commands
         v-for="backup in backups"
         :key="backup.timestamp"
         :label="ddmmyyyy(backup.timestamp) + ' ' + hhmm(backup.timestamp)">
         <PrunButton primary @click="downloadBackup(backup.data, backup.timestamp)">
-          Export
+          导出
         </PrunButton>
-        <PrunButton primary @click="restoreBackupAndReload($event, backup.data)">
-          Restore
-        </PrunButton>
-        <PrunButton danger @click="confirmDeleteBackup($event, backup)">Delete</PrunButton>
+        <PrunButton primary @click="restoreBackupAndReload($event, backup.data)"> 恢复 </PrunButton>
+        <PrunButton danger @click="confirmDeleteBackup($event, backup)">删除</PrunButton>
       </Commands>
     </form>
   </template>
-  <SectionHeader>Danger Zone</SectionHeader>
+  <SectionHeader>危险区域</SectionHeader>
   <form>
     <Commands>
-      <PrunButton danger @click="confirmResetAllData">Reset All Data</PrunButton>
+      <PrunButton danger @click="confirmResetAllData">重置所有数据</PrunButton>
     </Commands>
   </form>
 </template>

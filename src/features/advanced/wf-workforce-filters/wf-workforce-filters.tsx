@@ -75,8 +75,4 @@ function init() {
   tiles.observe('WF', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'WF: Adds filters to hide zero workforce types and consumables.',
-);
+features.add(import.meta.url, init, 'WF：增加隐藏零劳动力类型和消耗品的过滤器');

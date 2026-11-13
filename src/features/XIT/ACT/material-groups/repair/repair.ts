@@ -8,7 +8,7 @@ import { computeRepairBill } from '@src/features/XIT/ACT/material-groups/repair/
 
 act.addMaterialGroup<Config>({
   type: 'Repair',
-  shortDescription: 'Calculate repair materials for aging buildings',
+  shortDescription: '计算老旧建筑所需的维修材料',
   description: data => {
     if (!data.planet) {
       return '--';
@@ -16,10 +16,10 @@ act.addMaterialGroup<Config>({
 
     const days = data.days;
     const daysLabel = days === configurableValue ? '?' : days;
-    const daysPart = days !== undefined ? `older than ${daysLabel} day${days == 1 ? '' : 's'}` : '';
+    const daysPart = days !== undefined ? `楼龄超过 ${daysLabel} 天${days == 1 ? '' : 's'}` : '';
     const advanceDays = data.advanceDays ?? 0;
     const advanceLabel = advanceDays === configurableValue ? '?' : advanceDays;
-    return `Repair buildings on ${data.planet} ${daysPart} in ${advanceLabel} day${advanceDays == 1 ? '' : 's'}`;
+    return `维修星球建筑：${data.planet} ${daysPart}，于 ${advanceLabel} 天${advanceDays == 1 ? '' : 's'}`;
   },
   editComponent: Edit,
   configureComponent: Configure,
@@ -33,14 +33,14 @@ act.addMaterialGroup<Config>({
     (data.advanceDays !== configurableValue || config.advanceDays !== undefined),
   generateMaterialBill: async ({ data, config, log }) => {
     if (!data.planet) {
-      log.error('Resupply planet is not configured');
+      log.error('尚未配置补给星球');
       return undefined;
     }
 
     const planet = data.planet === configurableValue ? config.planet : data.planet;
     const site = sitesStore.getByPlanetNaturalIdOrName(planet);
     if (!site?.platforms) {
-      log.error('Missing data on repair planet');
+      log.error('缺少维修星球的数据');
       return undefined;
     }
 

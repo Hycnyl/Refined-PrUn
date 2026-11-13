@@ -76,5 +76,5 @@ async function init() {
 features.add(
   import.meta.url,
   init,
-  'Right-click planet cell in XIT BS/BURN to open PLI, COGC, POPR, POPI, ADM, or LM.',
+  '右键点击 XIT BS/BURN 中的星球单元格，打开 PLI、COGC、POPR、POPI、ADM 或 LM',
 );

@@ -140,9 +140,8 @@ const filteredBases = computed(() => {
   <LoadingSpinner v-if="bases === undefined" />
   <template v-else>
     <div :class="C.ComExOrdersPanel.filter">
-      <div :class="$style.searchContainer">
-        Planet:&nbsp;
-        <TextInput v-model="planetFilter" />
+      <div :class="$style.searchContainer"
+        >星球：<TextInput v-model="planetFilter" />
         <PrunButton
           v-if="planetFilter"
           dark
@@ -152,54 +151,52 @@ const filteredBases = computed(() => {
         </PrunButton>
       </div>
       <RadioItem v-model="showCmds" horizontal>CMDS</RadioItem>
-      <RadioItem v-model="showBurn" horizontal>BURN</RadioItem>
-      <RadioItem v-model="showProd" horizontal>PROD</RadioItem>
-      <RadioItem v-model="showRepair" horizontal>REPAIR</RadioItem>
-      <RadioItem v-model="showInv" horizontal>INV</RadioItem>
-      <RadioItem v-model="showWar" horizontal>WAR</RadioItem>
+      <RadioItem v-model="showBurn" horizontal>消耗</RadioItem>
+      <RadioItem v-model="showProd" horizontal>生产</RadioItem>
+      <RadioItem v-model="showRepair" horizontal>维修</RadioItem>
+      <RadioItem v-model="showInv" horizontal>库存</RadioItem>
+      <RadioItem v-model="showWar" horizontal>仓库</RadioItem>
       <div :class="$style.separator" />
       <RadioItem
         v-model="dynamicSort"
         horizontal
-        data-tooltip="Sort by the closer of running out of supply and reaching the repair target"
-        data-tooltip-position="bottom">
-        DYNAMIC
-      </RadioItem>
+        data-tooltip="按补给耗尽或达到维修目标的较早时间排序"
+        data-tooltip-position="bottom"
+        >动态排序</RadioItem
+      >
       <div :class="$style.spacer" />
-      <PrunButton primary @click="showBuffer('XIT AGENT')">AGENT</PrunButton>
-      <PrunButton primary @click="showBuffer('XIT DISPATCH')">DISPATCH</PrunButton>
+      <PrunButton primary @click="showBuffer('XIT AGENT')">同步代理</PrunButton>
+      <PrunButton primary @click="showBuffer('XIT DISPATCH')">调度</PrunButton>
     </div>
     <table :class="$style.table">
       <thead>
         <tr>
-          <th :class="[$style.narrowCol, $style.sortable]" @click="setSort('name')">
-            Planet
-            <span :class="isSorted('name') ? $style.sortActive : $style.sortInactive">{{
+          <th :class="[$style.narrowCol, $style.sortable]" @click="setSort('name')"
+            >星球<span :class="isSorted('name') ? $style.sortActive : $style.sortInactive">{{
               getSortIndicator('name')
             }}</span>
           </th>
-          <th v-if="showCmds" :class="[$style.narrowCol, $style.centered]">CMD</th>
+          <th v-if="showCmds" :class="[$style.narrowCol, $style.centered]">命令</th>
           <th
             v-if="showBurn"
             :class="[$style.narrowCol, $style.sortable, $style.centered]"
             @click="setSort('burn')">
-            Burn
+            消耗
             <span :class="isSorted('burn') ? $style.sortActive : $style.sortInactive">{{
               getSortIndicator('burn')
             }}</span>
           </th>
-          <th v-if="showProd" :class="[$style.narrowCol, $style.centered]">Prod</th>
+          <th v-if="showProd" :class="[$style.narrowCol, $style.centered]">生产</th>
           <th
             v-if="showRepair"
             :class="[$style.narrowCol, $style.sortable, $style.centered]"
-            @click="setSort('repair')">
-            Rep
-            <span :class="isSorted('repair') ? $style.sortActive : $style.sortInactive">{{
+            @click="setSort('repair')"
+            >维修<span :class="isSorted('repair') ? $style.sortActive : $style.sortInactive">{{
               getSortIndicator('repair')
             }}</span>
           </th>
-          <th v-if="showInv" :class="$style.invCol">Inv</th>
-          <th v-if="showWar" :class="$style.warCol">War</th>
+          <th v-if="showInv" :class="$style.invCol">库存</th>
+          <th v-if="showWar" :class="$style.warCol">仓库</th>
         </tr>
       </thead>
       <tbody>

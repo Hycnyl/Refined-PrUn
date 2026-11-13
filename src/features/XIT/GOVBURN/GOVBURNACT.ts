@@ -11,11 +11,11 @@ xit.add({
     const parameter = parameters.join(' ');
     if (parameter) {
       const planet = planetsStore.find(parameter);
-      return `GOVBURN RESUPPLY - ${planet?.name ?? parameter}`;
+      return `星球维护补给 - ${planet?.name ?? parameter}`;
     }
-    return 'GOVBURN RESUPPLY';
+    return '星球维护补给';
   },
-  description: 'Executes a planetary upkeep resupply action package.',
+  description: '执行星球维护补给动作包。',
   mandatoryParameters: 'Planet Identifier',
   component: () => GovBurnActWindow,
 });

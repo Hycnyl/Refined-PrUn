@@ -269,7 +269,7 @@ const STORAGE_FULL_THRESHOLD = 0.99;
 const YELLOW_DAYS_THRESHOLD = 2.9;
 
 function formatDaysShort(days: number) {
-  return days >= 500 ? '∞' : `${Math.floor(days)}d`;
+  return days >= 500 ? '∞' : `${Math.floor(days)}天`;
 }
 
 // Alarm for XIT BS's Inv column: red once storage is (near-)full, yellow once
@@ -297,8 +297,8 @@ export function getStorageAlarmLevel(
   const fillWeight = adjustedWeightCapacity > 0 ? analysis.weightLoad / adjustedWeightCapacity : 0;
   const fillVolume = adjustedVolumeCapacity > 0 ? analysis.volumeLoad / adjustedVolumeCapacity : 0;
   if (fillWeight >= STORAGE_FULL_THRESHOLD || fillVolume >= STORAGE_FULL_THRESHOLD) {
-    const binding = fillWeight >= fillVolume ? 'weight' : 'volume';
-    return { level: 'red', reason: `Storage full (${binding})` };
+    const binding = fillWeight >= fillVolume ? '重量' : '体积';
+    return { level: 'red', reason: `库存已满（${binding})` };
   }
 
   const availableWeight = Math.max(adjustedWeightCapacity - analysis.weightLoad, 0);
@@ -316,7 +316,7 @@ export function getStorageAlarmLevel(
   if (daysUntilFull <= YELLOW_DAYS_THRESHOLD && daysUntilFull < nextResupplyDays) {
     return {
       level: 'yellow',
-      reason: `Fills in ${formatDaysShort(daysUntilFull)}, before next resupply (${formatDaysShort(nextResupplyDays)})`,
+      reason: `预计满仓：${formatDaysShort(daysUntilFull)}，早于下次补给（${formatDaysShort(nextResupplyDays)})`,
       days: daysUntilFull,
     };
   }
@@ -375,9 +375,9 @@ export function getPickupAlarm(siteOrId?: PrunApi.Site | string | null): PickupA
   return {
     shipSize,
     reason: full
-      ? `Pickup ready: ${current} fills a ${shipSize.id} ship (${binding})`
-      : `Pickup ready within 24h: ${current} now, ${projected} in 24h — ` +
-        `fills a ${shipSize.id} ship (${binding})`,
+      ? `可收货：${current} 装满一艘 ${shipSize.id} 飞船（${binding})`
+      : `24 小时内可收货：${current} 当前，${projected} 24 小时内，` +
+        `装满一艘 ${shipSize.id} 飞船（${binding})`,
   };
 }
 

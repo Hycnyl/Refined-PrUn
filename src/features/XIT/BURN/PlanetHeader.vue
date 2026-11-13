@@ -35,11 +35,11 @@ const nameColspan = computed(() => (io.value ? 6 : 4));
     <td>
       <div :class="$style.buttons">
         <PrunButton dark inline @click="showBuffer(`BS ${burn.naturalId}`)">BS</PrunButton>
-        <PrunButton dark inline @click="showBuffer(`INV ${burn.storeId.substring(0, 8)}`)">
-          INV
-        </PrunButton>
+        <PrunButton dark inline @click="showBuffer(`INV ${burn.storeId.substring(0, 8)}`)"
+          >库存</PrunButton
+        >
         <PrunButton dark inline @click="showBuffer(`XIT BURNACT ${burn.naturalId}`)"
-          >ACT</PrunButton
+          >执行下一步</PrunButton
         >
       </div>
     </td>

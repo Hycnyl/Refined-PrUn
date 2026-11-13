@@ -6,21 +6,17 @@ import { userData } from '@src/store/user-data';
 </script>
 
 <template>
-  <SectionHeader>Route Supply</SectionHeader>
+  <SectionHeader>路线补给</SectionHeader>
   <form>
     <Active
-      label="Resupply"
-      tooltip="Days of route laps the XIT ROUTEBURN RESTOCK button buys for at each exchange origin.">
+      label="补给目标"
+      tooltip="XIT ROUTEBURN 的“补货”按钮在各交易所起点购买多少天内即将出发的路线物资">
       <NumberInput v-model="userData.settings.routeSupply.days" float />
     </Active>
-    <Active
-      label="Red"
-      tooltip="Origin countdown in XIT ROUTEBURN turns red at or below this many days.">
+    <Active label="红色警告" tooltip="XIT ROUTEBURN 起点倒计时不高于此天数时显示为红色">
       <NumberInput v-model="userData.settings.routeSupply.red" float />
     </Active>
-    <Active
-      label="Yellow"
-      tooltip="Origin countdown in XIT ROUTEBURN turns yellow at or below this many days.">
+    <Active label="黄色警告" tooltip="XIT ROUTEBURN 起点倒计时不高于此天数时显示为黄色">
       <NumberInput v-model="userData.settings.routeSupply.yellow" float />
     </Active>
   </form>

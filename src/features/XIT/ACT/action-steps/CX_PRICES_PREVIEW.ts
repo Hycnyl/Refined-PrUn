@@ -31,13 +31,13 @@ interface Data {
 
 export const CX_PRICES_PREVIEW = act.addActionStep<Data>({
   type: 'CX_PRICES_PREVIEW',
-  description: data => `Preview CX prices for ${data.group} on ${data.exchange}`,
+  description: data => `预览交易所价格：${data.group}，交易所 ${data.exchange}`,
   execute: async ctx => {
     const { data, log, setStatus, requestTile, waitAct, complete } = ctx;
     const assert: AssertFn = ctx.assert;
     const { exchange, buys } = data;
-    assert(exchange, 'Missing exchange');
-    assert(buys.length > 0, 'No CX purchases to preview');
+    assert(exchange, '缺少交易所');
+    assert(buys.length > 0, '没有可预览的交易所采购');
 
     // Companion tile, unexpanded CX listing. Opening does not cost an extra ACT
     // click: EXECUTE started the run, and the category clicks below are the gates.
@@ -79,7 +79,7 @@ export const CX_PRICES_PREVIEW = act.addActionStep<Data>({
       tile.anchor,
       PricesPreview,
       {
-        title: `CX prices - ${data.group} on ${exchange}`,
+        title: `交易所价格 - ${data.group}，交易所 ${exchange}`,
         total,
         lines,
       },
@@ -91,14 +91,14 @@ export const CX_PRICES_PREVIEW = act.addActionStep<Data>({
     if (closePreview === undefined) {
       // No overlay host in the CX pane. Logging is worse than the panel but far better
       // than silently dropping the numbers the player asked to see.
-      log.warning(`Could not show the price preview in the CX ${exchange} pane; using the log`);
+      log.warning(`无法在交易所显示价格预览：${exchange} 面板，改为在日志中显示`);
       log.info(total);
       for (const line of lines) {
         log.info(line);
       }
     }
 
-    await waitAct(`Review CX prices for ${data.group} on ${exchange}`, { actDelayMs: 2000 });
+    await waitAct(`检查交易所价格：${data.group}，交易所 ${exchange}`, { actDelayMs: 2000 });
     // Only runs on ACT. A SKIP drops everything after the await, and the panel then goes
     // with the pane when the next step retargets it.
     closePreview?.();
@@ -121,7 +121,7 @@ async function loadMissingCategoryPrices(
     | HTMLSelectElement
     | undefined;
   if (select === undefined) {
-    log.warning('CX category selector not found; using whatever prices are already loaded');
+    log.warning('未找到交易所类别选择器，使用已加载的价格');
     return;
   }
 
@@ -133,7 +133,7 @@ async function loadMissingCategoryPrices(
     const material = materialsStore.getByTicker(ticker);
     const categoryId = material?.category;
     if (categoryId === undefined) {
-      log.warning(`No material category for ${ticker}`);
+      log.warning(`未找到材料类别：${ticker}`);
       continue;
     }
     const list = byCategory.get(categoryId) ?? [];
@@ -146,19 +146,19 @@ async function loadMissingCategoryPrices(
     page++;
     const index = indexOfCategory(select, categoryId);
     if (index < 0) {
-      log.warning(`CX category for ${categoryTickers.join(', ')} not found on ${exchange}`);
+      log.warning(`交易所类别：${categoryTickers.join(', ')}未找到于 ${exchange}`);
       continue;
     }
     if (select.selectedIndex !== index) {
       // One player click per category page. The listing is never paged on its own; ACT
       // arms with no pre-delay, so this is as fast as the player can click.
       await waitAct(
-        `Press ACT to show ${categoryLabel(select, index, categoryId)} on CX ${exchange} ` +
-          `(${page} of ${byCategory.size})`,
+        `点击“执行下一步”以显示 ${categoryLabel(select, index, categoryId)}，交易所 ${exchange} ` +
+          `(${page}，目标 ${byCategory.size})`,
       );
       changeSelectIndex(select, index);
     }
-    setStatus(`Loading CX ${exchange} prices for ${categoryTickers.join(', ')}...`);
+    setStatus(`正在加载交易所 ${exchange} 的价格，材料 ${categoryTickers.join(', ')}...`);
     await sleep(0);
     const loaded = await waitForTickers(categoryTickers, exchange, categoryLoadTimeoutMs);
     if (!loaded) {
@@ -167,7 +167,7 @@ async function loadMissingCategoryPrices(
       const stillMissing = categoryTickers.filter(
         ticker => cxobStore.getByTicker(`${ticker}.${exchange}`) === undefined,
       );
-      log.warning(`CX prices for ${stillMissing.join(', ')} did not load on ${exchange}`);
+      log.warning(`交易所价格：${stillMissing.join(', ')}未加载于 ${exchange}`);
     }
   }
 }
@@ -178,7 +178,7 @@ function categoryLabel(select: HTMLSelectElement, index: number, categoryId: str
   if (text !== undefined && text.length > 0) {
     return text;
   }
-  return getCategoryById(categoryId)?.name ?? 'the next category';
+  return getCategoryById(categoryId)?.name ?? '下一个类别';
 }
 
 function indexOfCategory(select: HTMLSelectElement, categoryId: string) {

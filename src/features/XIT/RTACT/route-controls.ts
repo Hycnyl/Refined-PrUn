@@ -51,18 +51,18 @@ export function selectControlLabel(
   opts?: { requireArmed?: boolean },
 ): string {
   if (DELETE_LABEL.test(label)) {
-    throw new Error(`Refusing to activate a delete control (${label})`);
+    throw new Error(`拒绝激活删除控件（${label})`);
   }
   const wanted = label.trim().toLowerCase();
   const match = controls.find(control => control.label.trim().toLowerCase() === wanted);
   if (match === undefined) {
-    throw new Error(`Control not found: ${label}`);
+    throw new Error(`未找到控件：${label}`);
   }
   if (DELETE_LABEL.test(match.label) || match.danger === true) {
-    throw new Error(`Refusing to activate a delete control (${match.label})`);
+    throw new Error(`拒绝激活删除控件（${match.label})`);
   }
   if (opts?.requireArmed === true && (match.disabled === true || match.neutral === true)) {
-    throw new Error(`Control is not armed: ${label}`);
+    throw new Error(`控件尚不可用：${label}`);
   }
   return match.label;
 }
@@ -86,7 +86,7 @@ export function isAddWaypointArmed(flags: {
 // delete are never clicked.
 export function assertEditorClick(label: string): void {
   if (DELETE_LABEL.test(label) || !EDITOR_CLICKS.has(label.trim().toLowerCase())) {
-    throw new Error(`Refusing editor click: ${label}`);
+    throw new Error(`拒绝点击编辑器：${label}`);
   }
 }
 

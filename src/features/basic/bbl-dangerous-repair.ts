@@ -33,8 +33,4 @@ function init() {
   tiles.observe('BBL', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'BBL: Applies the "danger" style to the "Repair" button if the building condition is >98%.',
-);
+features.add(import.meta.url, init, 'BBL：为“维修”按钮应用危险样式');

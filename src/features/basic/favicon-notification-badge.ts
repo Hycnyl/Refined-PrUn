@@ -80,4 +80,4 @@ function init() {
   });
 }
 
-features.add(import.meta.url, init, 'Adds a notification count badge to the browser tab favicon.');
+features.add(import.meta.url, init, '在浏览器标签页图标上显示通知数量');

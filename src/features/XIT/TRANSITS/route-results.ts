@@ -26,15 +26,15 @@ export const routeResults = {
 export function formatRouteTotal(legs: RecordedLeg[]) {
   const resolved = legs.filter(x => x.ok && x.seconds !== undefined && x.stl !== undefined);
   if (resolved.length === 0) {
-    return 'Total: no resolved legs';
+    return '总计：没有已解析的航段';
   }
   const seconds = sumBy(resolved, x => x.seconds ?? 0);
   const stl = sumBy(resolved, x => x.stl ?? 0);
   const ftl = sumBy(resolved, x => x.ftl ?? 0);
   const unresolved = legs.length - resolved.length;
-  const noun = resolved.length === 1 ? 'leg' : 'legs';
-  const suffix = unresolved > 0 ? `; ${unresolved} unresolved` : '';
-  return `Total (${resolved.length} ${noun}): ${formatDuration(seconds)}, ${stl} STL + ${ftl} FTL${suffix}`;
+  const noun = resolved.length === 1 ? '个航段' : '个航段';
+  const suffix = unresolved > 0 ? `; ${unresolved} 个未解析` : '';
+  return `总计（${resolved.length} ${noun}): ${formatDuration(seconds)}, ${stl} STL + ${ftl} FTL${suffix}`;
 }
 
 export function formatLegLine(

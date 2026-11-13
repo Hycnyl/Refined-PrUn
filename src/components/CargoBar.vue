@@ -92,9 +92,9 @@ const cargoBar = computed<CargoBarData>(() => {
     const percentage = ((value * 100) / divisor) * overflowScale;
     segments.push({
       name: 'shipments',
-      class: `${CATEGORY_CSS_PREFIX}none`,
+      class: `${CATEGORY_CSS_PREFIX}无`,
       width: `${percentage}%`,
-      title: formatTitle('shipments', summary.shipments.weight, summary.shipments.volume),
+      title: formatTitle('货运', summary.shipments.weight, summary.shipments.volume),
     });
   }
 
@@ -106,7 +106,7 @@ const cargoBar = computed<CargoBarData>(() => {
       name: 'overflow',
       class: $style.overflow,
       width: `${overflowPercent}%`,
-      title: `Over capacity by ${fixed02(overAmount)}${unit}`,
+      title: `超出容量 ${fixed02(overAmount)}${unit}`,
     });
   }
 

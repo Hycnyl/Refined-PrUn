@@ -17,7 +17,7 @@ export function findRoute(id: string | undefined) {
 export function createRoute() {
   const route: UserData.ShippingRoute = {
     id: crypto.randomUUID(),
-    name: `Route ${userData.routes.length + 1}`,
+    name: `路线 ${userData.routes.length + 1}`,
     stops: [],
   };
   userData.routes.push(route);

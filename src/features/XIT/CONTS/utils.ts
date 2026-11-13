@@ -24,79 +24,79 @@ export function isPartnerCondition(
 export function friendlyConditionText(type: PrunApi.ContractConditionType) {
   switch (type) {
     case 'BASE_CONSTRUCTION':
-      return 'Construct Base';
+      return '建造基地';
     case 'BUILDING_CONSTRUCTION':
-      return 'Construct Building';
+      return '建造建筑';
     case 'BUY_MATERIAL_FROM_CATEGORY':
-      return 'Purchase';
+      return '购买';
     case 'COMEX_PURCHASE_PICKUP':
-      return 'Material Pickup';
+      return '提取材料';
     case 'CONSTRUCT_SHIP':
-      return 'Ship Project';
+      return '飞船项目';
     case 'CONTRIBUTION':
-      return 'Contribution';
+      return '捐赠';
     case 'DELIVERY':
-      return 'Delivery';
+      return '交付';
     case 'DELIVERY_SHIPMENT':
       return 'Delivery';
     case 'EXPLORATION':
-      return 'Exploration';
+      return '探索';
     case 'FINISH_FLIGHT':
-      return 'Finish Flight';
+      return '完成航行';
     case 'FULFILL_COUNTRY_CONTRACT':
-      return 'Complete Contract';
+      return '完成合同';
     case 'GATEWAY_FUEL':
-      return 'Gateway Fuel';
+      return '星门燃料';
     case 'HEADQUARTERS_UPGRADE':
-      return 'HQ Upgrade';
+      return '总部升级';
     case 'INCREASE_SATISFACTION':
-      return 'WF Satisfaction';
+      return '劳动力满意度';
     case 'INFRASTRUCTURE_CONSTRUCTION_FINISH':
-      return 'Infra Build Finish';
+      return '完成基建建造';
     case 'INFRASTRUCTURE_CONSTRUCTION_START':
-      return 'Infra Build Start';
+      return '开始基建建造';
     case 'INFRASTRUCTURE_UPGRADE_FINISH':
-      return 'Infra Upgrade Finish';
+      return '完成基建升级';
     case 'INFRASTRUCTURE_UPGRADE_START':
-      return 'Infra Upgrade Start';
+      return '开始基建升级';
     case 'INFRASTRUCTURE_UPKEEP':
-      return 'Infra Upkeep';
+      return '基础设施维护';
     case 'LOAN_INSTALLMENT':
-      return 'Loan Installment';
+      return '贷款分期';
     case 'LOAN_PAYOUT':
-      return 'Loan Payout';
+      return '发放贷款';
     case 'MAKE_MONEY':
-      return 'Make Money';
+      return '赚取资金';
     case 'PAYMENT':
-      return 'Payment';
+      return '支付';
     case 'PICKUP':
-      return 'Pickup';
+      return '提取';
     case 'PICKUP_SHIPMENT':
       return 'Pickup';
     case 'PLACE_ORDER':
-      return 'Place Order';
+      return '下单';
     case 'POWER':
-      return 'Become Governor';
+      return '成为总督';
     case 'PRODUCTION_ORDER_COMPLETED':
-      return 'Complete Production Order';
+      return '完成生产订单';
     case 'PRODUCTION_RUN':
-      return 'Run Production';
+      return '开展生产';
     case 'PROVISION':
-      return 'Provision';
+      return '供应';
     case 'PROVISION_SHIPMENT':
       return 'Provision';
     case 'REPAIR_SHIP':
-      return 'Ship Repair';
+      return '维修飞船';
     case 'REPUTATION':
-      return 'Reputation';
+      return '声望';
     case 'START_FLIGHT':
-      return 'Start Flight';
+      return '开始航行';
     case 'WAIT':
-      return 'Wait';
+      return '等待';
     case 'WORKFORCE_PROGRAM_PAYMENT':
-      return 'WF Payment';
+      return '劳动力工资';
     case 'WORKFORCE_PROGRAM_START':
-      return 'WF Program';
+      return '劳动力计划';
     default:
       return type;
   }

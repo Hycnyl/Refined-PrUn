@@ -158,4 +158,4 @@ function init() {
   tiles.observe('POPID', disableInvalidPopidSliders);
 }
 
-features.add(import.meta.url, init, 'Fixes PrUn bugs.');
+features.add(import.meta.url, init, '修复 PrUn 自身的 Bug');

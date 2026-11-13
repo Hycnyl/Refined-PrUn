@@ -24,7 +24,7 @@ import { serializeStorage } from '@src/features/XIT/ACT/actions/utils';
 const emit = defineEmits<{ (e: 'close'): void }>();
 
 const days = ref(userData.settings.burn.resupply);
-const name = ref(`Base Resupply ${days.value}d`);
+const name = ref(`Base Resupply ${days.value}天`);
 const planets = computed(() =>
   (sitesStore.all.value ?? [])
     .map(x => getEntityNameFromAddress(x.address))
@@ -96,34 +96,26 @@ const ExchangeTickers = {
 
 <template>
   <div :class="C.DraftConditionEditor.form">
-    <SectionHeader>Quickstart</SectionHeader>
-    <div :class="$style.description">
-      This prefilled action package will resupply your base with materials for a given number of
-      days.
-      <br />
-      The created action package will have two actions: buy missing materials from the CX, then
-      transfer them to the configured (next step) ship.
-      <br />
-      After clicking "Create", you will be taken to the action package runner. Once there, first
-      configure the target ship, then press "Execute" and press "Act" until the package is done.
-      <br />
-      <mark>Note: You need a ship parked at the selected CX for this to work.</mark>
+    <SectionHeader>快速入门</SectionHeader>
+    <div :class="$style.description"
+      >此预填动作包将为基地补充指定天数所需的材料。<br />创建的动作包包含两个动作：从交易所购买缺失材料，再转移到下一步配置的飞船。<br />点击“创建”后进入动作包执行界面。先配置目标飞船，再点击“执行”，并逐步点击“执行下一步”直至完成。<br />
+      <mark>注意：所选交易所必须停靠一艘飞船。</mark>
     </div>
     <form>
-      <Active label="Name">
+      <Active label="名称">
         <TextInput v-model="name" />
       </Active>
-      <Active label="CX to Resupply From">
+      <Active label="补给来源交易所">
         <SelectInput v-model="cx" :options="cxes" />
       </Active>
-      <Active label="Planet to Resupply">
+      <Active label="补给星球">
         <PlanetSelector v-model="planet" value="name" />
       </Active>
-      <Active label="Resupply Days">
+      <Active label="补给天数">
         <NumberInput v-model="days" float />
       </Active>
       <Commands>
-        <PrunButton primary @click="onCreateClick">CREATE</PrunButton>
+        <PrunButton primary @click="onCreateClick">创建</PrunButton>
       </Commands>
     </form>
   </div>

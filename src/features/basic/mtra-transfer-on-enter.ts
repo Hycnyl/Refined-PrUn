@@ -25,8 +25,4 @@ function init() {
   tiles.observe('MTRA', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'MTRA: Triggers transfer on Enter and closes the buffer on success.',
-);
+features.add(import.meta.url, init, 'MTRA：按回车键直接执行转账');

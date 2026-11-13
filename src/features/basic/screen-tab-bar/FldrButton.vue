@@ -86,7 +86,7 @@ watchEffect(() => {
     @mouseenter="onTabEnter"
     @mouseleave="onTabLeave"
     @click="onClick">
-    <span :class="C.HeadItem.label">FLDR</span>
+    <span :class="C.HeadItem.label">文件夹</span>
     <div :class="[C.HeadItem.indicator, C.HeadItem.indicatorPrimary]" />
   </div>
   <Teleport to="body">
@@ -103,9 +103,9 @@ watchEffect(() => {
         <span :class="[C.ScreenControls.name, $style.folderName]">{{ folder.name }}</span>
         <div
           :class="[C.ScreenControls.delete, C.type.typeSmall, $style.delBtn]"
-          @click.stop.prevent="deleteFolder(folder.id)">
-          del
-        </div>
+          @click.stop.prevent="deleteFolder(folder.id)"
+          >删除</div
+        >
       </div>
     </div>
   </Teleport>

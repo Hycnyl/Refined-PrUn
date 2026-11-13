@@ -20,8 +20,8 @@ interface StepMachineOptions {
   onSkipReady: () => void;
 }
 
-const CancellationError = new Error('The action was cancelled');
-const ExecutionStopped = new Error('Execution stopped');
+const CancellationError = new Error('操作已取消');
+const ExecutionStopped = new Error('执行已停止');
 const actionFeedbackTimeoutMs = 30_000;
 
 export class StepMachine {
@@ -92,7 +92,7 @@ export class StepMachine {
     if (!this.ensureRunning()) {
       return;
     }
-    this.log.cancel('Action Package execution canceled');
+    this.log.cancel('动作包执行已取消');
     this.stop();
   }
 
@@ -108,7 +108,7 @@ export class StepMachine {
 
   private async startNext() {
     if (this.steps.length === 0) {
-      this.log.success('Action Package execution completed');
+      this.log.success('动作包执行完成');
       this.stop();
       this.options.onComplete?.({ keepBufferOpen: this.keepBufferOpen });
       return;
@@ -132,7 +132,7 @@ export class StepMachine {
         },
         waitSkipOr: async (status, event) => await this.waitSkipOr(status, event),
         waitActionFeedback: async tile => {
-          this.options.onStatusChanged('Waiting for action feedback...');
+          this.options.onStatusChanged('正在等待操作反馈……');
           const error = await waitActionFeedback(tile);
           if (error) {
             log.error(error);
@@ -188,12 +188,12 @@ export class StepMachine {
     // Steps that already gated themselves pass actGate: false, so the open doesn't cost a
     // second click.
     if (opts?.actGate !== false) {
-      await this.waitAct(`Open ${command}`);
+      await this.waitAct(`打开 ${command}`);
     }
-    this.options.onStatusChanged(`Opening ${command}...`);
+    this.options.onStatusChanged(`正在打开 ${command}...`);
     tile = await this.options.tileAllocator.requestTile(command);
     if (tile === undefined) {
-      this.log.error(`Failed to open ${command}`);
+      this.log.error(`无法打开 ${command}`);
       throw CancellationError;
     }
     return tile;
@@ -230,7 +230,7 @@ export class StepMachine {
 
   private ensureRunning() {
     if (!this.isRunning) {
-      this.log.error('Action Package is not running');
+      this.log.error('动作包未运行');
     }
     return this.isRunning;
   }
@@ -241,7 +241,7 @@ async function waitActionFeedback(tile: PrunTile) {
   if (overlay.classList.contains(C.ActionConfirmationOverlay.container)) {
     const confirm = _$$(overlay, C.Button.btn)[1];
     if (confirm === undefined) {
-      return 'Confirmation overlay is missing confirm button';
+      return '确认弹窗缺少确认按钮';
     }
     await clickElement(confirm);
   }
@@ -251,7 +251,7 @@ async function waitActionFeedback(tile: PrunTile) {
     waitActionFeedbackTimeout(),
   ]);
   if (outcome === undefined) {
-    return 'Timed out waiting for action feedback';
+    return '等待操作反馈超时';
   }
   if (outcome.classList.contains(C.ActionFeedback.success)) {
     await clickElement(outcome);
@@ -261,7 +261,7 @@ async function waitActionFeedback(tile: PrunTile) {
   const dismiss = _$(outcome, C.ActionFeedback.dismiss)?.textContent;
   const error = (dismiss ? message?.replace(dismiss, '') : message)?.trim();
   if (error === undefined || error.length === 0) {
-    return 'Action failed without an error message';
+    return '操作失败，未提供错误信息';
   }
   return error;
 }

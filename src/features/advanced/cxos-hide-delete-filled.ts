@@ -8,8 +8,4 @@ function init() {
   );
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'CXOS: Hides the "Delete Filled" button when filters are hidden.',
-);
+features.add(import.meta.url, init, 'CXOS：隐藏“删除已成交”按钮');

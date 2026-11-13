@@ -31,5 +31,5 @@ const visible = computed(() => applyContractEntryCap(filtered.value));
     :condition="condition"
     :contract="contract" />
   <div v-if="visible.hidden">{{ hiddenContractEntriesMarker }}</div>
-  <div v-if="loanTotal !== 0">{{ loanFilled }}/{{ loanTotal }} Loan Installment</div>
+  <div v-if="loanTotal !== 0">{{ loanFilled }}/{{ loanTotal }}贷款分期</div>
 </template>

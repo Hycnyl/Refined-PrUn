@@ -19,10 +19,10 @@ const chartDef = computed(() => charts.value.find(x => x.value === parameter));
 <template>
   <div :class="$style.root">
     <template v-if="finch">
-      <SectionHeader>Finch</SectionHeader>
+      <SectionHeader>财务图表</SectionHeader>
       <img
         src="https://refined-prun.github.io/assets/finch.jpeg"
-        alt="Finch"
+        alt="财务图表"
         :class="$style.clickable"
         @click="finch = false" />
     </template>
@@ -30,7 +30,7 @@ const chartDef = computed(() => charts.value.find(x => x.value === parameter));
       <div :style="{ marginTop: '5px' }" :class="$style.clickable">
         <HistoryChart />
       </div>
-      <FinHeader>Asset Breakdown</FinHeader>
+      <FinHeader>资产明细</FinHeader>
       <div :style="{ marginTop: '5px' }">
         <AssetPieChart :class="$style.clickable" @click="() => showBuffer('XIT FINCH ASSETS')" />
         <LocationsPieChart
@@ -44,7 +44,7 @@ const chartDef = computed(() => charts.value.find(x => x.value === parameter));
     <template v-else>
       <AssetPieChart v-if="parameter === 'ASSETS'" />
       <LocationsPieChart v-else-if="parameter === 'LOCATIONS'" />
-      <span v-else>Error: Not a valid chart type</span>
+      <span v-else>错误：图表类型无效</span>
     </template>
   </div>
 </template>

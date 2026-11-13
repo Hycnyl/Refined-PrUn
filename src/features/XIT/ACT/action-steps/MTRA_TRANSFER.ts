@@ -1,3 +1,4 @@
+import { localizeStorage } from '@src/infrastructure/i18n/labels';
 import { act } from '@src/features/XIT/ACT/act-registry';
 import { serializeStorage } from '@src/features/XIT/ACT/actions/utils';
 import { fixed0 } from '@src/utils/format';
@@ -29,15 +30,15 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
   description: data => {
     const from = storagesStore.getById(data.from);
     const to = storagesStore.getById(data.to);
-    const fromName = from ? serializeStorage(from) : 'NOT FOUND';
-    const toName = to ? serializeStorage(to) : 'NOT FOUND';
+    const fromName = from ? localizeStorage(serializeStorage(from)) : '未找到';
+    const toName = to ? localizeStorage(serializeStorage(to)) : '未找到';
     if (data.loadAll) {
-      return `Transfer all ${data.ticker} from ${fromName} to ${toName}`;
+      return `转移全部 ${data.ticker}，从 ${fromName} 到 ${toName}`;
     }
     if (data.playerReview) {
-      return `Transfer up to ${fixed0(data.amount)} ${data.ticker} from ${fromName} to ${toName} (adjust in MTRA)`;
+      return `转移最多 ${fixed0(data.amount)} ${data.ticker}，从 ${fromName} 到 ${toName}（在 MTRA 中调整）`;
     }
-    return `Transfer ${fixed0(data.amount)} ${data.ticker} from ${fromName} to ${toName}`;
+    return `转移 ${fixed0(data.amount)} ${data.ticker}，从 ${fromName} 到 ${toName}`;
   },
   execute: async ctx => {
     const { data, log, setStatus, requestTile, waitAct, waitActionFeedback, complete, skip, fail } =
@@ -45,32 +46,32 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
     const assert: AssertFn = ctx.assert;
     const { ticker, amount, loadAll, playerReview } = data;
     const from = storagesStore.getById(data.from);
-    assert(from, 'Origin inventory not found');
+    assert(from, '未找到来源库存');
     const to = storagesStore.getById(data.to);
-    assert(to, 'Destination inventory not found');
+    assert(to, '未找到目的地库存');
 
     if (!from.items.find(x => x.quantity?.material.ticker === ticker)) {
-      log.warning(`No ${ticker} was transferred (not present in origin)`);
+      log.warning(`没有 ${ticker} 已转移（来源中不存在）`);
       skip();
       return;
     }
 
     // Data.amount is only a snapshot estimate for loadAll totals/description.
     if (!loadAll && amount <= 0) {
-      log.warning(`No ${ticker} was transferred (target amount is 0)`);
+      log.warning(`没有 ${ticker} 已转移（目标数量为 0）`);
       skip();
       return;
     }
 
     const material = materialsStore.getByTicker(ticker);
-    assert(material, `Unknown material ${ticker}`);
+    assert(material, `未知材料 ${ticker}`);
 
     // Check if we can fit a single unit. MTRA will be unusable otherwise.
     const epsilon = 0.000001;
     const canFitWeight = to.weightCapacity - to.weightLoad - material.weight + epsilon >= 0;
     const canFitVolume = to.volumeCapacity - to.volumeLoad - material.volume + epsilon >= 0;
     if (!canFitWeight || !canFitVolume) {
-      log.warning(`No ${ticker} was transferred (no space)`);
+      log.warning(`没有 ${ticker} 已转移（空间不足）`);
       skip();
       return;
     }
@@ -82,12 +83,12 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
       return;
     }
 
-    setStatus('Setting up MTRA buffer...');
+    setStatus('正在配置 MTRA 窗口……');
     const container = await $(tile.anchor, C.MaterialSelector.container);
 
     const ok = await selectMaterial(container, ticker);
     if (!ok) {
-      fail(`Ticker ${ticker} not found in the material selector`);
+      fail(`材料代码 ${ticker}未在材料选择器中找到`);
       return;
     }
 
@@ -97,11 +98,11 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
     const maxAmount = Math.max(...sliderNumbers);
     const allInputs = _$$(tile.anchor, 'input');
     const amountInput = allInputs[1];
-    assert(amountInput !== undefined, 'Amount input not found');
+    assert(amountInput !== undefined, '未找到数量输入框');
 
     if (loadAll) {
       if (maxAmount === 0) {
-        log.warning(`No ${ticker} was transferred (nothing available)`);
+        log.warning(`没有 ${ticker} 已转移（无可用数量）`);
         skip();
         return;
       }
@@ -109,7 +110,7 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
     } else {
       if (amount > maxAmount) {
         if (maxAmount === 0) {
-          log.warning(`No ${ticker} was transferred (nothing available)`);
+          log.warning(`没有 ${ticker} 已转移（无可用数量）`);
           skip();
           return;
         }
@@ -118,8 +119,8 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
         if (!playerReview) {
           const leftover = amount - maxAmount;
           log.warning(
-            `${fixed0(leftover)} ${ticker} not transferred ` +
-              `(${fixed0(maxAmount)} of ${fixed0(amount)} transferred)`,
+            `${fixed0(leftover)} ${ticker} 未转移 ` +
+              `(${fixed0(maxAmount)}，目标 ${fixed0(amount)} 已转移）`,
           );
         }
       }
@@ -132,11 +133,13 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
     await guardRouteStock(ctx.actTile.anchor, from, { [ticker]: Number(amountInput.value) }, log);
 
     if (playerReview) {
-      await waitAct(`Adjust ${ticker} amount in MTRA, then ACT (or SKIP)`, { actDelayMs: 2000 });
+      await waitAct(`调整 ${ticker} 的数量，在 MTRA 中设置后点击“执行下一步”（或跳过）`, {
+        actDelayMs: 2000,
+      });
       // Use whatever amount the player left in the input — do not rewrite it.
       const reviewed = Number(amountInput.value);
       if (!Number.isFinite(reviewed) || reviewed <= 0) {
-        log.warning(`No ${ticker} was transferred (player amount is 0)`);
+        log.warning(`没有 ${ticker} 已转移（手动设置数量为 0）`);
         skip();
         return;
       }

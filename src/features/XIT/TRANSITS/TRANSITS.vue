@@ -124,7 +124,7 @@ function onTest() {
   routeResults.routeId = parameters[0];
   formError.value = '';
   if (!canTest.value) {
-    formError.value = 'Choose a ship and enter at least two stops';
+    formError.value = '请选择飞船，并至少输入两个站点';
     return;
   }
   if (needsReturnQuestion()) {
@@ -193,40 +193,38 @@ function startRun() {
 
 <template>
   <div :class="$style.root">
-    <Header>Transits</Header>
+    <Header>航程计算</Header>
     <form :class="$style.form" @submit.prevent="onTest">
-      <p v-if="options.length === 0" :class="$style.note">No ships loaded.</p>
-      <Active v-else label="Ship">
+      <p v-if="options.length === 0" :class="$style.note">尚未加载飞船。</p>
+      <Active v-else label="飞船">
         <select v-model="shipRegistration" :class="$style.select">
           <option v-for="option in options" :key="option.value" :value="option.value">
             {{ option.label }}
           </option>
         </select>
       </Active>
-      <Active label="Stops">
+      <Active label="站点">
         <textarea
           v-model="routeStops"
           :class="$style.textarea"
-          placeholder="One planet or commodity exchange per line&#10;Hortus a&#10;ANT"
+          placeholder="每行一个星球或商品交易所
+Hortus a
+ANT"
           spellcheck="false" />
       </Active>
       <p v-if="formError" :class="$style.error">{{ formError }}</p>
-      <p :class="$style.note">
-        Runs each leg through that ship's blueprint test flight. Each leg waits so its fuel usage
-        and gateway can be set, starting from the previous leg's choices. Tanks burn down from the
-        first leg's loadout. Does not delete a blueprint.
-      </p>
+      <p :class="$style.note"
+        >逐段使用飞船蓝图试飞。每段会暂停，以便设置燃料用量和是否使用星门，初始值沿用上一航段。油箱余量从首段装载量起逐段扣减。此操作不会删除蓝图。</p
+      >
       <template v-if="askReturn">
-        <p :class="$style.question">
-          This route does not loop. Should the ship fly back to the origin after the last stop?
-        </p>
+        <p :class="$style.question">此路线不循环。最后一站后是否返回起点？</p>
         <ActionBar>
-          <PrunButton dark @click="onReturn(false)">NO</PrunButton>
-          <PrunButton primary @click="onReturn(true)">YES, RETURN</PrunButton>
+          <PrunButton dark @click="onReturn(false)">否</PrunButton>
+          <PrunButton primary @click="onReturn(true)">是，返回</PrunButton>
         </ActionBar>
       </template>
       <ActionBar v-else>
-        <PrunButton primary :disabled="!canTest" @click="onTest">Set Flight Preferences</PrunButton>
+        <PrunButton primary :disabled="!canTest" @click="onTest">设置航行偏好</PrunButton>
       </ActionBar>
     </form>
   </div>

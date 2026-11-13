@@ -38,7 +38,7 @@ function confirmDelete(ev: Event, preset: UserData.LinkedBuffersPreset) {
     ev,
     () => (userData.linkedBuffersPresets = userData.linkedBuffersPresets.filter(x => x !== preset)),
     {
-      message: `Are you sure you want to delete the preset "${preset.name}"?`,
+      message: `确定要删除预设“${preset.name}”吗？`,
     },
   );
 }
@@ -46,14 +46,14 @@ function confirmDelete(ev: Event, preset: UserData.LinkedBuffersPreset) {
 
 <template>
   <ActionBar>
-    <PrunButton primary @click="createNew">CREATE NEW</PrunButton>
+    <PrunButton primary @click="createNew">新建</PrunButton>
   </ActionBar>
   <table>
     <thead>
       <tr>
         <GripHeaderCell />
-        <th>Name</th>
-        <th>Commands</th>
+        <th>名称</th>
+        <th>指令</th>
         <th />
       </tr>
     </thead>
@@ -67,11 +67,11 @@ function confirmDelete(ev: Event, preset: UserData.LinkedBuffersPreset) {
         </td>
         <td>
           <span>
-            {{ preset.commands.length }} command{{ preset.commands.length !== 1 ? 's' : '' }}
+            {{ preset.commands.length }} 条指令{{ preset.commands.length !== 1 ? 's' : '' }}
           </span>
         </td>
         <td>
-          <PrunButton danger @click="confirmDelete($event, preset)">DELETE</PrunButton>
+          <PrunButton danger @click="confirmDelete($event, preset)">删除</PrunButton>
         </td>
       </tr>
     </tbody>

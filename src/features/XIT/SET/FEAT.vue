@@ -46,7 +46,7 @@ const searchQuery = ref('');
 const filtered = computed(() => {
   const keywords = searchQuery.value
     .toLowerCase()
-    .replaceAll(/\W/g, ' ')
+    .replaceAll(/[^\p{L}\p{N}_]/gu, ' ')
     .split(/\s+/)
     .filter(Boolean);
   if (keywords.length === 0) {
@@ -93,26 +93,26 @@ async function onChangeModeClick() {
 <template>
   <div>
     <form :class="$style.form">
-      <Commands label="Change feature set">
-        <PrunButton primary @click="onChangeModeClick">
-          SWITCH TO {{ isFullMode ? 'BASIC' : 'FULL' }}
+      <Commands label="切换功能集">
+        <PrunButton primary @click="onChangeModeClick"
+          >切换至 {{ isFullMode ? '基础版' : '完整版' }}
         </PrunButton>
       </Commands>
-      <Active :class="$style.warningRoot" label="Search">
+      <Active :class="$style.warningRoot" label="搜索">
         <TextInput v-model="searchQuery" />
         <PrunButton
           v-if="!isEmpty(Object.keys(changed))"
           primary
           :class="$style.warning"
           @click="onReloadClick">
-          RESTART THE GAME TO APPLY CHANGES
+          重新启动游戏以应用更改
         </PrunButton>
       </Active>
     </form>
-    <SectionHeader>
-      Features: {{ sorted.length }}
-      <span v-if="disabledFeatures.size > 0">({{ disabledFeatures.size }} off) </span>
-      <span v-if="!isFullMode">(+{{ advanced.length }} more available in full mode)</span>
+    <SectionHeader
+      >功能数量：{{ sorted.length }}
+      <span v-if="disabledFeatures.size > 0">({{ disabledFeatures.size }} 个已关闭）</span>
+      <span v-if="!isFullMode">(+{{ advanced.length }} 个可用功能，需完整版）</span>
     </SectionHeader>
     <table>
       <tbody>
@@ -128,7 +128,7 @@ async function onChangeModeClick() {
       </tbody>
     </table>
     <template v-if="!isFullMode">
-      <SectionHeader>Full Mode Features</SectionHeader>
+      <SectionHeader>完整版功能</SectionHeader>
       <table>
         <tbody>
           <tr v-for="feature in advanced" :key="feature.id">

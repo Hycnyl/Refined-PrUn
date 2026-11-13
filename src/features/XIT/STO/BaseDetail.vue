@@ -90,17 +90,17 @@ const afterResupplyVolumeLoad = computed(
 const fillPercent = computed(() => Math.round((1 - analysis.suppliesReserveFraction) * 100));
 const reservePercent = computed(() => Math.round(analysis.suppliesReserveFraction * 100));
 const reserveReason = computed(() =>
-  analysis.suppliesReserveFraction >= 0.2 ? 'produced goods' : 'production variance',
+  analysis.suppliesReserveFraction >= 0.2 ? '成品' : '生产波动',
 );
 
 const bindingLabel = computed(() => {
   if (analysis.bindingLimit === 't') {
-    return 'Weight (t) is the binding dimension';
+    return '重量 (t) 是容量瓶颈';
   }
   if (analysis.bindingLimit === 'm³') {
-    return 'Volume (m³) is the binding dimension';
+    return '体积 (m³) 是容量瓶颈';
   }
-  return 'Storage draining — nothing is actively filling it';
+  return '库存在减少，没有持续增加';
 });
 
 const overflowAmount = computed(() => {
@@ -113,34 +113,34 @@ const overflowAmount = computed(() => {
 <template>
   <div :class="$style.detail">
     <section :class="[$style.panel, $style.blue]">
-      <h3 :class="$style.title">Fill Summary</h3>
+      <h3 :class="$style.title">容量汇总</h3>
       <table :class="$style.numTable">
         <thead>
           <tr>
             <th />
-            <th>Weight (t)</th>
-            <th>Weight %</th>
-            <th>Volume (m³)</th>
-            <th>Volume %</th>
+            <th>重量 (t)</th>
+            <th>重量占比</th>
+            <th>体积 (m³)</th>
+            <th>体积占比</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th :class="$style.rowLabel">Capacity</th>
+            <th :class="$style.rowLabel">容量</th>
             <td>{{ fixed0(analysis.weightCapacity) }}</td>
             <td>—</td>
             <td>{{ fixed0(analysis.volumeCapacity) }}</td>
             <td>—</td>
           </tr>
           <tr>
-            <th :class="$style.rowLabel">Now</th>
+            <th :class="$style.rowLabel">现在</th>
             <td>{{ fixed0(analysis.weightLoad) }}</td>
             <td>{{ percent0(analysis.fillPercentWeight) }}</td>
             <td>{{ fixed0(analysis.volumeLoad) }}</td>
             <td>{{ percent0(analysis.fillPercentVolume) }}</td>
           </tr>
           <tr>
-            <th :class="$style.rowLabel">After ship-out</th>
+            <th :class="$style.rowLabel">运出后</th>
             <td>{{ fixed0(afterShipOutWeightLoad) }}</td>
             <td>
               {{ percent0(afterShipOutWeightLoad / analysis.weightCapacity) }}
@@ -151,7 +151,7 @@ const overflowAmount = computed(() => {
             </td>
           </tr>
           <tr :class="{ [$style.danger]: analysis.needFillRatio > 1 }">
-            <th :class="$style.rowLabel">After resupply</th>
+            <th :class="$style.rowLabel">补给后</th>
             <td>{{ fixed0(afterResupplyWeightLoad) }}</td>
             <td>{{ percent0(analysis.needFillPercentWeight) }}</td>
             <td>{{ fixed0(afterResupplyVolumeLoad) }}</td>
@@ -160,60 +160,53 @@ const overflowAmount = computed(() => {
         </tbody>
       </table>
       <div :class="$style.note">{{ bindingLabel }}.</div>
-      <div v-if="overflowAmount.w > 0" :class="[$style.note, $style.alertText]">
-        Weight overflow after resupply:
-        <b>{{ fixed0(overflowAmount.w) }} t over capacity</b>
+      <div v-if="overflowAmount.w > 0" :class="[$style.note, $style.alertText]"
+        >补给后重量超出：<b>{{ fixed0(overflowAmount.w) }} t</b>
       </div>
-      <div v-if="overflowAmount.v > 0" :class="[$style.note, $style.alertText]">
-        Volume overflow after resupply:
-        <b>{{ fixed0(overflowAmount.v) }} m³ over capacity</b>
+      <div v-if="overflowAmount.v > 0" :class="[$style.note, $style.alertText]"
+        >补给后体积超出：<b>{{ fixed0(overflowAmount.v) }} m³</b>
       </div>
-      <div v-if="overflowAmount.w <= 0 && overflowAmount.v <= 0" :class="$style.note">
-        Headroom after resupply:
-        <b>
+      <div v-if="overflowAmount.w <= 0 && overflowAmount.v <= 0" :class="$style.note"
+        >补给后剩余空间：<b>
           {{ fixed0(analysis.weightCapacity - afterResupplyWeightLoad) }} t /
           {{ fixed0(analysis.volumeCapacity - afterResupplyVolumeLoad) }} m³
         </b>
       </div>
-      <div :class="$style.note">
-        Full in <b>{{ formatDays(analysis.daysUntilFull) }} days</b> at net
+      <div :class="$style.note"
+        >预计满仓：<b>{{ formatDays(analysis.daysUntilFull) }} 天</b>，每日净增
         {{ fixed01(analysis.exportWeight - analysis.importWeight) }} t /
-        {{ fixed01(analysis.exportVolume - analysis.importVolume) }} m³ per day.
-      </div>
+        {{ fixed01(analysis.exportVolume - analysis.importVolume) }} m³。</div
+      >
     </section>
 
     <section :class="[$style.panel, $style.teal]">
-      <h3 :class="$style.title">Visitation Frequency</h3>
-      <div :class="$style.note">
-        How long before a ship of this size would be needed, given current import/export rates.
-      </div>
+      <h3 :class="$style.title">飞船到访频率</h3>
+      <div :class="$style.note">根据当前进出口速率，估算多久需要一艘此容量的飞船。</div>
       <VisitationTable :analysis="analysis" />
     </section>
 
     <section :class="[$style.panel, $style.green]">
-      <h3 :class="$style.title">Days of Supplies That Fit</h3>
-      <div v-if="!isFinite(analysis.daysOfSuppliesFit)" :class="$style.big">
-        ∞ (no active consumers)
-      </div>
-      <div v-else :class="$style.big">{{ fixed01(analysis.daysOfSuppliesFit) }} days</div>
-      <div v-if="isFinite(analysis.daysOfSuppliesFit)" :class="$style.note">
-        Total consumables the base holds when filled to <b>{{ fillPercent }}%</b> after ship-out ({{
+      <h3 :class="$style.title">可容纳补给天数</h3>
+      <div v-if="!isFinite(analysis.daysOfSuppliesFit)" :class="$style.big">∞（无消耗）</div>
+      <div v-else :class="$style.big">{{ fixed01(analysis.daysOfSuppliesFit) }} 天</div>
+      <div v-if="isFinite(analysis.daysOfSuppliesFit)" :class="$style.note"
+        >运出货物后，将基地库存填充至 <b>{{ fillPercent }}%</b> 时可容纳的消耗品总量（{{
           reservePercent
-        }}% reserved for {{ reserveReason }}). Includes consumables already in storage.
-      </div>
-      <div :class="$style.note">Current resupply target: {{ resupplyDays }} days.</div>
+        }}% 空间预留给 {{ reserveReason }}）。包含已有库存中的消耗品。</div
+      >
+      <div :class="$style.note">当前补给目标：{{ resupplyDays }} 天。</div>
     </section>
 
     <section :class="[$style.panel, $style.orange]">
-      <h3 :class="$style.title">Shipping Out ({{ shippingOut.length }} materials)</h3>
-      <div v-if="shippingOut.length === 0" :class="$style.empty">No produced goods in storage.</div>
+      <h3 :class="$style.title">运出物资（{{ shippingOut.length }} 种材料）</h3>
+      <div v-if="shippingOut.length === 0" :class="$style.empty">库存中没有成品。</div>
       <table v-else :class="$style.numTable">
         <thead>
           <tr>
-            <th>Ticker</th>
-            <th>Amount</th>
-            <th>Weight (t)</th>
-            <th>Volume (m³)</th>
+            <th>代码</th>
+            <th>数量</th>
+            <th>重量 (t)</th>
+            <th>体积 (m³)</th>
           </tr>
         </thead>
         <tbody>
@@ -228,15 +221,15 @@ const overflowAmount = computed(() => {
     </section>
 
     <section :class="[$style.panel, $style.purple]">
-      <h3 :class="$style.title">Adding — Resupply Needs ({{ adding.length }} materials)</h3>
-      <div v-if="adding.length === 0" :class="$style.empty">Nothing needs resupply right now.</div>
+      <h3 :class="$style.title">补入物资 — 补给需求（{{ adding.length }} 种材料）</h3>
+      <div v-if="adding.length === 0" :class="$style.empty">目前无需补给。</div>
       <table v-else :class="$style.numTable">
         <thead>
           <tr>
-            <th>Ticker</th>
-            <th>Need</th>
-            <th>Weight (t)</th>
-            <th>Volume (m³)</th>
+            <th>代码</th>
+            <th>需求</th>
+            <th>重量 (t)</th>
+            <th>体积 (m³)</th>
           </tr>
         </thead>
         <tbody>

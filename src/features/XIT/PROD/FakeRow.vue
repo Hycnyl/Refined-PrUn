@@ -16,7 +16,7 @@ import PrunButton from '@src/components/PrunButton.vue';
       <IconCell>
         <BuildingIcon size="inline-table" ticker="RIG" />
       </IconCell>
-      <td>▶ INFO</td>
+      <td>▶ 信息</td>
       <td>
         <InlineFlex>
           100%

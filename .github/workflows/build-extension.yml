@@ -1,10 +1,21 @@
-name: Build Refined PrUn ZIP
+name: 验证、构建和发布汉化扩展
 
 on:
   push:
-    branches: [ '**' ]
   pull_request:
   workflow_dispatch:
+    inputs:
+      release:
+        description: 发布已通过验证的扩展包
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rprun-cn-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -13,26 +24,82 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
-      
       - uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: ".nvmrc"
-          cache: 'pnpm'
-          
-      - name: Install Dependencies
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: 安装依赖
         run: pnpm install --frozen-lockfile
-          
-      - name: Build Extension
-        run: pnpm run build
-          
-      - name: Inject version into manifest
-        run: npx dot-json@1 dist/manifest.json version "$(cat VERSION)"
-
-      - name: Upload Zip
-        uses: actions/upload-artifact@v4
+      - name: 类型检查和 Lint
+        run: pnpm compile
+      - name: 现有测试
+        run: pnpm test
+      - name: 构建单一解压缩扩展
+        run: pnpm build:fast
+      - name: 检查版本和打包资源
+        run: |
+          node --input-type=module <<'JS'
+          import { readFileSync, readdirSync, statSync } from 'node:fs';
+          const manifest = JSON.parse(readFileSync('dist/manifest.json', 'utf8'));
+          const version = readFileSync('VERSION', 'utf8').trim();
+          const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+          if (manifest.version !== version || manifest.version_name !== pkg.version) {
+            throw new Error('版本不一致');
+          }
+          for (const path of Object.values(manifest.icons)) {
+            if (readFileSync(`dist/${path}`, 'utf8').startsWith('version https://git-lfs')) {
+              throw new Error(`图标未下载：${path}`);
+            }
+          }
+          function checkFonts(path) {
+            for (const entry of readdirSync(path)) {
+              const file = `${path}/${entry}`;
+              if (statSync(file).isDirectory()) checkFonts(file);
+              else if (/\.(woff2|ttf)$/.test(file) && readFileSync(file, 'utf8').startsWith('version https://git-lfs')) {
+                throw new Error(`字体未下载：${file}`);
+              }
+            }
+          }
+          checkFonts('dist');
+          JS
+      - uses: actions/upload-artifact@v4
         with:
-          name: refined-prun-build
+          name: refined-prun-cn-unpacked
           path: dist/
+          if-no-files-found: error
+
+  release:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      ((github.event_name == 'push' && startsWith(github.event.head_commit.message, 'release:')) ||
+       (github.event_name == 'workflow_dispatch' && inputs.release))
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: refined-prun-cn-unpacked
+          path: dist
+      - name: 打包并发布到本仓库
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          archive="refined-prun-cn-${version}.zip"
+          (cd dist && zip -qr "../${archive}" .)
+          cat > "$RUNNER_TEMP/release-notes.md" <<'NOTES'
+          基于 OOG 版 1.1.11 的简体中文扩展，保留 RT 编排增强和原有功能，优先沿用旧汉化版译文。
+
+          下载下方 refined-prun-cn ZIP，解压后在 Chrome 或 Edge 扩展管理页开启开发者模式，加载直接包含 manifest.json 的文件夹。使用前禁用其他 Refined PrUn 或 PMMG 扩展并刷新 APEX。
+
+          本版本已通过 GitHub Actions 类型检查、Lint、现有测试和构建。完整说明与数据迁移方法见仓库 README。
+          NOTES
+          gh release create "v${version}" "$archive" \
+            --target "$GITHUB_SHA" \
+            --title "Refined PrUn OOG 汉化版 ${version}" \
+            --notes-file "$RUNNER_TEMP/release-notes.md"

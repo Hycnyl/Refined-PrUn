@@ -51,7 +51,7 @@ export class Logger {
     } else {
       this.error(e as string);
     }
-    this.error(`Action Package execution failed due to a runtime error`);
-    this.error(`Please report this error to the extension developer`);
+    this.error(`运行时错误导致动作包执行失败`);
+    this.error(`请将此错误报告给扩展维护者`);
   }
 }

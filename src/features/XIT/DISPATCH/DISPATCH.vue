@@ -406,7 +406,7 @@ const hasAssignedShip = computed(() => {
 
 const executeTooltip = computed(() => {
   if (!hasAssignedShip.value) {
-    return 'Assign a ship to at least one base first';
+    return '请先为至少一个基地分配飞船';
   }
   if (overloadedShips.value.size === 0) {
     return undefined;
@@ -422,7 +422,7 @@ const executeTooltip = computed(() => {
     const stopLabel = stopId ? (rowById.value.get(stopId)?.base.planetName ?? stopId) : undefined;
     parts.push(formatMilkRunOverflow(plan.firstOverflow, shipLabel, stopLabel));
   }
-  return parts.join(' ') || 'A ship is loaded above its capacity';
+  return parts.join(' ') || '飞船装载量超出容量';
 });
 
 interface IncludedBase {
@@ -568,7 +568,7 @@ function execute() {
     const first = shipBases[0]!;
     const dispatchShip = first.dispatchShip;
     const shipName = dispatchShip.ship.name ?? dispatchShip.ship.registration;
-    const loadName = `Load ${shipName}`;
+    const loadName = `装载 ${shipName}`;
     const origin = serializeStorage(dispatchShip.warehouseStore!);
     const dest = serializeStorage(dispatchShip.cargoStore!);
 
@@ -621,7 +621,7 @@ function execute() {
 
     const { load, finish } = buildTwoPhaseMtraActions({
       loadName,
-      finishName: `Offload ${shipName}`,
+      finishName: `卸货 ${shipName}`,
       group: loadName,
       origin,
       dest,
@@ -647,7 +647,7 @@ function execute() {
     if (Object.keys(materials).length === 0) {
       continue;
     }
-    const groupName = `Buy ${code}`;
+    const groupName = `购买 ${code}`;
     groups.push({
       type: 'Manual',
       name: groupName,
@@ -707,17 +707,17 @@ function reset() {
         {{ option.label }}
       </RadioItem>
       <div :class="$style.separator" />
-      <RadioItem v-model="refuel" horizontal>REFUEL</RadioItem>
-      <RadioItem v-model="userData.settings.cxPricesPreview" horizontal>PRICES</RadioItem>
+      <RadioItem v-model="refuel" horizontal>加油</RadioItem>
+      <RadioItem v-model="userData.settings.cxPricesPreview" horizontal>价格</RadioItem>
       <div :class="$style.spacer" />
-      <PrunButton dark @click="reset">RESET</PrunButton>
+      <PrunButton dark @click="reset">重置</PrunButton>
       <PrunButton
         primary
         :class="$style.executeButton"
         :disabled="overloadedShips.size > 0"
         :data-tooltip="executeTooltip"
         @click="execute">
-        EXECUTE
+        执行
       </PrunButton>
     </div>
     <div ref="panesEl" :class="$style.panes">
@@ -726,20 +726,20 @@ function reset() {
         <table v-draggable="dragBinding" :class="$style.table">
           <thead>
             <tr>
-              <th :class="[$style.narrowCol, $style.centered]">Assign</th>
+              <th :class="[$style.narrowCol, $style.centered]">分配</th>
               <GripHeaderCell />
-              <th :class="[$style.narrowCol, $style.centered]">Planet</th>
-              <th :class="[$style.narrowCol, $style.centered]" colspan="2">Burn</th>
-              <th :class="[$style.narrowCol, $style.centered]" colspan="2">Rep</th>
-              <th :class="[$style.narrowCol, $style.centered]">Load</th>
-              <th :class="[$style.narrowCol, $style.centered]">Materials</th>
-              <th :class="[$style.narrowCol, $style.centered]">Fit</th>
-              <th :class="[$style.narrowCol, $style.centered]">Days</th>
-              <th :class="[$style.narrowCol, $style.centered]">Rep ≥</th>
-              <th :class="[$style.narrowCol, $style.centered]">Adv</th>
-              <th :class="[$style.narrowCol, $style.centered]">CX</th>
-              <th :class="[$style.narrowCol, $style.centered]">Offload</th>
-              <th :class="[$style.narrowCol, $style.centered]">Agent</th>
+              <th :class="[$style.narrowCol, $style.centered]">星球</th>
+              <th :class="[$style.narrowCol, $style.centered]" colspan="2">消耗</th>
+              <th :class="[$style.narrowCol, $style.centered]" colspan="2">维修</th>
+              <th :class="[$style.narrowCol, $style.centered]">加载</th>
+              <th :class="[$style.narrowCol, $style.centered]">材料</th>
+              <th :class="[$style.narrowCol, $style.centered]">容量匹配</th>
+              <th :class="[$style.narrowCol, $style.centered]">天数</th>
+              <th :class="[$style.narrowCol, $style.centered]">维修 ≥</th>
+              <th :class="[$style.narrowCol, $style.centered]">高级</th>
+              <th :class="[$style.narrowCol, $style.centered]">交易所存款 (CX)</th>
+              <th :class="[$style.narrowCol, $style.centered]">卸货</th>
+              <th :class="[$style.narrowCol, $style.centered]">同步代理</th>
             </tr>
           </thead>
           <tbody v-for="id in orderedIds" :key="id">

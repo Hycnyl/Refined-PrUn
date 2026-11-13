@@ -73,29 +73,29 @@ export function importRoute(text: string): RouteImportResult {
   try {
     data = JSON.parse(text);
   } catch {
-    return { ok: false, error: 'Invalid JSON.' };
+    return { ok: false, error: 'JSON 无效。' };
   }
   if (typeof data !== 'object' || data === null || Array.isArray(data)) {
-    return { ok: false, error: 'Expected a JSON object.' };
+    return { ok: false, error: '应为 JSON 对象。' };
   }
   const json = data as Record<string, unknown>;
 
   if (json.format !== undefined && json.format !== ROUTE_SHARE_FORMAT) {
-    return { ok: false, error: `Not a route (format must be "${ROUTE_SHARE_FORMAT}").` };
+    return { ok: false, error: `不是路线数据，format 必须为“${ROUTE_SHARE_FORMAT}").` };
   }
   if (json.version !== undefined) {
     if (typeof json.version !== 'number' || !Number.isInteger(json.version)) {
-      return { ok: false, error: 'Invalid version.' };
+      return { ok: false, error: 'version 无效。' };
     }
     if (json.version > ROUTE_SHARE_VERSION) {
-      return { ok: false, error: `Route version ${json.version} is newer than this extension.` };
+      return { ok: false, error: `路线版本 ${json.version} 高于此扩展支持的版本。` };
     }
   }
 
-  let name = 'Imported route';
+  let name = '导入的路线';
   if (json.name !== undefined) {
     if (typeof json.name !== 'string') {
-      return { ok: false, error: 'Invalid name.' };
+      return { ok: false, error: 'name 无效。' };
     }
     if (json.name.trim().length > 0) {
       name = json.name.trim();
@@ -110,7 +110,7 @@ export function importRoute(text: string): RouteImportResult {
 
   if (json.ship !== undefined) {
     if (typeof json.ship !== 'string') {
-      return { ok: false, error: 'Invalid ship.' };
+      return { ok: false, error: 'ship 无效。' };
     }
     if (json.ship.trim().length > 0) {
       route.ship = json.ship.trim();
@@ -118,19 +118,19 @@ export function importRoute(text: string): RouteImportResult {
   }
   if (json.supplyDays !== undefined) {
     if (typeof json.supplyDays !== 'number' || !(json.supplyDays >= 0)) {
-      return { ok: false, error: 'Invalid supplyDays (expected a number, 0 or more).' };
+      return { ok: false, error: 'supplyDays 无效，应为不小于 0 的数值。' };
     }
     route.days = snapDays(json.supplyDays);
   }
   if (json.loop !== undefined) {
     if (typeof json.loop !== 'boolean') {
-      return { ok: false, error: 'Invalid loop (expected true or false).' };
+      return { ok: false, error: 'loop 无效，应为 true 或 false。' };
     }
     route.loop = json.loop;
   }
   if (json.returnToOrigin !== undefined) {
     if (typeof json.returnToOrigin !== 'boolean') {
-      return { ok: false, error: 'Invalid returnToOrigin (expected true or false).' };
+      return { ok: false, error: 'returnToOrigin 无效，应为 true 或 false。' };
     }
     route.returnToOrigin = json.returnToOrigin;
   }
@@ -154,11 +154,11 @@ function importStops(value: unknown): UserData.ShippingRouteStop[] | string {
     const kind = typeof entry === 'object' && entry !== null ? entry.kind : undefined;
     const rawId = typeof entry === 'object' && entry !== null ? entry.id : undefined;
     if ((kind !== 'cx' && kind !== 'base') || typeof rawId !== 'string') {
-      return `Invalid stop ${i + 1} (expected {"kind": "cx" | "base", "id": ...}).`;
+      return `站点无效：${i + 1} (expected {"kind": "cx" | "base", "id": ...}).`;
     }
     const trimmed = rawId.trim();
     if (trimmed.length === 0) {
-      return `Invalid stop ${i + 1} (empty id).`;
+      return `站点无效：${i + 1}（ID 为空）。`;
     }
     // Exchange codes are upper case. Planet ids keep their case (ZV-759c).
     const id = kind === 'cx' ? trimmed.toUpperCase() : trimmed;
@@ -170,7 +170,7 @@ function importStops(value: unknown): UserData.ShippingRouteStop[] | string {
     const origin = stops[0];
     if (stops.some(x => stopIdentity(x) === stopIdentity(stop))) {
       if (origin === undefined || stopIdentity(origin) !== stopIdentity(stop)) {
-        return `Stop ${i + 1} (${id}) is already on the route. Only the first stop can repeat.`;
+        return `站点 ${i + 1} (${id}）已在路线中，只有首站可以重复。`;
       }
       stop.key = repeatOriginKey(stop);
     }
@@ -187,22 +187,22 @@ function importStopCargo(
 ) {
   if (entry.supply !== undefined) {
     if (stop.kind !== 'base') {
-      return `Stop ${place} (${stop.id}): supply is for bases only. Use steps on an exchange.`;
+      return `站点 ${place} (${stop.id}）：supply 仅适用于基地，交易所请使用 steps。`;
     }
     const supply = checkSupply(entry.supply);
     if (!supply.ok) {
-      return `Stop ${place} (${stop.id}): ${supply.error}.`;
+      return `站点 ${place} (${stop.id}): ${supply.error}.`;
     }
     stop.supply = supply.supply;
   }
   if (entry.steps !== undefined) {
     if (!Array.isArray(entry.steps) || entry.steps.some(x => typeof x !== 'string')) {
-      return `Stop ${place} (${stop.id}): steps should be a list of strings.`;
+      return `站点 ${place} (${stop.id}）：steps 应为字符串列表。`;
     }
     const lines = (entry.steps as string[]).map(x => x.trim()).filter(x => x.length > 0);
     const parsed = parseStopSteps(lines);
     if (!parsed.ok) {
-      return `Stop ${place} (${stop.id}): ${parsed.error}.`;
+      return `站点 ${place} (${stop.id}): ${parsed.error}.`;
     }
     if (lines.length > 0) {
       stop.steps = lines;

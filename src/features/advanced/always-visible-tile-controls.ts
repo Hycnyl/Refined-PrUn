@@ -6,4 +6,4 @@ function init() {
   applyCssRule(`.${C.TileControls.container} > .${C.TileControls.controls}`, $style.show);
 }
 
-features.add(import.meta.url, init, 'Makes top-right tile controls always visible.');
+features.add(import.meta.url, init, '使右上角的窗口控制按钮始终可见');

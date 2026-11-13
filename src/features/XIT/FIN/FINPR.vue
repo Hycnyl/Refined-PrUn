@@ -27,12 +27,12 @@ const dailyMargin = computed(() => {
 
 const figures = computed(() => {
   return [
-    { name: 'Daily Cost', value: formatCurrency(dailyCost.value) },
-    { name: 'Daily Repairs', value: formatCurrency(dailyRepairs.value) },
-    { name: 'Daily Revenue', value: formatCurrency(dailyRevenue.value) },
-    { name: 'Daily Profit', value: formatCurrency(dailyProfit.value) },
+    { name: '每日成本', value: formatCurrency(dailyCost.value) },
+    { name: '每日维修', value: formatCurrency(dailyRepairs.value) },
+    { name: '每日营收', value: formatCurrency(dailyRevenue.value) },
+    { name: '每日利润', value: formatCurrency(dailyProfit.value) },
     {
-      name: 'Daily Margin',
+      name: '每日利润率',
       value: dailyMargin.value !== undefined ? percent2(dailyMargin.value) : '--',
     },
   ];
@@ -48,19 +48,19 @@ function profitClass(value: number) {
 
 <template>
   <div>
-    <FinHeader>Production Overview</FinHeader>
+    <FinHeader>生产概览</FinHeader>
     <KeyFigures :figures="figures" />
-    <FinHeader>Breakdown by Planet</FinHeader>
+    <FinHeader>按星球明细</FinHeader>
     <table>
       <colgroup span="6" style="width: calc(100% / 6)"></colgroup>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Cost</th>
-          <th>Repairs</th>
-          <th>Revenue</th>
-          <th>Profit</th>
-          <th>Margin</th>
+          <th>名称</th>
+          <th>费用</th>
+          <th>维修</th>
+          <th>营收</th>
+          <th>利润</th>
+          <th>利润率</th>
         </tr>
       </thead>
       <tbody>

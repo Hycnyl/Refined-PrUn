@@ -13,4 +13,4 @@ function init() {
   tiles.observeAll(onTileReady);
 }
 
-features.add(import.meta.url, init, 'Adds a tile duplicate button to the buffer header.');
+features.add(import.meta.url, init, '在窗口标题栏增加复制按钮');

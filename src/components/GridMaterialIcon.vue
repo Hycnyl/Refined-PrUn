@@ -15,7 +15,7 @@ const name = computed(() => {
     return text;
   }
   if (ticker === 'SHPT') {
-    return 'Shipment';
+    return '货运';
   }
   return getMaterialNameByTicker(ticker) ?? '???';
 });

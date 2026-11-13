@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeOptions } from '@src/infrastructure/i18n/labels';
 import SelectInput from '@src/components/forms/SelectInput.vue';
 import PlanetSelector from '@src/components/forms/PlanetSelector.vue';
 import Active from '@src/components/forms/Active.vue';
@@ -138,32 +139,29 @@ const shipName = computed(() => {
 
 <template>
   <form>
-    <Active v-if="data.planet === configurableValue" label="Planet">
+    <Active v-if="data.planet === configurableValue" label="星球">
       <PlanetSelector v-model="config.planet" value="name" />
     </Active>
-    <Active
-      v-if="data.days === configurableValue"
-      label="Days"
-      tooltip="The number of days of supplies to refill the planet with.">
+    <Active v-if="data.days === configurableValue" label="天数" tooltip="为星球补充多少天的物资">
       <NumberInput v-model="config.days" float />
     </Active>
   </form>
-  <Active label="Materials" tooltip="Which materials to include in the resupply group.">
-    <SelectInput v-model="materialFilter" :options="materialFilterOptions" />
+  <Active label="材料" tooltip="选择要计入补给组的材料">
+    <SelectInput v-model="materialFilter" :options="localizeOptions(materialFilterOptions)" />
   </Active>
   <div :class="$style.totals">
     <template v-if="totals">
-      <span>Total Weight </span>
+      <span>总重量 </span>
       <span :class="$style.value">{{ fixed02(totals.weight) }}t</span>
-      <span>, Total Volume </span>
+      <span>，总体积 </span>
       <span :class="$style.value">{{ fixed02(totals.volume) }}m³</span>
     </template>
     <template v-else>
-      <span>Total Weight --, Total Volume --</span>
+      <span>总重量 --，总体积 --</span>
     </template>
   </div>
   <div v-if="data.days === configurableValue" :class="$style.fitRow">
-    <span>Fit to Ship</span>
+    <span>按飞船容量计算</span>
     <PrunButton
       v-for="ship in ownedShipSizes"
       :key="ship.id"
@@ -173,7 +171,7 @@ const shipName = computed(() => {
       {{ ship.id }}
     </PrunButton>
     <div v-if="shipName && shipFree" :class="$style.fitSelected">
-      <span>Fit Selected</span>
+      <span>按所选项计算</span>
       <PrunButton primary :disabled="!canFit" @click="fitToShip(shipFree.weight, shipFree.volume)">
         {{ shipName.slice(0, 12) }}
       </PrunButton>

@@ -113,5 +113,5 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'SHPI: Adds an LM link when the ship is at a commodity exchange or a planet with a local market, and drops the ship id from SHP, SHPF, and SFC.',
+  'SHPI：飞船位于交易所或有本地市场的星球时，增加 LM 链接，并移除 SHP、SHPF 和 SFC 链接中的飞船 ID',
 );

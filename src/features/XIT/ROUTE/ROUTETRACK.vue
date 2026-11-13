@@ -67,15 +67,15 @@ function statusText(
 ) {
   switch (state) {
     case 'FLYING':
-      return `Flying to ${place}`;
+      return `正在飞往 ${place}`;
     case 'WAITING':
-      return `Waiting at ${place}`;
+      return `等待于 ${place}`;
     case 'RUNNING_STEPS':
-      return `${step ?? 'Steps'} at ${place}`;
+      return `${step ?? 'Steps'} 于 ${place}`;
     case 'STEP_BLOCKED':
-      return `Blocked: ${step ?? 'step'} at ${place}`;
+      return `受阻：${step ?? 'step'} 于 ${place}`;
     default:
-      return atWaypoint ? `At ${place}` : `Leaving for ${place}`;
+      return atWaypoint ? `位于 ${place}` : `即将前往 ${place}`;
   }
 }
 
@@ -93,14 +93,14 @@ function endText(row: { blocked: boolean; end: number; partial: boolean }) {
 }
 
 function endTitle(row: { saved?: string; partial: boolean; estimated: boolean; loop: boolean }) {
-  const lines = [row.loop ? 'When the next lap starts.' : 'When the route ends.'];
+  const lines = [row.loop ? '下一轮开始时间。' : '路线结束时间。'];
   if (row.saved !== undefined) {
-    lines.push(`Unflown legs: ${row.saved} test flight, 15% shorter, no padding.`);
+    lines.push(`尚未飞行的航段：${row.saved} 试飞时间缩短 15%，不加缓冲。`);
   } else {
-    lines.push('No ROUTECONFIG route has these stops, so unflown legs have no time.');
+    lines.push('没有 ROUTECONFIG 路线匹配这些站点，未飞航段暂无时间数据。');
   }
   if (row.partial) {
-    lines.push('Some legs or waits have no time, so the real end is later.');
+    lines.push('部分航段或等待步骤没有时间数据，实际结束时间会更晚。');
   }
   return lines.join('\n');
 }
@@ -111,19 +111,19 @@ function endTitle(row: { saved?: string; partial: boolean; estimated: boolean; l
     <p v-if="rows.length === 0" :class="$style.note">
       {{
         shipRoutesStore.fetched.value
-          ? 'No ships on routes.'
-          : 'No ships on routes seen yet. Open FLT or RT once to load them.'
+          ? '没有正在执行路线的飞船。'
+          : '尚未发现执行路线的飞船。请先打开一次 FLT 或 RT 以加载。'
       }}
     </p>
     <table v-else :class="$style.table">
       <thead>
         <tr>
-          <th>Ship</th>
-          <th>Route</th>
-          <th>Stop</th>
-          <th>Doing</th>
-          <th>Next arrival</th>
-          <th>Ends / next lap</th>
+          <th>飞船</th>
+          <th>路线</th>
+          <th>站点</th>
+          <th>当前操作</th>
+          <th>下次抵达</th>
+          <th>结束 / 下一轮</th>
         </tr>
       </thead>
       <tbody>

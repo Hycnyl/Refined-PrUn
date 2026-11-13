@@ -13,28 +13,27 @@ import { shipsStore } from '@src/infrastructure/prun-api/data/ships';
 
 act.addAction({
   type: 'Transits',
-  shortDescription:
-    'Flight time and fuel for each leg of a route, via a ship blueprint test flight',
+  shortDescription: '通过飞船蓝图试飞计算各航段时间和燃料',
   description: action => {
     const count = stopLines(action.routeStops ?? '').length;
     const ship = action.shipRegistration?.trim() ?? '';
     if (count === 0 || ship.length === 0) {
       return '--';
     }
-    return `${ship}: ${count} stops`;
+    return `${ship}: ${count} 个站点`;
   },
   editComponent: Edit,
   generateSteps: async ctx => {
     const { data, log, fail, emitStep } = ctx;
     const registration = data.shipRegistration?.trim() ?? '';
     if (registration.length === 0) {
-      log.error('Ship not set');
+      log.error('未设置飞船');
       fail();
       return;
     }
     const ship = shipsStore.getByRegistration(registration);
     if (ship === undefined) {
-      log.error(`Ship ${registration} is not loaded`);
+      log.error(`飞船 ${registration} 尚未加载`);
       fail();
       return;
     }

@@ -41,19 +41,19 @@ if (data.advanceDays === configurableValue && config.advanceDays === undefined) 
 
 <template>
   <form>
-    <Active v-if="data.planet === configurableValue" label="Planet">
+    <Active v-if="data.planet === configurableValue" label="星球">
       <PlanetSelector v-model="config.planet" value="name" />
     </Active>
     <Active
       v-if="data.days === configurableValue"
-      label="Day Threshold"
-      tooltip="All buildings older than this threshold will be repaired.">
+      label="楼龄阈值"
+      tooltip="维修所有楼龄超过此阈值的建筑">
       <NumberInput v-model="config.days" float />
     </Active>
     <Active
       v-if="data.advanceDays === configurableValue"
-      label="Time Offset"
-      tooltip="The number of days in the future this repair will be conducted.">
+      label="时间偏移"
+      tooltip="计划在多少天后进行此维修">
       <NumberInput v-model="config.advanceDays" float />
     </Active>
   </form>

@@ -4,7 +4,7 @@ export interface ShipChoice {
   label: string;
 }
 
-const SAVED_SHIP_BUSY = 'The saved ship is not free. Pick one that fits this route.';
+const SAVED_SHIP_BUSY = '保存的飞船当前不可用，请选择适合此路线的飞船。';
 
 const pending = ref<ShipChoice[] | undefined>(undefined);
 const prompt = ref(SAVED_SHIP_BUSY);

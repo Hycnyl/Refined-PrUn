@@ -68,7 +68,7 @@ function onExpertRowReady(row: HTMLTableRowElement, expertise: string, siteId: s
     }
 
     if (getTotalExperts(entry) >= entry.limit) {
-      return 'Maxed';
+      return '已满';
     }
 
     if (!eta.value) {
@@ -80,7 +80,7 @@ function onExpertRowReady(row: HTMLTableRowElement, expertise: string, siteId: s
     }
 
     if (eta.value.type === 'estimate') {
-      return isFinite(eta.value.ms) ? `~${(eta.value.ms / MS_IN_DAY).toFixed(1)}d` : '∞';
+      return isFinite(eta.value.ms) ? `~${(eta.value.ms / MS_IN_DAY).toFixed(1)}天` : '∞';
     }
 
     return '--';
@@ -157,4 +157,4 @@ function init() {
   tiles.observe('EXP', onTileReady);
 }
 
-features.add(import.meta.url, init, 'EXP: Displays ETA for the next expert to appear.');
+features.add(import.meta.url, init, 'EXP：显示下一位专家出现的预计时间');

@@ -4,8 +4,4 @@ function init() {
   applyCssRule(`.${C.TileFrame.controls}`, $style.controls);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'Adds a solid color background to the top-right tile controls.',
-);
+features.add(import.meta.url, init, '为右上角的窗口控件增加纯色背景');

@@ -19,4 +19,4 @@ function init() {
   subscribe($$(document, C.Sidebar.sidebarLine), onSidebarLineReady);
 }
 
-features.add(import.meta.url, init, 'Hides currencies with zero balance in the right sidebar.');
+features.add(import.meta.url, init, '隐藏右侧边栏中余额为零的货币');

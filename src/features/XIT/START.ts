@@ -2,7 +2,7 @@ import START from '@src/features/XIT/START.vue';
 
 xit.add({
   command: 'START',
-  name: 'REFINED PRUN INTRO',
-  description: 'Refined PrUn start screen.',
+  name: 'Refined PrUn 简介',
+  description: 'Refined PrUn 欢迎界面。',
   component: () => START,
 });

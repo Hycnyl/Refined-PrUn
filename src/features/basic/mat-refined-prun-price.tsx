@@ -30,7 +30,7 @@ function onTileReady(tile: PrunTile) {
     });
 
     createFragmentApp(() => (
-      <Passive label="Refined PrUn Price">
+      <Passive label="Refined PrUn 价格">
         <span>{price.value}</span>
       </Passive>
     )).after(container);
@@ -41,4 +41,4 @@ function init() {
   tiles.observe('MAT', onTileReady);
 }
 
-features.add(import.meta.url, init, 'MAT: Adds a "Refined PrUn Price" row.');
+features.add(import.meta.url, init, 'MAT：增加“Refined PrUn 价格”行');

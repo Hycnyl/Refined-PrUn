@@ -6,4 +6,4 @@ function init() {
   applyCssRule(`.ContextControls__container___pADKUO4 > .${C.HeadItem.container}`, css.hidden);
 }
 
-features.add(import.meta.url, init, 'Hides the current context name label (CTX).');
+features.add(import.meta.url, init, '隐藏当前上下文名称标签 (CTX)');

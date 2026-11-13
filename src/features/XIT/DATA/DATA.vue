@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeLabel } from '@src/infrastructure/i18n/labels';
 import PrunButton from '@src/components/PrunButton.vue';
 import ActionBar from '@src/components/ActionBar.vue';
 import Active from '@src/components/forms/Active.vue';
@@ -31,20 +32,20 @@ const maxPreviewCharacters = 750_000;
 const maxPreviewRows = 100;
 
 const operatorOptions: Array<{ label: string; value: DataQueryFilter['operator'] }> = [
-  { label: 'EQUALS', value: 'eq' },
-  { label: 'NOT EQUAL', value: 'neq' },
-  { label: 'CONTAINS', value: 'contains' },
-  { label: 'STARTS WITH', value: 'startsWith' },
-  { label: 'GREATER THAN', value: 'gt' },
-  { label: 'GREATER OR EQUAL', value: 'gte' },
-  { label: 'LESS THAN', value: 'lt' },
-  { label: 'LESS OR EQUAL', value: 'lte' },
-  { label: 'EXISTS', value: 'exists' },
+  { label: '等于', value: 'eq' },
+  { label: '不等于', value: 'neq' },
+  { label: '包含', value: 'contains' },
+  { label: '开头为', value: 'startsWith' },
+  { label: '大于', value: 'gt' },
+  { label: '大于等于', value: 'gte' },
+  { label: '小于', value: 'lt' },
+  { label: '小于等于', value: 'lte' },
+  { label: '存在', value: 'exists' },
 ];
 
 const directionOptions = [
-  { label: 'ASCENDING', value: 'asc' },
-  { label: 'DESCENDING', value: 'desc' },
+  { label: '升序', value: 'asc' },
+  { label: '降序', value: 'desc' },
 ];
 
 const parameters = useXitParameters();
@@ -58,7 +59,7 @@ const hasRequestedSource = sources.value.some(x => x.id === requestedSourceId);
 const selectedSourceId = ref(hasRequestedSource ? requestedSourceId! : defaultSourceId);
 const parameterMessage = ref(
   requestedSourceId && !hasRequestedSource
-    ? `Unknown data source "${parsedParameters.sourceId}"; showing the default source.`
+    ? `未知数据源“${parsedParameters.sourceId}”，显示默认数据源。`
     : '',
 );
 const search = ref('');
@@ -88,17 +89,17 @@ const sourceOptions = computed(() =>
 const provenanceLabel = computed(() => {
   switch (source.value?.provenance) {
     case 'prun-live':
-      return 'PRUN LIVE';
+      return 'PrUn 实时数据';
     case 'prun-live-with-defaults':
-      return 'PRUN LIVE + BUNDLED DEFAULTS';
+      return 'PrUn 实时数据 + 内置默认值';
     case 'fio-reference-with-prun-overrides':
-      return 'FIO REFERENCE + PRUN OVERRIDES';
+      return 'FIO 参考数据 + PrUn 更新值';
     default:
       return '';
   }
 });
 
-const completenessLabel = computed(() => source.value?.completeness.replace('-', ' ') ?? '');
+const completenessLabel = computed(() => localizeLabel(source.value?.completeness ?? ''));
 const requestAvailable = computed(() => isRequestTransportAvailable());
 const canLoad = computed(
   () =>
@@ -119,7 +120,7 @@ const result = computed(() => queryState.value.result);
 const queryError = computed(() => queryState.value.error);
 const preview = computed(() => buildPreview(result.value));
 const prettyResult = computed(() => preview.value.text ?? queryError.value);
-const agentStatusLabel = computed(() => agentStatus.value.replace('-', ' ').toUpperCase());
+const agentStatusLabel = computed(() => localizeLabel(agentStatus.value));
 
 watch(selectedSourceId, () => {
   parameterMessage.value = '';
@@ -181,12 +182,12 @@ function exportResult() {
 function loadSource() {
   loadMessage.value = '';
   if (!requestAvailable.value) {
-    loadMessage.value = 'PrUn request transport is unavailable.';
+    loadMessage.value = 'PrUn 请求通道不可用。';
     return;
   }
   try {
     dataCatalog.load(source.value!.id, siteId.value);
-    loadMessage.value = 'Load requested from PrUn.';
+    loadMessage.value = '已请求从 PrUn 加载。';
   } catch (error) {
     loadMessage.value = getErrorMessage(error);
   }
@@ -253,9 +254,9 @@ function buildPreview(result?: DataQueryResult): {
     <div :class="$style.controls">
       <div :class="$style.settingsGrid">
         <section :class="$style.settingsPanel">
-          <SectionHeader>Dataset</SectionHeader>
+          <SectionHeader>数据集</SectionHeader>
           <form>
-            <Active label="Source">
+            <Active label="来源">
               <SelectInput
                 v-model="selectedSourceId"
                 :class="$style.sourceSelect"
@@ -279,18 +280,18 @@ function buildPreview(result?: DataQueryResult): {
         </section>
 
         <section :class="$style.settingsPanel">
-          <SectionHeader>Query</SectionHeader>
+          <SectionHeader>查询</SectionHeader>
           <form>
-            <Active label="Text search">
+            <Active label="文本搜索">
               <TextInput v-model="search" />
             </Active>
-            <Active label="Sort path">
+            <Active label="排序字段路径">
               <div :class="$style.inlineInputs">
                 <TextInput v-model="sortPath" />
                 <SelectInput v-model="sortDirection" :options="directionOptions" />
               </div>
             </Active>
-            <Active label="Result limit" :error="limit !== undefined && limit <= 0">
+            <Active label="结果数量上限" :error="limit !== undefined && limit <= 0">
               <NumberInput v-model="limit" />
             </Active>
           </form>
@@ -298,16 +299,16 @@ function buildPreview(result?: DataQueryResult): {
       </div>
 
       <ActionBar :class="$style.actionBar">
-        <PrunButton primary @click="addFilter">ADD FILTER</PrunButton>
-        <PrunButton neutral @click="resetQuery">RESET QUERY</PrunButton>
-        <PrunButton primary :disabled="!result" @click="exportResult">DOWNLOAD JSON</PrunButton>
+        <PrunButton primary @click="addFilter">添加筛选</PrunButton>
+        <PrunButton neutral @click="resetQuery">重置查询</PrunButton>
+        <PrunButton primary :disabled="!result" @click="exportResult">下载 JSON</PrunButton>
       </ActionBar>
 
       <template v-if="filters.length > 0">
-        <SectionHeader>Filters</SectionHeader>
+        <SectionHeader>筛选</SectionHeader>
         <div :class="$style.filters">
           <div v-for="filter in filters" :key="filter.id" :class="$style.filterRow">
-            <span :class="$style.filterLabel">FILTER {{ filter.id }}</span>
+            <span :class="$style.filterLabel">筛选 {{ filter.id }}</span>
             <input
               v-model="filter.path"
               :class="$style.pathInput"
@@ -322,63 +323,59 @@ function buildPreview(result?: DataQueryResult): {
               v-model="filter.value"
               :class="$style.valueInput"
               :placeholder="
-                filter.operator === 'exists' ? 'true/false; blank = true' : 'JSON or text'
+                filter.operator === 'exists' ? 'true/false; blank = true' : 'JSON 或文本'
               "
               type="text" />
-            <PrunButton danger @click="removeFilter(filter.id)">REMOVE</PrunButton>
+            <PrunButton danger @click="removeFilter(filter.id)">移除</PrunButton>
           </div>
         </div>
       </template>
 
       <template v-if="source?.load">
-        <SectionHeader>Explicit Load</SectionHeader>
+        <SectionHeader>主动加载</SectionHeader>
         <div :class="$style.loadControls">
           <input
             v-if="sourceNeedsSiteId(source)"
             v-model="siteId"
             :class="$style.siteInput"
-            placeholder="Required site ID"
+            placeholder="必填的基地 ID"
             type="text" />
-          <PrunButton primary :disabled="!canLoad" @click="loadSource">LOAD FROM PRUN</PrunButton>
-          <span v-if="!requestAvailable" :class="$style.error">
-            PrUn request transport is unavailable.
-          </span>
-          <span v-else-if="sourceNeedsSiteId(source) && !siteId.trim()" :class="$style.hint">
-            Enter a site ID before loading.
-          </span>
+          <PrunButton primary :disabled="!canLoad" @click="loadSource">从 PrUn 加载</PrunButton>
+          <span v-if="!requestAvailable" :class="$style.error">PrUn 请求通道不可用。</span>
+          <span v-else-if="sourceNeedsSiteId(source) && !siteId.trim()" :class="$style.hint"
+            >请先输入基地 ID。</span
+          >
           <span v-if="loadMessage" :class="$style.hint">{{ loadMessage }}</span>
         </div>
       </template>
 
       <details v-if="parsedParameters.connectionEnabled" :class="$style.agentPanel">
         <summary :class="$style.agentSummary">
-          <span>Agent Query Connection</span>
+          <span>代理查询连接</span>
           <span :class="[$style.badge, $style.agentStatus, $style[agentStatus]]">
             {{ agentStatusLabel }}
           </span>
         </summary>
-        <div :class="$style.agentExplanation">
-          Opt-in, authenticated, read-only, and loopback-only. The token stays in memory. Agent
-          requests cannot load data or perform PrUn actions.
-        </div>
+        <div :class="$style.agentExplanation"
+          >需手动启用，仅允许经过认证的只读本机连接。令牌仅保存在内存中。代理请求无法加载数据或执行
+          PrUn 操作。</div
+        >
         <form>
-          <Active label="Loopback endpoint">
+          <Active label="本机连接地址">
             <TextInput v-model="agentEndpoint" />
           </Active>
-          <Active
-            label="Session token"
-            tooltip="Use a 32+ character shared token configured in the local agent server.">
+          <Active label="会话令牌" tooltip="使用本机代理服务中配置的共享令牌，至少 32 个字符">
             <div :class="$style.agentToken">
               <input
                 v-model="agentToken"
                 autocomplete="off"
                 data-1p-ignore="true"
                 data-lpignore="true"
-                placeholder="32+ character token"
+                placeholder="至少 32 个字符的令牌"
                 type="password" />
-              <PrunButton primary inline @click="generateAgentToken">GENERATE</PrunButton>
+              <PrunButton primary inline @click="generateAgentToken">生成</PrunButton>
               <PrunButton primary inline :disabled="!agentToken" @click="copyAgentToken">
-                COPY
+                复制
               </PrunButton>
             </div>
           </Active>
@@ -389,27 +386,27 @@ function buildPreview(result?: DataQueryResult): {
             primary
             inline
             :disabled="!agentEndpoint.trim() || agentToken.length < 32"
-            @click="connectAgent">
-            CONNECT
-          </PrunButton>
-          <PrunButton v-else danger inline @click="disconnectAgent">DISCONNECT</PrunButton>
+            @click="connectAgent"
+            >连接</PrunButton
+          >
+          <PrunButton v-else danger inline @click="disconnectAgent">断开连接</PrunButton>
           <span v-if="agentError" :class="$style.error">{{ agentError }}</span>
         </div>
       </details>
     </div>
 
     <div :class="$style.resultHeader">
-      <SectionHeader>Result</SectionHeader>
+      <SectionHeader>结果</SectionHeader>
       <span v-if="result">
-        {{ result.matchedRows }} matched / {{ result.totalRows }} total · showing
+        {{ result.matchedRows }} 条匹配 / {{ result.totalRows }} 条总计 · 显示
         {{ result.rows.length }}
       </span>
       <span v-else :class="$style.error">{{ queryError }}</span>
     </div>
-    <div v-if="result && preview.truncated" :class="$style.previewNotice">
-      Preview limited to {{ preview.shownRows }} rows for performance. Download includes all
-      {{ result.rows.length }} query rows.
-    </div>
+    <div v-if="result && preview.truncated" :class="$style.previewNotice"
+      >为保证性能，预览仅显示 {{ preview.shownRows }} 行。下载包含查询结果的全部
+      {{ result.rows.length }} 行。</div
+    >
     <pre :class="$style.preview">{{ prettyResult }}</pre>
   </div>
 </template>

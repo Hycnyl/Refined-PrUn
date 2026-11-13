@@ -52,7 +52,7 @@ function onTileReady(tile: PrunTile) {
           confirmed.add(button);
           void clickElement(button as HTMLElement);
         },
-        { message: `${message}.`, confirmLabel: 'Fulfill anyway' },
+        { message: `${message}.`, confirmLabel: '仍然履约' },
       );
     },
     true,
@@ -94,8 +94,4 @@ function init() {
   tiles.observe('CONT', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'CONT: Warns before a FULFILL that would draw a CX warehouse below its route stock.',
-);
+features.add(import.meta.url, init, 'CONT：履约将使交易所仓库低于路线预留库存时发出警告');

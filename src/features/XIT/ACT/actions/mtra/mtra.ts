@@ -22,7 +22,7 @@ function extraStringList(data: UserData.ActionData, key: string) {
 
 act.addAction<Config>({
   type: 'MTRA',
-  shortDescription: 'Transfer materials between storages at the same location',
+  shortDescription: '在同一地点的库存间转移材料',
   description: (action, config) => {
     if (!action.group || !action.origin || !action.dest) {
       return '--';
@@ -37,9 +37,9 @@ act.addAction<Config>({
         ? (config?.destination ?? 'configured location')
         : action.dest;
     if (dest === CX_BUY_ONLY_DEST) {
-      return `CX Buy only [${action.group}] from ${origin} (no transfer)`;
+      return `仅交易所购买 [${action.group}]，从 ${origin}（不转移）`;
     }
-    return `Transfer group [${action.group}] from ${origin} to ${dest}`;
+    return `转移组 [${action.group}]，从 ${origin} 到 ${dest}`;
   },
   editComponent: Edit,
   configureComponent: Configure,
@@ -76,7 +76,7 @@ act.addAction<Config>({
     const dest = destMaybe;
 
     const isSameLocation = atSameLocation(origin, dest);
-    assert(isSameLocation, 'Origin and destination are not at the same location');
+    assert(isSameLocation, '来源和目的地不在同一地点');
 
     // A finishOnly action re-runs the ship's finish steps (offload JSONs, agent
     // posts, SFC) after all transfer actions; the transfers themselves were
@@ -98,7 +98,7 @@ act.addAction<Config>({
         originItems.length > 0 &&
         originItems.every(x => (materials[x.quantity!.material.ticker] ?? 0) >= x.quantity!.amount);
       if (fullCargoOffload) {
-        log.info('Group covers the entire cargo hold — unloading via SHPI instead of MTRA');
+        log.info('材料组涵盖全部货舱，改用 SHPI 卸货');
         emitStep(SHPI_UNLOAD({ shipId: origin.addressableId }));
       } else {
         for (const ticker of Object.keys(materials)) {
@@ -207,7 +207,7 @@ act.addAction<Config>({
           for (const name of [...new Set([...printGroups, ...agentGroups, ...pickupGroups])]) {
             const groupMats = await getMaterialGroup(name);
             if (!groupMats) {
-              log.warning(`Skipping offload for missing material group [${name}]`);
+              log.warning(`跳过卸货，缺少材料组 [${name}]`);
               continue;
             }
             const groupPlanet = getMaterialGroupPlanet(name);

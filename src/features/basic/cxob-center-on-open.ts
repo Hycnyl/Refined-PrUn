@@ -15,4 +15,4 @@ function init() {
   tiles.observe('CXOB', onTileReady);
 }
 
-features.add(import.meta.url, init, 'CXOB: Centers the order book on open.');
+features.add(import.meta.url, init, 'CXOB：打开时居中显示订单簿');

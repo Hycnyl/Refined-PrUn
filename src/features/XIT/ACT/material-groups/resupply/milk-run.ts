@@ -66,7 +66,7 @@ export interface MilkRunResult {
 }
 
 export function pickupGroupName(planetName: string) {
-  return `Pickup ${planetName}`;
+  return `收货 ${planetName}`;
 }
 
 // One day of each consumer's own burn for every ticker it gets from an earlier

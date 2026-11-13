@@ -299,7 +299,7 @@ export function generateAgentMessageId(reserved?: ReadonlySet<string>) {
       return id;
     }
   }
-  throw new Error('All 26 agent message ids for today are in use.');
+  throw new Error('今天的 26 个同步消息编号均已用完。');
 }
 
 // Allocates one free base id for a run of `count` packages: a single package keeps the
@@ -331,18 +331,14 @@ export async function buildAgentPackageMessage(
   const resolvedId = id ?? generateAgentMessageId();
   const collision = findSyncCodeCollision(pkg);
   if (collision !== undefined) {
-    throw new Error(
-      `Action package can't sync: "${collision}" matches a sync short code - rename it.`,
-    );
+    throw new Error(`动作包无法同步：“${collision}”与同步短代码冲突，请重命名。`);
   }
   const { p } = compactActionPackageForSync(pkg);
   // Place `i` right after k/v so it stays near the front of the raw chat message.
   const envelope: AgentSyncEnvelope = { k: 'ap', v: 1, i: resolvedId, p };
   const text = JSON.stringify(envelope);
   if (text.length > maxMessageLength) {
-    throw new Error(
-      `Action package too large to sync (${text.length} > ${maxMessageLength} chars).`,
-    );
+    throw new Error(`动作包过大，无法同步（${text.length} > ${maxMessageLength} 个字符）。`);
   }
   return { id: resolvedId, text };
 }

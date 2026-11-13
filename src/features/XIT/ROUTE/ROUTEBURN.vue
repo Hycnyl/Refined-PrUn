@@ -43,15 +43,15 @@ const sections = computed(() => {
   return [
     {
       key: 'looping',
-      title: 'Automated Routes',
-      tip: 'A route with recurring loops.',
+      title: '自动路线',
+      tip: '重复循环的路线',
       rows: looping,
       assign: false,
     },
     {
       key: 'nonLooping',
-      title: 'On-Demand Routes',
-      tip: 'A route that does not recur, whether a loop or one-way.',
+      title: '按需路线',
+      tip: '不重复运行的路线，可以是环线或单程',
       rows: nonLooping,
       assign: true,
     },
@@ -84,16 +84,16 @@ function countdownTitle(origin: (typeof origins.value)[number]) {
   if (origin.draws.length === 0) {
     return undefined;
   }
-  const plural = (n: number) => `${n} departure${n === 1 ? '' : 's'}`;
+  const plural = (n: number) => `${n} 次出发${n === 1 ? '' : 's'}`;
   if (origin.countdown === undefined) {
-    return `Stock covers every departure in the next ${origin.horizonDays} days.`;
+    return `库存满足未来 ${origin.horizonDays} 天。`;
   }
   const lines = [
-    `Stock covers ${plural(origin.covered)}. The next one can't be fully loaded.`,
-    'Bases still hold their supply days after that.',
+    `库存满足 ${plural(origin.covered)}. The next one can't be fully loaded.`,
+    '此后基地仍保有目标天数的物资。',
   ];
   if (origin.partial) {
-    lines.push('Some lap times are unknown, so this may be later.');
+    lines.push('部分路线循环时间未知，实际时间可能更晚。');
   }
   return lines.join(' ');
 }
@@ -305,9 +305,9 @@ async function onAssign(id: string) {
 <template>
   <div>
     <div :class="[C.ComExOrdersPanel.filter, $style.newBar]">
-      <PrunButton primary @click="onNew">New Route</PrunButton>
+      <PrunButton primary @click="onNew">新建路线</PrunButton>
     </div>
-    <p v-if="rows.length === 0" :class="$style.note">No routes yet.</p>
+    <p v-if="rows.length === 0" :class="$style.note">暂无路线。</p>
     <template v-for="section in sections" :key="section.key">
       <div :class="$style.section">
         {{ section.title }}
@@ -320,8 +320,8 @@ async function onAssign(id: string) {
         :class="[$style.table, $style.originTable]">
         <thead>
           <tr>
-            <th :class="$style.nameCol">Origins</th>
-            <th :class="$style.statusCell">Days</th>
+            <th :class="$style.nameCol">起点</th>
+            <th :class="$style.statusCell">天数</th>
             <th />
             <th />
           </tr>
@@ -339,16 +339,16 @@ async function onAssign(id: string) {
                 <span :class="$style.statusNum">{{ countdownText(origin) }}</span>
               </div>
             </td>
-            <td :class="$style.statusCell">{{ origin.running }}/{{ origin.routes }} running</td>
+            <td :class="$style.statusCell">{{ origin.running }}/{{ origin.routes }}运行中</td>
             <td :class="$style.restockCell">
               <div v-if="origin.kind === 'cx'" :class="[$style.actions, $style.end]">
                 <PrunButton
                   neutral
                   inline
                   :disabled="!canRestock(origin)"
-                  @click="showBuffer(`XIT ROUTESUPPLY ${origin.id}`)">
-                  RESTOCK
-                </PrunButton>
+                  @click="showBuffer(`XIT ROUTESUPPLY ${origin.id}`)"
+                  >补货</PrunButton
+                >
               </div>
             </td>
           </tr>
@@ -357,10 +357,10 @@ async function onAssign(id: string) {
       <table v-if="section.rows.length > 0" :class="$style.table">
         <thead>
           <tr>
-            <th :class="$style.nameCol">Route</th>
-            <th :class="$style.statusCell">Burn</th>
-            <th :class="$style.statusCell">Prod</th>
-            <th :class="$style.statusCell">Rep</th>
+            <th :class="$style.nameCol">路线</th>
+            <th :class="$style.statusCell">消耗</th>
+            <th :class="$style.statusCell">生产</th>
+            <th :class="$style.statusCell">维修</th>
             <th />
             <th v-if="section.assign" />
           </tr>
@@ -416,15 +416,15 @@ async function onAssign(id: string) {
               </td>
               <td>
                 <div :class="$style.actions">
-                  <PrunButton dark inline @click="onRemove(row.id)">REMOVE</PrunButton>
-                  <PrunButton dark inline @click="openConfig(row.id)">CONFIG</PrunButton>
+                  <PrunButton dark inline @click="onRemove(row.id)">移除</PrunButton>
+                  <PrunButton dark inline @click="openConfig(row.id)">配置</PrunButton>
                 </div>
               </td>
               <td v-if="section.assign">
                 <div :class="[$style.actions, $style.assignHit]" :title="row.assignTip">
-                  <PrunButton primary inline :disabled="!row.canAssign" @click="onAssign(row.id)">
-                    ASSIGN
-                  </PrunButton>
+                  <PrunButton primary inline :disabled="!row.canAssign" @click="onAssign(row.id)"
+                    >分配</PrunButton
+                  >
                 </div>
               </td>
             </tr>

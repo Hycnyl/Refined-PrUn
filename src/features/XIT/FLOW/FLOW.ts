@@ -9,14 +9,14 @@ xit.add({
       const site = sitesStore.getByPlanetNaturalIdOrName(parameters[0]);
       if (site) {
         const name = getEntityNameFromAddress(site.address);
-        return `MATERIAL FLOW - ${name}`;
+        return `材料流量 - ${name}`;
       }
     }
 
-    return 'MATERIAL FLOW';
+    return '材料流量';
   },
-  description: 'Shows daily production, consumption and value of each material across bases.',
-  optionalParameters: 'Planet Identifier(s), NOT',
+  description: '汇总各基地每种材料的每日生产、消耗和价值。',
+  optionalParameters: '星球编号（可多个）、NOT',
   contextItems: () => [{ cmd: 'XIT BURN' }, { cmd: 'XIT FINPR' }, { cmd: 'XIT SET FIN' }],
   component: () => FLOW,
   bufferSize: [1000, 500],

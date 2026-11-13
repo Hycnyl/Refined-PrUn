@@ -30,4 +30,4 @@ function init() {
   tiles.observeAll(onTileReady);
 }
 
-features.add(import.meta.url, init, 'Automatically resizes the buffer size on command change.');
+features.add(import.meta.url, init, '切换命令时自动调整窗口大小');

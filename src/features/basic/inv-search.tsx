@@ -24,7 +24,7 @@ function onTileReady(tile: PrunTile) {
 
     createFragmentApp(() => (
       <div>
-        <input class={$style.inputText} placeholder="Enter location" onInput={onInput} />
+        <input class={$style.inputText} placeholder="输入位置" onInput={onInput} />
       </div>
     )).after(inventoryFilters);
   });
@@ -61,4 +61,4 @@ function init() {
   tiles.observe(['INV', 'SHPI'], onTileReady);
 }
 
-features.add(import.meta.url, init, 'INV/SHPI: Adds a search bar to the main INV buffer.');
+features.add(import.meta.url, init, 'INV：为库存增加搜索栏');

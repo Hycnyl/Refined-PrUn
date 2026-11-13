@@ -19,17 +19,17 @@ xit.add({
   command: ['LINKEDBUFFERS', 'LB'],
   name: parameters => {
     if (isEmpty(parameters)) {
-      return 'LINKED BUFFERS';
+      return '联动窗口';
     }
     if (isEditMode(parameters)) {
       const preset = findPreset(parameters.slice(1));
-      return preset ? `LB EDIT: ${preset.name}` : 'LB EDIT';
+      return preset ? `编辑联动窗口：${preset.name}` : '编辑联动窗口';
     }
     const preset = findPreset(parameters);
-    return preset ? `LB: ${preset.name}` : 'LINKED BUFFERS';
+    return preset ? `联动窗口：${preset.name}` : '联动窗口';
   },
-  description: 'Opens a dashboard with linked child buffers driven by a text input.',
-  optionalParameters: 'Preset Name',
+  description: '打开由文本输入驱动的联动窗口面板。',
+  optionalParameters: '预设名称',
   component: parameters => {
     if (isEditMode(parameters)) {
       return EditPreset;

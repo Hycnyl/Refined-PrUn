@@ -9,13 +9,13 @@ xit.add({
       const site = sitesStore.getByPlanetNaturalIdOrName(parameters[0]);
       if (site) {
         const name = getEntityNameFromAddress(site.address);
-        return `PRODUCTION OVERVIEW - ${name}`;
+        return `生产概览 - ${name}`;
       }
     }
 
-    return 'PRODUCTION OVERVIEW';
+    return '生产概览';
   },
-  description: 'Dense cross-base production overview.',
+  description: '跨基地的紧凑生产概览。',
   optionalParameters: 'Planet Identifier(s), OVERALL, NOT',
   component: () => PROD,
 });

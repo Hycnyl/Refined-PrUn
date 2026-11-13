@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeStorage } from '@src/infrastructure/i18n/labels';
 import Active from '@src/components/forms/Active.vue';
 import Passive from '@src/components/forms/Passive.vue';
 import RadioItem from '@src/components/forms/RadioItem.vue';
@@ -145,9 +146,11 @@ watchEffect(() => {
 });
 
 function getOptions(storages: PrunApi.Store[]) {
-  const options = storages.map(serializeStorage).map(x => ({ label: x, value: x }));
+  const options = storages
+    .map(serializeStorage)
+    .map(x => ({ label: localizeStorage(x), value: x }));
   if (options.length === 0) {
-    options.push({ label: 'No locations available', value: undefined! });
+    options.push({ label: '无可用位置', value: undefined! });
   }
   return options;
 }
@@ -197,21 +200,21 @@ const autoSfc = computed({
 
 <template>
   <form>
-    <Active v-if="data.origin === configurableValue" label="From">
+    <Active v-if="data.origin === configurableValue" label="来源">
       <SelectInput v-model="config.origin" :options="originOptions" />
     </Active>
-    <Passive v-else label="From">
+    <Passive v-else label="来源">
       <span>{{ data.origin }}</span>
     </Passive>
-    <Active v-if="data.dest === configurableValue" label="To">
+    <Active v-if="data.dest === configurableValue" label="目的地">
       <SelectInput v-model="config.destination" :options="destinationOptions" />
     </Active>
-    <Passive v-else label="To">
+    <Passive v-else label="目的地">
       <span>{{ data.dest }}</span>
     </Passive>
     <slot />
-    <Active v-if="showAutoSfcToggle" label="Auto SFC">
-      <RadioItem v-model="autoSfc">auto sfc</RadioItem>
+    <Active v-if="showAutoSfcToggle" label="自动打开 SFC">
+      <RadioItem v-model="autoSfc">自动打开 SFC</RadioItem>
     </Active>
   </form>
 </template>

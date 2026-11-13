@@ -40,14 +40,13 @@ function onTileReady(tile: PrunTile) {
 
     createFragmentApp(() => (
       <Passive
-        label="Maximum Lot"
+        label="最大成交量"
         tooltipPosition="bottom"
-        tooltip="Refined PrUn: Current FX implementation allows only one order to be filled at a time.
-         This field allows you to set the maximum lot size for the top order in the order book.">
+        tooltip="Refined PrUn：当前外汇实现每次只能成交一笔订单。\n此字段可设置订单簿首条订单的最大成交量">
         <span>
           {maximumLotText.value}{' '}
           <PrunButton dark inline onClick={onClick}>
-            set
+            设置
           </PrunButton>
         </span>
       </Passive>
@@ -67,8 +66,4 @@ function init() {
   tiles.observe('FXPO', onTileReady);
 }
 
-features.add(
-  import.meta.url,
-  init,
-  'FXPO: Adds a "Maximum Lot Size" field to fill the top order in the order book.',
-);
+features.add(import.meta.url, init, 'FXPO：增加“最大成交量”字段，以填满订单簿首条订单');

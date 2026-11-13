@@ -300,5 +300,5 @@ function init() {
 features.add(
   import.meta.url,
   init,
-  'FLT/SHPI: Shift-click Unload to move landed ship cargo into the local warehouse.',
+  'FLT/SHPI：按住 Shift 点击卸货，将已着陆飞船的货物转移到当地仓库',
 );

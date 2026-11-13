@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizeOptions } from '@src/infrastructure/i18n/labels';
 import PrunButton from '@src/components/PrunButton.vue';
 import SectionHeader from '@src/components/SectionHeader.vue';
 import Active from '@src/components/forms/Active.vue';
@@ -47,13 +48,13 @@ function onSaveClick() {
 
 <template>
   <div :class="C.DraftConditionEditor.form">
-    <SectionHeader>{{ add ? 'Add' : 'Edit' }} Action</SectionHeader>
+    <SectionHeader>{{ add ? '添加' : '编辑' }}动作</SectionHeader>
     <div v-if="shortDescription" :class="$style.description">{{ shortDescription }}</div>
     <form>
-      <Active label="Type">
-        <SelectInput v-model="type" :options="typeOptions" />
+      <Active label="类型">
+        <SelectInput v-model="type" :options="localizeOptions(typeOptions)" />
       </Active>
-      <Active label="Name" :error="nameError">
+      <Active label="名称" :error="nameError">
         <TextInput v-model="name" />
       </Active>
       <Component
@@ -63,7 +64,7 @@ function onSaveClick() {
         :action="action"
         :pkg="pkg" />
       <Commands>
-        <PrunButton primary @click="onSaveClick">{{ add ? 'ADD' : 'SAVE' }}</PrunButton>
+        <PrunButton primary @click="onSaveClick">{{ add ? '添加' : '保存' }}</PrunButton>
       </Commands>
     </form>
   </div>

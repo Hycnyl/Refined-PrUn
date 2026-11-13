@@ -11,13 +11,13 @@ import { AssertFn } from '@src/features/XIT/ACT/shared-types';
 
 act.addAction({
   type: 'Staging RT',
-  shortDescription: 'Build a staging RT route from an ordered stop list',
+  shortDescription: '按有序站点列表创建 RT 路线',
   description: action => {
     const text = action.routeSpec?.trim() ?? '';
     if (text.length === 0) {
       return '--';
     }
-    return 'Staging RT route';
+    return 'RT 路线';
   },
   editComponent: Edit,
   generateSteps: async ctx => {
