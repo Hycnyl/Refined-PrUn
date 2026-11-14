@@ -131,7 +131,7 @@ describe('route import', () => {
     ['[]', '应为 JSON 对象。'],
     ['{"format":"contract","stops":[]}', '不是路线数据，format 必须为“rpr-route”。'],
     ['{"version":2,"stops":[]}', '路线版本 2 高于此扩展支持的版本。'],
-    ['{"stops":[]}', 'Invalid stops (expected a list of {"kind": "cx" | "base", "id": ...}).'],
+    ['{"stops":[]}', 'stops 无效，应为 {"kind": "cx" | "base", "id": ...} 对象的列表。'],
     [
       '{"stops":[{"kind":"ship","id":"AI1"}]}',
       '站点无效：1（应为 {"kind": "cx" | "base", "id": ...}）。',
@@ -144,7 +144,7 @@ describe('route import', () => {
     ],
     [
       '{"stops":[{"kind":"cx","id":"AI1"}],"wait":{"amount":3,"unit":"weeks"}}',
-      'Invalid wait (expected {"amount": 3, "unit": "days"}).',
+      'wait 无效，应为 {"amount": 3, "unit": "days"}。',
     ],
   ])('rejects %s', (text, error) => {
     expect(importRoute(text)).toEqual({ ok: false, error });

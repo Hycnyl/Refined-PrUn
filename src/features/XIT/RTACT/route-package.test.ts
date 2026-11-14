@@ -32,7 +32,7 @@ describe('buildRouteconfigPackage', () => {
   it('returns the host error off the APEX game hosts', () => {
     expect(buildRouteconfigPackage('example.com', spec, '', 'Milk')).toEqual({
       ok: false,
-      error: `RT route runner only runs on ${PRODUCTION_HOST}`,
+      error: `RT 路线执行器仅支持 ${PRODUCTION_HOST}`,
     });
   });
 });

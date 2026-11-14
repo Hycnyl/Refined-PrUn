@@ -14,8 +14,8 @@ describe('RT host gate', () => {
 
   it('does not run on another host', () => {
     expect(isRtHost('example.com')).toBe(false);
-    expect(rtRunBlock('example.com')).toMatch(/only runs on/);
+    expect(rtRunBlock('example.com')).toMatch(/仅支持/);
     expect(isRtHost('')).toBe(false);
-    expect(rtRunBlock('')).toMatch(/only runs on/);
+    expect(rtRunBlock('')).toMatch(/仅支持/);
   });
 });

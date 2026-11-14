@@ -26,5 +26,5 @@ export function fitLimitText(
   if (volume) {
     parts.push(amount(overflow.volumeLoad, overflow.outputVolume, 'm³'));
   }
-  return `${head}，在收货站点之后：${stopLabel ?? overflow.stopId}： ${parts.join('；')}。`;
+  return `${head}，在收货站点之后：${stopLabel ?? overflow.stopId}：${parts.join('；')}。`;
 }

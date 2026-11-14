@@ -214,7 +214,7 @@ export function routeSummaryLines(spec: RouteSpec, shipId?: string): string[] {
     if (stop.gateway !== undefined) {
       flight.push(stop.gateway ? '启用星门' : '禁用星门');
     }
-    const head = `站点 ${index + 1}： ${stop.query}`;
+    const head = `站点 ${index + 1}：${stop.query}`;
     lines.push(flight.length > 0 ? `${head}（${flight.join('，')}）` : head);
     if (stop.steps.length === 0) {
       lines.push(`${stop.query}：无步骤`);
@@ -289,7 +289,7 @@ export function parseRouteStep(
   if (parsed.ok) {
     return parsed;
   }
-  return { ok: false, error: parsed.error.replace(/^行 0：/, '') };
+  return { ok: false, error: parsed.error.replace(/^行 0：\s*/, '') };
 }
 
 function parseStep(
