@@ -247,7 +247,7 @@ function confirmResetAllData(ev: Event) {
   <SectionHeader ref="repairSection">维修设置</SectionHeader>
   <form>
     <Active
-      label="目标基地"
+      label="维修目标"
       tooltip="默认维修目标天数，替代原先 XIT REP 中的楼龄阈值，可在 XIT PLANETS 中按星球单独设置">
       <NumberInput v-model="userData.settings.repair.threshold" float />
     </Active>

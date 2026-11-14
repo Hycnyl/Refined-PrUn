@@ -81,7 +81,7 @@ export function parseStopSteps(lines: readonly string[] | undefined): StepsResul
   for (const [index, line] of (lines ?? []).entries()) {
     const parsed = parseRouteStep(line);
     if (!parsed.ok) {
-      return { ok: false, error: `步骤 ${index + 1}（${line.trim()}）： ${parsed.error}` };
+      return { ok: false, error: `步骤 ${index + 1}（${line.trim()}）：${parsed.error}` };
     }
     steps.push(parsed.step);
   }

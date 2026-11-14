@@ -95,8 +95,8 @@ function onIgnoredMaterialsSubmit() {
     <thead>
       <tr>
         <th>日期</th>
-        <th>股东权益</th>
-        <th>命令</th>
+        <th>净资产</th>
+        <th>操作</th>
       </tr>
     </thead>
     <tbody>

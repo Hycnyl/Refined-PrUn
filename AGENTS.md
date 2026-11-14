@@ -18,7 +18,8 @@
 - 首轮 Actions：`43450831650`，build job `131972261434`；类型检查及 Lint 通过，测试 98 个文件中 28 个失败、70 个通过，尚未构建
 - 已恢复自动生成动作包及材料组的内部英文名称，中文通过显示适配呈现；已补译确认按钮等遗漏，修正标点和两处依赖显示文案的识别逻辑；已将现有测试的显示文案断言对齐中文，保留功能及原生按钮匹配断言
 - 第二轮候选提交：`1c72fac8659fc83f955e3870b7ee91ec0d9303e2`；Actions `43544715744` 已完成，类型检查及 Lint 通过，764/773 项测试通过
-- 第二轮剩余 9 项失败均为提示文案或空格断言；工作区已修正相关提示断言、冒号空格和错误行号前缀空白处理，下一步推送并触发第三轮 Actions
+- 第三轮候选提交 `650feb501a11f8aa7bebc5f7def770cd1a081157`，Actions `43544995111`：类型检查及 Lint 通过，771/773 项测试通过；剩余两项均由 route-cargo 中文冒号后的一个空格导致
+- 工作区已修正该空格，并按旧汉化版对齐财务设置表格的“净资产/操作”列，纠正新维修设置的“维修目标”标签；下一步推送并触发第四轮 Actions
 - 全部验证通过后，通过 Actions 的 release=true 发布单一 ZIP，删除本临时章节；不要直接调用 Release API
 - 环境：`/workspace/Refined-PrUn` 是工作仓库，`/workspace/reference-cn` 是旧汉化参考，`/workspace/reference-upstream` 是原版参考；使用 `corepack pnpm` 调用项目指定版本
 - GitHub 插件支持源码读写；手动触发 Actions 使用环境中已连接的 `gh workflow run build-extension.yml --repo Hycnyl/Refined-PrUn --ref main -f release=false`；发布时改为 `release=true`，不要直接发布 Release
