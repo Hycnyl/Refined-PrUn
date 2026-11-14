@@ -44,7 +44,7 @@ describe('CX price warning DISMISS selection', () => {
   it('keeps the handler on DISMISS and still closes from the click', () => {
     const button = warning.slice(warning.indexOf('<PrunButton'), warning.indexOf('</PrunButton>'));
     expect(button).toContain('@mousedown="onDismissMouseDown"');
-    expect(button).toContain('DISMISS');
+    expect(button).toContain('忽略');
     expect(button).toContain('@click="emit(\'close\')"');
     expect(warning.match(/@mousedown/g)).toHaveLength(1);
     expect(warning).toContain('closest(\'input, textarea, select, [contenteditable="true"]\')');

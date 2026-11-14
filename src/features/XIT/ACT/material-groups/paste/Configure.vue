@@ -31,7 +31,7 @@ const summary = computed(() => {
   if (rowCount.value === 0) {
     return '未解析出材料';
   }
-  return `${rowCount.value} 种材料${rowCount.value === 1 ? '' : 's'} 已就绪`;
+  return `${rowCount.value} 种材料 已就绪`;
 });
 </script>
 

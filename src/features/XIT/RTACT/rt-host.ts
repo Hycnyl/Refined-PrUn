@@ -11,5 +11,5 @@ export function rtRunBlock(hostname: string): string | undefined {
   if (isRtHost(hostname)) {
     return undefined;
   }
-  return `RT route runner only runs on ${PRODUCTION_HOST}`;
+  return `RT 路线执行器仅支持 ${PRODUCTION_HOST}`;
 }

@@ -24,7 +24,7 @@ import { serializeStorage } from '@src/features/XIT/ACT/actions/utils';
 const emit = defineEmits<{ (e: 'close'): void }>();
 
 const days = ref(userData.settings.burn.resupply);
-const name = ref(`Base Resupply ${days.value}天`);
+const name = ref(`Base Resupply ${days.value}d`);
 const planets = computed(() =>
   (sitesStore.all.value ?? [])
     .map(x => getEntityNameFromAddress(x.address))

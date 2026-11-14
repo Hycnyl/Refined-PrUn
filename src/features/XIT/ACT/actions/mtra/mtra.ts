@@ -59,12 +59,12 @@ act.addAction<Config>({
 
     // Assert-narrowed locals (rebound so nested helpers keep the non-undefined type).
     const materialsMaybe = await getMaterialGroup(data.group);
-    assert(materialsMaybe, 'Invalid material group');
+    assert(materialsMaybe, '材料组无效');
     const materials = materialsMaybe;
 
     const serializedOrigin = data.origin === configurableValue ? config?.origin : data.origin;
     const originMaybe = deserializeStorage(serializedOrigin);
-    assert(originMaybe, 'Invalid origin');
+    assert(originMaybe, '来源无效');
     const origin = originMaybe;
 
     const serializedDest = data.dest === configurableValue ? config?.destination : data.dest;
@@ -72,7 +72,7 @@ act.addAction<Config>({
       return;
     }
     const destMaybe = deserializeStorage(serializedDest);
-    assert(destMaybe, 'Invalid destination');
+    assert(destMaybe, '目的地无效');
     const dest = destMaybe;
 
     const isSameLocation = atSameLocation(origin, dest);

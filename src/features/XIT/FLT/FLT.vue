@@ -794,7 +794,7 @@ function getCargoState(cargoRatio: number) {
 <template>
   <LoadingSpinner v-if="!rows || locationCatalogsPending" />
   <div v-else-if="locationFilterUnresolved" :class="$style.empty"
-    >没有星系或星球匹配“{{ parameters.join(' ') }}"
+    >没有星系或星球匹配“{{ parameters.join(' ') }}”
   </div>
   <div v-else :class="$style.content">
     <div :class="[C.FormComponent.containerPassive, C.forms.passive, C.forms.formComponent]">

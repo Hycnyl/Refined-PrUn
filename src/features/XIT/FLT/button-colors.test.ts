@@ -63,7 +63,7 @@ describe('FLT_BUTTON_COLOR_OPTIONS', () => {
 describe('XIT FLT button color wiring', () => {
   it('opens XIT FLTBUTTONS from the filters panel', () => {
     expect(FLT_BUTTONS_BUFFER_COMMAND).toBe('XIT FLTBUTTONS');
-    expect(productSource('FLT.vue')).toContain('SET BUTTON COLOR');
+    expect(productSource('FLT.vue')).toContain('设置按钮颜色');
     expect(productSource('FLT.vue')).toContain('FLT_BUTTONS_BUFFER_COMMAND');
     expect(productSource('FLTBUTTONS.ts')).toContain("command: ['FLTBUTTONS', 'FLTCOLORS']");
   });

@@ -12,7 +12,7 @@ function productSource(name: string) {
 describe('ACT auto-close wiring', () => {
   it('calls onComplete only after the success stop in StepMachine', () => {
     const source = productSource('runner/step-machine.ts');
-    expect(source).toContain("this.log.success('Action Package execution completed')");
+    expect(source).toContain("this.log.success('动作包执行完成')");
     expect(source).toContain('this.options.onComplete?.({ keepBufferOpen: this.keepBufferOpen })');
     expect(source.match(/onComplete\?\.\(/g)?.length).toBe(1);
     const cancelFn = source.match(/cancel\(\) \{[\s\S]*?\n {2}\}/)?.[0];

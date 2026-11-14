@@ -9,7 +9,7 @@ const parameter = parameters.join(' ');
 
 const pkg: UserData.ActionPackageData = parameter
   ? {
-      global: { name: `星球维护数据 ${parameter}` },
+      global: { name: `GovBurn Data ${parameter}` },
       groups: [],
       actions: [{ type: 'GovBurn Data', name: 'Collect', planet: parameter }],
     }
@@ -20,7 +20,7 @@ const pkg: UserData.ActionPackageData = parameter
         .sort(comparePlanets)
         .map(naturalId => ({
           type: 'GovBurn Data',
-          name: `收集 ${naturalId}`,
+          name: `Collect ${naturalId}`,
           planet: naturalId,
         })),
     };

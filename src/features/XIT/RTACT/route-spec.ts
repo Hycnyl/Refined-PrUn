@@ -148,7 +148,7 @@ export function stepSummary(step: RouteStep): string {
     case 'unload':
       return `卸下 ${amountText(step.ticker, step.min, step.max)}`;
     case 'refuel':
-      return `加油 ${step.tank}，从 ${step.source === 'ship' ? '飞船' : '当地'}, ${rangeText(step.min, step.max, 'SF')}`;
+      return `加油 ${step.tank}，从 ${step.source === 'ship' ? '飞船' : '当地'}，${rangeText(step.min, step.max, 'SF')}`;
     case 'wait':
       return `等待 ${step.amount} ${localizeLabel(step.unit)}`;
     case 'load-shipment':
@@ -214,13 +214,13 @@ export function routeSummaryLines(spec: RouteSpec, shipId?: string): string[] {
     if (stop.gateway !== undefined) {
       flight.push(stop.gateway ? '启用星门' : '禁用星门');
     }
-    const head = `站点 ${index + 1}: ${stop.query}`;
-    lines.push(flight.length > 0 ? `${head} (${flight.join(', ')})` : head);
+    const head = `站点 ${index + 1}： ${stop.query}`;
+    lines.push(flight.length > 0 ? `${head}（${flight.join('，')}）` : head);
     if (stop.steps.length === 0) {
       lines.push(`${stop.query}：无步骤`);
     }
     for (const step of stop.steps) {
-      lines.push(`${stop.query}: ${stepSummary(step)}`);
+      lines.push(`${stop.query}：${stepSummary(step)}`);
     }
   }
   if (spec.loop !== undefined) {
@@ -289,7 +289,7 @@ export function parseRouteStep(
   if (parsed.ok) {
     return parsed;
   }
-  return { ok: false, error: parsed.error.replace(/^Line 0: /, '') };
+  return { ok: false, error: parsed.error.replace(/^行 0：/, '') };
 }
 
 function parseStep(
@@ -310,7 +310,7 @@ function parseStep(
   if (kind === 'wait') {
     return parseWait(tokens, line);
   }
-  return { ok: false, error: `行 ${line}：未知步骤“${tokens[0] ?? ''}"` };
+  return { ok: false, error: `行 ${line}：未知步骤“${tokens[0] ?? ''}”` };
 }
 
 function parseCargoStep(
@@ -355,7 +355,7 @@ function parseCargoStep(
   }
   const ticker = tokens[1].toUpperCase();
   if (!/^[A-Z0-9]{1,4}$/.test(ticker)) {
-    return { ok: false, error: `行 ${line}：无效材料代码“${tokens[1]}"` };
+    return { ok: false, error: `行 ${line}：无效材料代码“${tokens[1]}”` };
   }
   if (kind === 'load') {
     const min = parseLimit(tokens[2], 'load', line, 'min');

@@ -8,7 +8,7 @@ function stop(query: string, label = query): RouteStop {
 
 describe('planRouteLegs', () => {
   it('rejects a route shorter than two stops', () => {
-    expect(planRouteLegs([stop('VH-331a')]).error).toBe('Enter at least two stops');
+    expect(planRouteLegs([stop('VH-331a')]).error).toBe('请至少输入两个站点');
   });
 
   it('pairs consecutive stops and keeps an unresolved stop as a leg error', () => {
@@ -37,6 +37,6 @@ describe('planRouteLegs', () => {
       stop('VH-331a', 'Hortus a'),
       { raw: 'vh-331a', label: 'Hortus', query: 'vh-331a' },
     ]);
-    expect(planned.legs[0]?.error).toBe('equal origin and destination');
+    expect(planned.legs[0]?.error).toBe('起点和目的地相同');
   });
 });

@@ -186,9 +186,7 @@ async function addStop(
     const query = stop.query.toLowerCase();
     const named = [raw, stationName(raw, raw) ?? ''].some(x => x.toLowerCase().includes(query));
     if (!addWaypointArmed(tile.anchor)) {
-      fail(
-        `ADD WAYPOINT 尚不可用，位置 ${stop.query}. Raw text does not count until a suggestion is picked.`,
-      );
+      fail(`ADD WAYPOINT 尚不可用，位置 ${stop.query}。必须选择搜索建议，直接输入文字不会生效。`);
       return false;
     }
     if (!named) {
@@ -312,7 +310,7 @@ async function setRouteLoop(
   await waitAct(on ? '开启路线循环？' : '关闭路线循环？');
   const toggle = routeLoopToggle(tile.frame);
   if (toggle === undefined) {
-    fail('Could not find the Loop toggle');
+    fail('未找到循环开关');
     return false;
   }
   if (routeLoopOn(toggle) === on) {
@@ -517,7 +515,7 @@ async function assignShip(
     return true;
   }
   log.warning(
-    `${result.reason}. ${routeId} 已创建，但未分配 ${ship}. Assign a ship in the Assignments list on the right.`,
+    `${result.reason}. ${routeId} 已创建，但未分配 ${ship}。请在右侧分配列表中选择飞船。`,
   );
   revealAssignments(tile.anchor);
   ctx.fail();

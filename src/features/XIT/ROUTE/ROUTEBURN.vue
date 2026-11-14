@@ -84,12 +84,12 @@ function countdownTitle(origin: (typeof origins.value)[number]) {
   if (origin.draws.length === 0) {
     return undefined;
   }
-  const plural = (n: number) => `${n} 次出发${n === 1 ? '' : 's'}`;
+  const plural = (n: number) => `${n} 次出发`;
   if (origin.countdown === undefined) {
     return `库存满足未来 ${origin.horizonDays} 天。`;
   }
   const lines = [
-    `库存满足 ${plural(origin.covered)}. The next one can't be fully loaded.`,
+    `库存满足 ${plural(origin.covered)}。下一次出发无法满载。`,
     '此后基地仍保有目标天数的物资。',
   ];
   if (origin.partial) {

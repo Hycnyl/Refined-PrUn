@@ -37,6 +37,6 @@ describe('resolveRouteStop', () => {
   });
 
   it('reports a stop that is neither a planet nor an exchange', () => {
-    expect(resolveRouteStop('NOPE', lookups).error).toBe('unknown stop "NOPE"');
+    expect(resolveRouteStop('NOPE', lookups).error).toBe('未知站点“NOPE”');
   });
 });

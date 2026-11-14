@@ -22,7 +22,7 @@ act.addMaterialGroup<Config>({
     }
 
     const daysLabel = data.days === configurableValue ? '?' : data.days;
-    return `补给 ${data.planet}，所需 ${daysLabel} 天${data.days == 1 ? '' : 's'} 的补给`;
+    return `补给 ${data.planet}，所需 ${daysLabel} 天 的补给`;
   },
   editComponent: Edit,
   configureComponent: Configure,

@@ -472,8 +472,7 @@ function onImport() {
   const count = created.stops.length;
   const note = notes.length > 0 ? `: ${notes.join('; ')}` : '';
   setShareStatus(
-    `已导入 ${created.name} (${count} 个站点${count === 1 ? '' : 's'})${note}. ` +
-      'Run TRANSITS for flight times.',
+    `已导入 ${created.name} (${count} 个站点)${note}. ` + 'Run TRANSITS for flight times.',
   );
 }
 

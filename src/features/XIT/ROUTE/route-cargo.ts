@@ -51,7 +51,7 @@ export function checkSupply(value: unknown): SupplyResult {
 function addSupply(supply: Record<string, number>, rawTicker: string, amount: unknown) {
   const ticker = rawTicker.trim().toUpperCase();
   if (!TICKER.test(ticker)) {
-    return `无效材料代码“${rawTicker}"`;
+    return `无效材料代码“${rawTicker}”`;
   }
   if (typeof amount !== 'number' || !Number.isInteger(amount) || amount < 0) {
     return `${ticker} 数量必须为不小于 0 的整数`;
@@ -81,7 +81,7 @@ export function parseStopSteps(lines: readonly string[] | undefined): StepsResul
   for (const [index, line] of (lines ?? []).entries()) {
     const parsed = parseRouteStep(line);
     if (!parsed.ok) {
-      return { ok: false, error: `步骤 ${index + 1} (${line.trim()}): ${parsed.error}` };
+      return { ok: false, error: `步骤 ${index + 1}（${line.trim()}）： ${parsed.error}` };
     }
     steps.push(parsed.step);
   }

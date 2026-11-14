@@ -87,7 +87,7 @@ const noMatch = computed(
 
 <template>
   <LoadingSpinner v-if="analyses === undefined" />
-  <div v-else-if="noMatch" :class="$style.empty">没有基地匹配“{{ parameters[0] }}"</div>
+  <div v-else-if="noMatch" :class="$style.empty">没有基地匹配“{{ parameters[0] }}”</div>
   <div v-else-if="analyses.length === 0" :class="$style.empty">暂无基地</div>
   <table v-else>
     <thead>
@@ -97,28 +97,26 @@ const noMatch = computed(
           <InlineFlex
             >预计满仓天数<Tooltip
               position="bottom"
-              tooltip="Days until storage is full at the current net production rate — when a ship visit is forced." />
+              tooltip="按当前净生产速率预计满仓的天数，届时必须安排飞船到访" />
           </InlineFlex>
         </th>
         <th>
           <InlineFlex
             >补给天数<Tooltip
               position="bottom"
-              tooltip="Total days of consumables the base could hold when storage is filled to its threshold after ship-out (80% when filling, 95% when draining). Colors match XIT BURN: red below your red threshold, yellow below your yellow threshold." />
+              tooltip="运出货物后，库存填充至阈值时可容纳的消耗品总天数（库存增长时为 80%，减少时为 95%）；颜色同 XIT BURN，低于红色阈值显示红色，低于黄色阈值显示黄色" />
           </InlineFlex>
         </th>
         <th>
           <InlineFlex
-            >当前占用<Tooltip
-              position="bottom"
-              tooltip="What's in base storage right now. Colored by material category." />
+            >当前占用<Tooltip position="bottom" tooltip="当前基地库存，按材料类别着色" />
           </InlineFlex>
         </th>
         <th>
           <InlineFlex
             >补给后占用<Tooltip
               position="bottom"
-              tooltip="Projected storage if all produced goods were shipped out and all consumables delivered up to their XIT BURN Need amount. Red hatching shows overflow past capacity." />
+              tooltip="运出全部成品并将消耗品补足至 XIT BURN 需求量后的预计库存，红色斜线表示超出容量" />
           </InlineFlex>
         </th>
         <th>命令</th>

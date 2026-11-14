@@ -244,17 +244,17 @@ describe('preview log formatting', () => {
       },
     ]);
     expect(formatPreviewTotal(purchases)).toEqual([
-      { text: 'Total cost ' },
+      { text: '总成本 ' },
       { text: '51', yellow: true },
       { text: ' (' },
-      { text: '3 unavailable', yellow: true },
+      { text: '3 不可用', yellow: true },
       { text: ')' },
     ]);
     const redLine = formatPreviewPurchase(purchases[0]);
-    expect(redLine.some(part => part.red && part.text.includes('% over'))).toBe(true);
-    expect(redLine.some(part => part.text.includes('unavailable'))).toBe(true);
+    expect(redLine.some(part => part.red && part.text.includes('高于 '))).toBe(true);
+    expect(redLine.some(part => part.text.includes('不可用'))).toBe(true);
     const yellowLine = formatPreviewPurchase(purchases[1]);
-    expect(yellowLine.some(part => part.yellow && part.text.includes('% over'))).toBe(true);
+    expect(yellowLine.some(part => part.yellow && part.text.includes('高于 '))).toBe(true);
     expect(yellowLine.some(part => part.red)).toBe(false);
   });
 
@@ -270,7 +270,7 @@ describe('preview log formatting', () => {
       shortfall: 0,
     });
     const excess = line.find(part => part.text.includes('%'));
-    expect(excess?.text).toBe('12.50% under');
+    expect(excess?.text).toBe('低于 12.50%');
     expect(excess?.yellow).not.toBe(true);
     expect(excess?.red).not.toBe(true);
   });
@@ -286,8 +286,8 @@ describe('preview log formatting', () => {
       tone: 'none',
       shortfall: 0,
     });
-    expect(line.some(part => part.text === '0.00% over')).toBe(true);
-    expect(line.some(part => part.text.includes('% under'))).toBe(false);
+    expect(line.some(part => part.text === '高于 0.00%')).toBe(true);
+    expect(line.some(part => part.text.includes('低于 '))).toBe(false);
   });
 
   it('does not report a failed price load as unavailable depth', () => {
@@ -310,16 +310,16 @@ describe('preview log formatting', () => {
       shortfall: 5,
       noData: true,
     };
-    expect(formatPreviewPurchase(shortBook)[0].text).toBe('DW 6 unavailable');
-    expect(formatPreviewPurchase(noBook)[0].text).toBe('H2O 5 no CX price data');
+    expect(formatPreviewPurchase(shortBook)[0].text).toBe('DW 6 不可用');
+    expect(formatPreviewPurchase(noBook)[0].text).toBe('H2O 5 无交易所价格数据');
     expect(formatPreviewTotal([shortBook, noBook])).toEqual([
-      { text: 'Total cost ' },
+      { text: '总成本 ' },
       { text: '0', yellow: true },
       { text: ' (' },
-      { text: '6 unavailable', yellow: true },
+      { text: '6 不可用', yellow: true },
       { text: ')' },
       { text: ' (' },
-      { text: '5 no CX price data', yellow: true },
+      { text: '5 无交易所价格数据', yellow: true },
       { text: ')' },
     ]);
   });

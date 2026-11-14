@@ -37,7 +37,7 @@ const planetName = computed(() =>
 const pkg = computed(
   () =>
     ({
-      global: { name: `维修：${planetName.value ?? naturalId}` },
+      global: { name: `Repair: ${planetName.value ?? naturalId}` },
       groups: [
         {
           type: 'Repair' as UserData.MaterialGroupType,

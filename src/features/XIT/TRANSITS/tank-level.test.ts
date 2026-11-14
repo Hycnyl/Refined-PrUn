@@ -129,8 +129,6 @@ describe('blueprintTestFlightBlock', () => {
   });
 
   it('still reports a blueprint that is not loaded', () => {
-    expect(blueprintTestFlightBlock(undefined, 'BP-STRT-0000')).toBe(
-      'blueprint BP-STRT-0000 is not loaded',
-    );
+    expect(blueprintTestFlightBlock(undefined, 'BP-STRT-0000')).toBe('蓝图 BP-STRT-0000 尚未加载');
   });
 });

@@ -18,11 +18,11 @@ export function routeAssignPackage(
   const groups: UserData.MaterialGroupData[] = [];
   const actions: UserData.ActionData[] = [];
   if (exchange !== undefined && Object.keys(materials).length > 0) {
-    const name = `路线采购 ${exchange}`;
+    const name = `Route buy ${exchange}`;
     groups.push({ type: 'Manual', name, materials });
     actions.push({
       type: 'CX Buy',
-      name: `交易所购买 ${exchange}`,
+      name: `CX Buy ${exchange}`,
       group: name,
       exchange,
       useCXInv: false,

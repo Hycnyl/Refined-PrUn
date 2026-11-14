@@ -315,9 +315,7 @@ function execute() {
         <Active label="维修" tooltip="为基地所有生产建筑装载维修材料，计入装载量但不计入生产天数">
           <RadioItem v-model="repair">维修</RadioItem>
         </Active>
-        <Active
-          label="时间偏移"
-          tooltip="The number of days in the future this repair will be conducted.">
+        <Active label="时间偏移" tooltip="计划在多少天后进行此维修">
           <NumberInput v-model="repairOffset" float :class="$style.number" />
         </Active>
       </form>

@@ -81,7 +81,7 @@ export function importRoute(text: string): RouteImportResult {
   const json = data as Record<string, unknown>;
 
   if (json.format !== undefined && json.format !== ROUTE_SHARE_FORMAT) {
-    return { ok: false, error: `不是路线数据，format 必须为“${ROUTE_SHARE_FORMAT}").` };
+    return { ok: false, error: `不是路线数据，format 必须为“${ROUTE_SHARE_FORMAT}”。` };
   }
   if (json.version !== undefined) {
     if (typeof json.version !== 'number' || !Number.isInteger(json.version)) {
@@ -146,7 +146,7 @@ export function importRoute(text: string): RouteImportResult {
 
 function importStops(value: unknown): UserData.ShippingRouteStop[] | string {
   if (!Array.isArray(value) || value.length === 0) {
-    return 'Invalid stops (expected a list of {"kind": "cx" | "base", "id": ...}).';
+    return 'stops 无效，应为 {"kind": "cx" | "base", "id": ...} 对象的列表。';
   }
   const stops: UserData.ShippingRouteStop[] = [];
   for (let i = 0; i < value.length; i++) {
@@ -154,7 +154,7 @@ function importStops(value: unknown): UserData.ShippingRouteStop[] | string {
     const kind = typeof entry === 'object' && entry !== null ? entry.kind : undefined;
     const rawId = typeof entry === 'object' && entry !== null ? entry.id : undefined;
     if ((kind !== 'cx' && kind !== 'base') || typeof rawId !== 'string') {
-      return `站点无效：${i + 1} (expected {"kind": "cx" | "base", "id": ...}).`;
+      return `站点无效：${i + 1}（应为 {"kind": "cx" | "base", "id": ...}）。`;
     }
     const trimmed = rawId.trim();
     if (trimmed.length === 0) {
@@ -170,7 +170,7 @@ function importStops(value: unknown): UserData.ShippingRouteStop[] | string {
     const origin = stops[0];
     if (stops.some(x => stopIdentity(x) === stopIdentity(stop))) {
       if (origin === undefined || stopIdentity(origin) !== stopIdentity(stop)) {
-        return `站点 ${i + 1} (${id}）已在路线中，只有首站可以重复。`;
+        return `站点 ${i + 1}（${id}）已在路线中，只有首站可以重复。`;
       }
       stop.key = repeatOriginKey(stop);
     }
@@ -187,22 +187,22 @@ function importStopCargo(
 ) {
   if (entry.supply !== undefined) {
     if (stop.kind !== 'base') {
-      return `站点 ${place} (${stop.id}）：supply 仅适用于基地，交易所请使用 steps。`;
+      return `站点 ${place}（${stop.id}）：supply 仅适用于基地，交易所请使用 steps。`;
     }
     const supply = checkSupply(entry.supply);
     if (!supply.ok) {
-      return `站点 ${place} (${stop.id}): ${supply.error}.`;
+      return `站点 ${place}（${stop.id}）：${supply.error}。`;
     }
     stop.supply = supply.supply;
   }
   if (entry.steps !== undefined) {
     if (!Array.isArray(entry.steps) || entry.steps.some(x => typeof x !== 'string')) {
-      return `站点 ${place} (${stop.id}）：steps 应为字符串列表。`;
+      return `站点 ${place}（${stop.id}）：steps 应为字符串列表。`;
     }
     const lines = (entry.steps as string[]).map(x => x.trim()).filter(x => x.length > 0);
     const parsed = parseStopSteps(lines);
     if (!parsed.ok) {
-      return `站点 ${place} (${stop.id}): ${parsed.error}.`;
+      return `站点 ${place}（${stop.id}）：${parsed.error}。`;
     }
     if (lines.length > 0) {
       stop.steps = lines;
@@ -212,7 +212,7 @@ function importStopCargo(
 }
 
 function importWait(value: unknown): UserData.ShippingRoute['wait'] | string {
-  const error = 'Invalid wait (expected {"amount": 3, "unit": "days"}).';
+  const error = 'wait 无效，应为 {"amount": 3, "unit": "days"}。';
   if (typeof value !== 'object' || value === null) {
     return error;
   }

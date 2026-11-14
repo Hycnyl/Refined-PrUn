@@ -37,7 +37,7 @@ describe('parsePaste', () => {
       { ticker: 'RAT', amount: 100 },
       { ticker: 'DW', amount: 25 },
     ]);
-    expect(result.errors).toEqual([{ line: 2, reason: 'unknown ticker "XYZ"' }]);
+    expect(result.errors).toEqual([{ line: 2, reason: '未知材料代码“XYZ”' }]);
   });
 
   it('numbers rows by their position in the paste, blank rows included', () => {
@@ -70,7 +70,7 @@ describe('parsePaste', () => {
     expect(result.errors).toEqual([
       {
         line: 1,
-        reason: 'price "45.67" has more than 3 significant figures (use 45.7)',
+        reason: '价格“45.67”超过 3 位有效数字（请使用 45.7）',
       },
     ]);
   });
@@ -90,28 +90,24 @@ describe('parsePaste', () => {
 
     const price = parsePaste('RAT\t100\t1,600', resolveTicker);
     expect(price.errors).toEqual([
-      { line: 1, reason: 'price "1,600" has ambiguous separators; write it without grouping' },
+      { line: 1, reason: '价格“1,600”的分隔符有歧义，请去除分组符号' },
     ]);
   });
 
   it('rejects a price with more than two decimal places', () => {
     const result = parsePaste('RAT,100,0.125', resolveTicker);
-    expect(result.errors).toEqual([
-      { line: 1, reason: 'price "0.125" has more than two decimal places' },
-    ]);
+    expect(result.errors).toEqual([{ line: 1, reason: '价格“0.125”超过两位小数' }]);
   });
 
   it('rejects a fractional quantity', () => {
     const result = parsePaste('RAT,10.5', resolveTicker);
-    expect(result.errors).toEqual([{ line: 1, reason: 'quantity "10.5" is not a whole number' }]);
+    expect(result.errors).toEqual([{ line: 1, reason: '数量“10.5”不是整数' }]);
   });
 
   it('rejects two different prices for one ticker but allows a repeated one', () => {
     const conflicting = parsePaste('RAT,100,530\nRAT,50,540', resolveTicker);
     expect(conflicting.rows).toHaveLength(1);
-    expect(conflicting.errors).toEqual([
-      { line: 2, reason: 'conflicting price for RAT; line 1 used 530' },
-    ]);
+    expect(conflicting.errors).toEqual([{ line: 2, reason: '价格冲突：RAT；行 1 使用了 530' }]);
 
     const repeated = parsePaste('RAT,100,530\nRAT,50,530', resolveTicker);
     expect(repeated.errors).toEqual([]);
@@ -120,9 +116,7 @@ describe('parsePaste', () => {
 
   it('fails the whole paste when rows use different delimiters', () => {
     const result = parsePaste('RAT,100\nDW;50', resolveTicker);
-    expect(result.fatal).toBe(
-      'Paste mixes comma-separated and semicolon-separated rows. Use one delimiter throughout.',
-    );
+    expect(result.fatal).toBe('粘贴内容混用了 逗号分隔 和 分号分隔 行，请统一使用同一种分隔符。');
     expect(result.rows).toEqual([]);
     expect(result.errors).toEqual([]);
   });
@@ -130,8 +124,8 @@ describe('parsePaste', () => {
   it('rejects a row that is not two or three fields', () => {
     const result = parsePaste('RAT\nDW,50,530,999', resolveTicker);
     expect(result.errors).toEqual([
-      { line: 1, reason: 'expected TICKER, QUANTITY[, PRICE] (got 1 fields)' },
-      { line: 2, reason: 'expected TICKER, QUANTITY[, PRICE] (got 4 fields)' },
+      { line: 1, reason: '应为材料代码、数量和可选价格，实际为 1 列' },
+      { line: 2, reason: '应为材料代码、数量和可选价格，实际为 4 列' },
     ]);
   });
 });

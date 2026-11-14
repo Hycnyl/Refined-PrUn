@@ -107,14 +107,14 @@ describe('routeSummaryLines', () => {
       'AVI-0008Z',
     );
     expect(lines).toEqual([
-      'Stop 1: Antares Station (fuel 1%, reactor 30%)',
-      'Antares Station: Unload all DW carried',
-      'Antares Station: Load 120 RAT',
-      'Stop 2: Deimos',
-      'Deimos: Load FE (min 0, max capacity)',
-      'Deimos: Refuel STL from local, capacity',
-      'Loop on',
-      'Assign AVI-0008Z',
+      '站点 1：Antares Station（燃料 1%，反应堆 30%）',
+      'Antares Station：卸下 全部 DW 携带量',
+      'Antares Station：装载 120 RAT',
+      '站点 2：Deimos',
+      'Deimos：装载 FE（最少 0，最多 可用容量）',
+      'Deimos：加油 STL，从 当地，可用容量',
+      '开启循环',
+      '分配 AVI-0008Z',
     ]);
   });
 });
@@ -129,8 +129,8 @@ describe('retain units', () => {
   };
 
   it('previews a retained load as load excess', () => {
-    expect(stepSummary(excess)).toBe('Load excess RAT, retain 120');
-    expect(stepSummary({ ...excess, retain: undefined })).toBe('Load RAT (min 0, max capacity)');
+    expect(stepSummary(excess)).toBe('装载多余物资 RAT，保留 120');
+    expect(stepSummary({ ...excess, retain: undefined })).toBe('装载 RAT（最少 0，最多 可用容量）');
   });
 
   it('parses retain from text and payload', () => {
@@ -183,6 +183,6 @@ describe('shipment steps', () => {
   it('clicks the full command label, never bare Load or Unload', () => {
     expect(stepCommandLabel({ kind: 'load-shipment' })).toBe('Load shipment');
     expect(stepCommandLabel({ kind: 'unload-shipment' })).toBe('Unload shipment');
-    expect(stepSummary({ kind: 'unload-shipment' })).toBe('Unload shipments');
+    expect(stepSummary({ kind: 'unload-shipment' })).toBe('卸下货运');
   });
 });

@@ -34,7 +34,7 @@ export async function deleteExchangeOrderFromClick(
         );
         resolve(success);
       },
-      { message: '确定要删除此订单吗？', confirmLabel: 'Delete' },
+      { message: '确定要删除此订单吗？', confirmLabel: '删除' },
     );
   });
 }

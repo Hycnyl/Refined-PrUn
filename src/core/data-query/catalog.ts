@@ -13,7 +13,7 @@ export class DataCatalog {
   constructor(descriptors: DataSourceDescriptor[]) {
     for (const descriptor of descriptors) {
       if (this.descriptors.has(descriptor.id)) {
-        throw new DataQueryError(`数据源 ID 重复：“${descriptor.id}".`);
+        throw new DataQueryError(`数据源 ID 重复：“${descriptor.id}”.`);
       }
       this.descriptors.set(descriptor.id, descriptor);
     }
@@ -59,7 +59,7 @@ export class DataCatalog {
   private getRequired(sourceId: string) {
     const descriptor = this.descriptors.get(sourceId);
     if (!descriptor) {
-      throw new DataQueryError(`未知数据源 ID：“${sourceId}".`);
+      throw new DataQueryError(`未知数据源 ID：“${sourceId}”.`);
     }
     return descriptor;
   }

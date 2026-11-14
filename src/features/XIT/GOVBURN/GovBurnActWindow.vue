@@ -214,7 +214,7 @@ const billLine = computed(() => {
 });
 
 const pkg = computed<UserData.ActionPackageData>(() => ({
-  global: { name: `星球维护补给 ${naturalId.value}` },
+  global: { name: `GovBurn Resupply ${naturalId.value}` },
   groups: [
     {
       type: 'Manual',

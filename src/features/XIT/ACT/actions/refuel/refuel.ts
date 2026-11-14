@@ -63,7 +63,7 @@ act.addAction<Config>({
 
     const serializedOrigin = data.origin === configurableValue ? config?.origin : data.origin;
     const origin = deserializeStorage(serializedOrigin);
-    assert(origin, 'Invalid origin');
+    assert(origin, '来源无效');
 
     refuelFromOrigin(origin, data, stlMaterial, ftlMaterial, log, emitStep, state.routeHeld);
   },
@@ -119,7 +119,7 @@ function refuelFromOrigin(
       );
     }
     if (presentStlFuel < totalStlRefuel) {
-      log.warning(`SF 不足，位置 ${originName}. Some ships will not be refueled.`);
+      log.warning(`SF 不足，位置 ${originName}。部分飞船不会加油。`);
     }
   }
 
@@ -139,7 +139,7 @@ function refuelFromOrigin(
       );
     }
     if (presentFtlFuel < totalFtlRefuel) {
-      log.warning(`FF 不足，位置 ${originName}. Some ships will not be refueled.`);
+      log.warning(`FF 不足，位置 ${originName}。部分飞船不会加油。`);
     }
   }
 

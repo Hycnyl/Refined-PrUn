@@ -65,7 +65,7 @@ function onInputKeydown(ev: KeyboardEvent) {
     </Active>
     <Active
       label="红色 (%)"
-      tooltip="In XIT ACT, warn before a CX buy when its price exceeds the refined-PrUn value by more than this percent.">
+      tooltip="在 XIT ACT 中，交易所购买价格比 Refined PrUn 估值高出此百分比时发出警告">
       <NumberInput v-model="userData.settings.noBuyThresholds.red" float />
     </Active>
   </form>

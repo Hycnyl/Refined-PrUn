@@ -162,7 +162,7 @@ describe('AgentQueryConnection', () => {
     expect(socket.messages()[2]).toEqual({
       type: 'error',
       id: 'load',
-      error: 'Unknown or unauthorized agent request type.',
+      error: '未知或未授权的代理请求类型。',
     });
   });
 

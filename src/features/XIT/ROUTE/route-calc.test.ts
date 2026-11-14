@@ -73,7 +73,7 @@ describe('planTank', () => {
     ]);
     expect(tanks.stl[1]?.refuel).toBe(true);
     expect(tanks.ftl[1]?.refuel).toBe(false);
-    expect(formatFuelCell(tanks.stl[1], tanks.ftl[1])).toBe('refuel');
+    expect(formatFuelCell(tanks.stl[1], tanks.ftl[1])).toBe('加油');
     expect(fuelCargoLoads(tanks.stl, tanks.ftl)[0]).toEqual({ stl: 0, ftl: 0 });
     expect(fuelCargoLoads(tanks.stl, tanks.ftl)[1]).toEqual({ stl: 20, ftl: 0 });
   });

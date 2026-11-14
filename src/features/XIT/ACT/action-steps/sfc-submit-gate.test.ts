@@ -3,7 +3,7 @@ import { hasShipStartedFlight, SFC_SUBMIT_STATUS } from './sfc-submit-gate';
 
 describe('SFC_SUBMIT_STATUS', () => {
   it('uses sentence-case status wording', () => {
-    expect(SFC_SUBMIT_STATUS).toBe('Submit flight on the right or skip');
+    expect(SFC_SUBMIT_STATUS).toBe('在右侧提交航行计划，或跳过');
   });
 });
 

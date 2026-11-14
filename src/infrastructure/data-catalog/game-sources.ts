@@ -393,7 +393,7 @@ export const gameDataSources: DataSourceDescriptor[] = [
 function loadSiteData(siteId: string | undefined, load: (siteId: string) => void) {
   const site = sitesStore.getById(siteId);
   if (!site) {
-    throw Error(`未知基地 ID：“${siteId ?? ''}".`);
+    throw Error(`未知基地 ID：“${siteId ?? ''}”.`);
   }
   load(site.siteId);
 }

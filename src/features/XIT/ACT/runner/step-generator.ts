@@ -129,12 +129,12 @@ export class StepGenerator {
     name: string | undefined,
   ) {
     if (!name) {
-      this.log.error('Missing material group');
+      this.log.error('缺少材料组');
       return undefined;
     }
     const group = pkg.groups.find(x => x.name === name);
     if (!group) {
-      this.log.error('Unrecognized material group');
+      this.log.error('无法识别材料组');
       return undefined;
     }
 

@@ -14,11 +14,11 @@ export function restockPackage(
     if (Object.keys(origin.materials).length === 0) {
       continue;
     }
-    const name = `补货 ${origin.exchange}`;
+    const name = `Restock ${origin.exchange}`;
     groups.push({ type: 'Manual', name, materials: origin.materials });
     actions.push({
       type: 'CX Buy',
-      name: `交易所购买 ${origin.exchange}`,
+      name: `CX Buy ${origin.exchange}`,
       group: name,
       exchange: origin.exchange,
       useCXInv: true,

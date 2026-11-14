@@ -85,7 +85,7 @@ export class AgentQueryConnection {
         authenticationToken = '';
         this.authenticationTimer = setTimeout(() => {
           if (!this.authenticated) {
-            this.failAndClose('Agent authentication timed out.');
+            this.failAndClose('代理认证超时。');
           }
         }, authenticationTimeoutMs);
       });
@@ -96,7 +96,7 @@ export class AgentQueryConnection {
       });
       socket.addEventListener('error', () => {
         if (socket === this.socket) {
-          this.failAndClose('Agent connection failed.', 1011);
+          this.failAndClose('代理连接失败。', 1011);
         }
       });
       socket.addEventListener('close', () => {

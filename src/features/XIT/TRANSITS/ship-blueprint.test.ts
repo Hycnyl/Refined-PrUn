@@ -12,19 +12,19 @@ describe('matchShipBlueprint', () => {
 
   it('fails when the loaded list has no match', () => {
     expect(matchShipBlueprint([unnamed], 'BP-PSXY-5838')).toEqual({
-      error: 'blueprint BP-PSXY-5838 has no matching blueprint',
+      error: '蓝图 BP-PSXY-5838 没有匹配的蓝图',
     });
   });
 
   it('fails when the list is not loaded', () => {
     expect(matchShipBlueprint(undefined, 'BP-PSXY-5838')).toEqual({
-      error: 'blueprints are not loaded',
+      error: '尚未加载蓝图',
     });
   });
 
   it('fails when more than one blueprint has the id', () => {
     expect(matchShipBlueprint([named, { ...named }], 'BP-PSXY-5838')).toEqual({
-      error: 'blueprint BP-PSXY-5838 matches 2 blueprints',
+      error: '蓝图 BP-PSXY-5838 匹配了 2 个蓝图',
     });
   });
 });

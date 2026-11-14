@@ -10,7 +10,7 @@ import {
   channelIdentifier,
 } from '@src/infrastructure/prun-api/data/agent-channel';
 
-const setupErrorMessage = `“${channelIdentifier}”频道尚未设置，请打开 COM，点击“new group”，不添加其他成员，并命名为“${channelIdentifier}".`;
+const setupErrorMessage = `“${channelIdentifier}”频道尚未设置，请打开 COM，点击“new group”，不添加其他成员，并命名为“${channelIdentifier}”.`;
 
 // Verified send recipe for formless chat compose inputs - see docs/feature-patterns.md
 // "Submitting a Formless Input Programmatically". Do not deviate from this sequence.

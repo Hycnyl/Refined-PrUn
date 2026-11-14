@@ -26,9 +26,9 @@ export function planRouteLegs(stops: RouteStop[]): { error?: string; legs: Route
       destinationQuery: destination.query,
     };
     if (origin.query === undefined) {
-      leg.error = origin.error ?? `未知站点“${origin.raw}"`;
+      leg.error = origin.error ?? `未知站点“${origin.raw}”`;
     } else if (destination.query === undefined) {
-      leg.error = destination.error ?? `未知站点“${destination.raw}"`;
+      leg.error = destination.error ?? `未知站点“${destination.raw}”`;
     } else if (origin.query.toUpperCase() === destination.query.toUpperCase()) {
       leg.error = '起点和目的地相同';
     }

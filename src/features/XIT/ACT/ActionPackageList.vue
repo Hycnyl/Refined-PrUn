@@ -53,7 +53,7 @@ function onImportClick(ev: Event) {
 function onDeleteClick(ev: Event, pkg: UserData.ActionPackageData) {
   showConfirmationOverlay(ev, () => removeArrayElement(userData.actionPackages, pkg), {
     message: `确定要删除动作包“${pkg.global.name}”吗？`,
-    confirmLabel: 'DELETE',
+    confirmLabel: '删除',
   });
 }
 

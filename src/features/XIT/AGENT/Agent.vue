@@ -78,7 +78,7 @@ function openPackage(messageId: string) {
   <div v-if="inaccessible"
     >“{{ channelIdentifier }}”频道尚未设置。打开
     <PrunLink command="COM" inline>COM</PrunLink>，点击“new
-    group”，不添加其他成员，并将频道命名为“{{ channelIdentifier }}".
+    group”，不添加其他成员，并将频道命名为“{{ channelIdentifier }}”.
   </div>
   <LoadingSpinner v-else-if="loading" />
   <div v-else-if="!fetched">点击“刷新”加载同步频道。</div>

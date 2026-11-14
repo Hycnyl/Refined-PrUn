@@ -72,7 +72,7 @@ export const CXPO_BUY = act.addActionStep<Data>({
     assert(cxWarehouse.value, `未找到交易所仓库：${exchange}`);
 
     if (amount <= 0) {
-      log.warning(`没有 ${ticker} 已购买（目标数量为 0）`);
+      log.warning(`未购买 ${ticker}（目标数量为 0）`);
       skip();
       return;
     }

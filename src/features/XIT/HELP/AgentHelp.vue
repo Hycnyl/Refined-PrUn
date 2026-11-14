@@ -22,7 +22,7 @@ import { channelIdentifier } from '@src/infrastructure/prun-api/data/agent-chann
     <SectionHeader>首次设置</SectionHeader>
     <div :class="$style.description"
       >打开 <PrunLink command="COM" inline>COM</PrunLink>，点击“new
-      group”，不添加其他成员，并将群组命名为“{{ channelIdentifier }}".
+      group”，不添加其他成员，并将群组命名为“{{ channelIdentifier }}”.
     </div>
     <SectionHeader>配合调度使用</SectionHeader>
     <div :class="$style.description">

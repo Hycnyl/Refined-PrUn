@@ -38,7 +38,7 @@ export const SHPI_UNLOAD = act.addActionStep<Data>({
     const assert: AssertFn = ctx.assert;
 
     const ship = shipsStore.getById(data.shipId);
-    assert(ship, 'Ship not found');
+    assert(ship, '未找到飞船');
 
     // First ACT click: open SHPI (handled by requestTile).
     const tile = await requestTile(`SHPI ${ship.registration}`);
@@ -61,7 +61,7 @@ export const SHPI_UNLOAD = act.addActionStep<Data>({
     await waitAct(`卸下全部货物，飞船 ${ship.name ?? ship.registration}?`);
     await clickElement(button);
     await waitActionFeedback(tile);
-    setStatus('Waiting for storage update...');
+    setStatus('正在等待库存更新……');
     await watchWhile(() => totalQuantity.value === before);
 
     complete();

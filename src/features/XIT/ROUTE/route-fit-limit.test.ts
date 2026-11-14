@@ -21,7 +21,7 @@ describe('fitLimitText', () => {
       'X',
       fixed,
     );
-    expect(text).toBe('Fits 4.2d. More overfills the weight leaving NC1: inputs for the bases.');
+    expect(text).toBe('可容纳 4.2天，更多会导致超载：重量，出发于 NC1：基地所需原料。');
   });
 
   it('splits a base pick-up into output and inputs still aboard', () => {
@@ -33,7 +33,7 @@ describe('fitLimitText', () => {
       fixed,
     );
     expect(text).toBe(
-      'Fits 7.0d. More overfills the volume after pick-up at Etherwind: 400m³ picked up, 105m³ inputs.',
+      '可容纳 7.0天，更多会导致超载：体积，在收货站点之后：Etherwind：400m³ 已收取，105m³ 生产原料。',
     );
   });
 });

@@ -69,7 +69,7 @@ describe('route import', () => {
     );
     expect(result).toEqual({
       ok: true,
-      route: { name: 'Imported route', stops: [origin, deimos] },
+      route: { name: '导入的路线', stops: [origin, deimos] },
     });
   });
 
@@ -77,7 +77,7 @@ describe('route import', () => {
     const result = importRoute(JSON.stringify({ stops: [origin, deimos, phobos, deimos] }));
     expect(result).toEqual({
       ok: false,
-      error: 'Stop 4 (ZV-759c) is already on the route. Only the first stop can repeat.',
+      error: '站点 4（ZV-759c）已在路线中，只有首站可以重复。',
     });
   });
 
@@ -87,7 +87,7 @@ describe('route import', () => {
     );
     expect(result).toEqual({
       ok: true,
-      route: { name: 'Imported route', stops: [origin], days: 2.3 },
+      route: { name: '导入的路线', stops: [origin], days: 2.3 },
     });
   });
 
@@ -113,34 +113,34 @@ describe('route import', () => {
   it.each([
     [
       '{"stops":[{"kind":"cx","id":"AI1","supply":{"RAT":5}}]}',
-      'Stop 1 (AI1): supply is for bases only. Use steps on an exchange.',
+      '站点 1（AI1）：supply 仅适用于基地，交易所请使用 steps。',
     ],
     [
       '{"stops":[{"kind":"base","id":"ZV-759c","supply":{"RAT":1.5}}]}',
-      'Stop 1 (ZV-759c): RAT amount must be a whole number, 0 or more.',
+      '站点 1（ZV-759c）：RAT 数量必须为不小于 0 的整数。',
     ],
     [
       '{"stops":[{"kind":"cx","id":"AI1","steps":"load RAT 1 1"}]}',
-      'Stop 1 (AI1): steps should be a list of strings.',
+      '站点 1（AI1）：steps 应为字符串列表。',
     ],
     [
       '{"stops":[{"kind":"cx","id":"AI1","steps":["load RAT 1 1","fly home"]}]}',
-      'Stop 1 (AI1): step 2 (fly home): unknown step "fly".',
+      '站点 1（AI1）：步骤 2（fly home）：未知步骤“fly”。',
     ],
-    ['not json', 'Invalid JSON.'],
-    ['[]', 'Expected a JSON object.'],
-    ['{"format":"contract","stops":[]}', 'Not a route (format must be "rpr-route").'],
-    ['{"version":2,"stops":[]}', 'Route version 2 is newer than this extension.'],
+    ['not json', 'JSON 无效。'],
+    ['[]', '应为 JSON 对象。'],
+    ['{"format":"contract","stops":[]}', '不是路线数据，format 必须为“rpr-route”。'],
+    ['{"version":2,"stops":[]}', '路线版本 2 高于此扩展支持的版本。'],
     ['{"stops":[]}', 'Invalid stops (expected a list of {"kind": "cx" | "base", "id": ...}).'],
     [
       '{"stops":[{"kind":"ship","id":"AI1"}]}',
-      'Invalid stop 1 (expected {"kind": "cx" | "base", "id": ...}).',
+      '站点无效：1（应为 {"kind": "cx" | "base", "id": ...}）。',
     ],
-    ['{"stops":[{"kind":"cx","id":"  "}]}', 'Invalid stop 1 (empty id).'],
-    ['{"stops":[{"kind":"cx","id":"AI1"}],"loop":"yes"}', 'Invalid loop (expected true or false).'],
+    ['{"stops":[{"kind":"cx","id":"  "}]}', '站点无效：1（ID 为空）。'],
+    ['{"stops":[{"kind":"cx","id":"AI1"}],"loop":"yes"}', 'loop 无效，应为 true 或 false。'],
     [
       '{"stops":[{"kind":"cx","id":"AI1"}],"supplyDays":-1}',
-      'Invalid supplyDays (expected a number, 0 or more).',
+      'supplyDays 无效，应为不小于 0 的数值。',
     ],
     [
       '{"stops":[{"kind":"cx","id":"AI1"}],"wait":{"amount":3,"unit":"weeks"}}',

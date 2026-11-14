@@ -137,7 +137,7 @@ export class StepMachine {
           if (error) {
             log.error(error);
             log.error(description ?? info.description(next));
-            log.error('Action Package execution failed');
+            log.error('动作包执行失败');
             this.stop();
             throw ExecutionStopped;
           }
@@ -157,7 +157,7 @@ export class StepMachine {
           if (message) {
             log.error(message);
           }
-          log.error('Action Package execution failed');
+          log.error('动作包执行失败');
           throw CancellationError;
         },
         assert: (condition, message) => {

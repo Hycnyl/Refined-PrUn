@@ -63,9 +63,9 @@ describe('XIT FLT fuel header', () => {
     expect(flt.match(/v-if="showFuelColumn\(showColFuel\)"/g)?.length).toBe(2);
     expect(flt).toContain('@refuel="openRefuelAllExchanges"');
     expect(flt).not.toMatch(/>\s*REFUEL\s*</);
-    expect(flt).toMatch(/colProblems[\s\S]*?>\s*Problems\s*</);
+    expect(flt).toMatch(/colProblems[\s\S]*?>\s*问题\s*</);
 
-    expect(FLT_FUEL_HEADER_LABEL).toBe('Fuel');
+    expect(FLT_FUEL_HEADER_LABEL).toBe('燃料');
     expect(header).toContain('{{ FLT_FUEL_HEADER_LABEL }}');
     expect(header).toMatch(/<PrunButton[^>]*dark[^>]*inline/);
     expect(header).toContain('font-size: inherit');
@@ -89,7 +89,7 @@ describe('XIT FLT undocked buffer size', () => {
 describe('XIT FLT name modifiers', () => {
   it('registers an optional system or planet identifier and a dynamic title', () => {
     const fleet = productSource('FLEET.ts');
-    expect(fleet).toContain("optionalParameters: 'System or Planet Identifier'");
+    expect(fleet).toContain("optionalParameters: '星系或星球编号'");
     expect(fleet).toContain('resolveFltLocationFilter(parameters)');
     expect(fleet).toContain('formatFltLocationFilter(filter)');
   });

@@ -237,7 +237,7 @@ const parsers: ParserConfig[] = [
     placeholder:
       '粘贴合同 JSON，例如 {"type": "SHIP", "currency": "NCC", "origin": "Montem", ' +
       '"destination": "Moria Station", "payment": 10000, "deadline": 5, ' +
-      '"materials": [{"ticker": "RAT", "amount": 100}]} — BUY/SELL take "location" and ' +
+      '"materials": [{"ticker": "RAT", "amount": 100}]}，BUY/SELL 使用 location 和 ' +
       '使用每种材料的 price 字段，所有字段均可省略。',
     example: JSON.stringify(
       {
@@ -335,9 +335,7 @@ function insertPasteBox(container: Element, anchor: Element) {
   // input should be focused only when the prompt opens, not on each keystroke.
   let promptNeedsFocus = false;
   const dragStatus = computed(() =>
-    dragMaterials.value.length > 0
-      ? `${dragMaterials.value.length} 种材料${dragMaterials.value.length === 1 ? '' : 's'} 已就绪。`
-      : '',
+    dragMaterials.value.length > 0 ? `${dragMaterials.value.length} 种材料 已就绪。` : '',
   );
   const dragInstance = {
     kind: 'drag' as const,
@@ -500,14 +498,12 @@ function insertPasteBox(container: Element, anchor: Element) {
       await navigator.clipboard.writeText(json);
       clipboard = 'copied to clipboard';
     } catch {
-      clipboard = 'clipboard unavailable, copy from the box';
+      clipboard = '剪贴板不可用，请从文本框复制';
     }
     // The tab-switch watcher above clears exportStatus on its flush; wait it
     // out so the fresh status isn't wiped by the export's own switch to JSON.
     await nextTick();
-    exportStatus.value =
-      `已导出 ${materials} 种材料${materials === 1 ? '' : 's'} + ` +
-      `${fields} 个字段${fields === 1 ? '' : 's'} — ${clipboard}.`;
+    exportStatus.value = `已导出 ${materials} 种材料 + ` + `${fields} 个字段 — ${clipboard}.`;
   };
 
   createFragmentApp(() => {

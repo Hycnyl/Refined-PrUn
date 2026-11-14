@@ -34,7 +34,7 @@ export function formatRouteTotal(legs: RecordedLeg[]) {
   const unresolved = legs.length - resolved.length;
   const noun = resolved.length === 1 ? '个航段' : '个航段';
   const suffix = unresolved > 0 ? `; ${unresolved} 个未解析` : '';
-  return `总计（${resolved.length} ${noun}): ${formatDuration(seconds)}, ${stl} STL + ${ftl} FTL${suffix}`;
+  return `总计（${resolved.length} ${noun}）： ${formatDuration(seconds)}, ${stl} STL + ${ftl} FTL${suffix}`;
 }
 
 export function formatLegLine(

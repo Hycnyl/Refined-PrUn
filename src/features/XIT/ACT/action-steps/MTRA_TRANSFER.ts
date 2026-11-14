@@ -51,14 +51,14 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
     assert(to, '未找到目的地库存');
 
     if (!from.items.find(x => x.quantity?.material.ticker === ticker)) {
-      log.warning(`没有 ${ticker} 已转移（来源中不存在）`);
+      log.warning(`未转移 ${ticker}（来源中不存在）`);
       skip();
       return;
     }
 
     // Data.amount is only a snapshot estimate for loadAll totals/description.
     if (!loadAll && amount <= 0) {
-      log.warning(`没有 ${ticker} 已转移（目标数量为 0）`);
+      log.warning(`未转移 ${ticker}（目标数量为 0）`);
       skip();
       return;
     }
@@ -71,7 +71,7 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
     const canFitWeight = to.weightCapacity - to.weightLoad - material.weight + epsilon >= 0;
     const canFitVolume = to.volumeCapacity - to.volumeLoad - material.volume + epsilon >= 0;
     if (!canFitWeight || !canFitVolume) {
-      log.warning(`没有 ${ticker} 已转移（空间不足）`);
+      log.warning(`未转移 ${ticker}（空间不足）`);
       skip();
       return;
     }
@@ -102,7 +102,7 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
 
     if (loadAll) {
       if (maxAmount === 0) {
-        log.warning(`没有 ${ticker} 已转移（无可用数量）`);
+        log.warning(`未转移 ${ticker}（无可用数量）`);
         skip();
         return;
       }
@@ -110,7 +110,7 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
     } else {
       if (amount > maxAmount) {
         if (maxAmount === 0) {
-          log.warning(`没有 ${ticker} 已转移（无可用数量）`);
+          log.warning(`未转移 ${ticker}（无可用数量）`);
           skip();
           return;
         }
@@ -139,7 +139,7 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
       // Use whatever amount the player left in the input — do not rewrite it.
       const reviewed = Number(amountInput.value);
       if (!Number.isFinite(reviewed) || reviewed <= 0) {
-        log.warning(`没有 ${ticker} 已转移（手动设置数量为 0）`);
+        log.warning(`未转移 ${ticker}（手动设置数量为 0）`);
         skip();
         return;
       }
@@ -159,7 +159,7 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
     const currentAmount = destinationAmount.value;
     await clickElement(transferButton);
     await waitActionFeedback(tile);
-    setStatus('Waiting for storage update...');
+    setStatus('正在等待库存更新……');
     await watchWhile(() => destinationAmount.value === currentAmount);
 
     complete();

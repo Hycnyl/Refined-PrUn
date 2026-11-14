@@ -56,10 +56,7 @@ defineExpose({ validate, save });
   <Active label="楼龄阈值" tooltip="维修所有楼龄超过此阈值的建筑；留空则维修全部建筑">
     <NumberInput v-model="days" optional float />
   </Active>
-  <Active
-    label="时间偏移"
-    tooltip="The number of days in the future this repair will be conducted."
-    :error="advanceDaysError">
+  <Active label="时间偏移" tooltip="计划在多少天后进行此维修" :error="advanceDaysError">
     <NumberInput v-model="advanceDays" float />
   </Active>
 </template>

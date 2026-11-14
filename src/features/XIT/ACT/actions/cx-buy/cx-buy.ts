@@ -42,12 +42,12 @@ act.addAction<Config>({
     const buyPartial = data.buyPartial ?? false;
 
     const materials = await getMaterialGroup(data.group);
-    assert(materials, 'Invalid material group');
+    assert(materials, '材料组无效');
 
     const priceLimits = { ...data.priceLimits, ...getMaterialGroupPrices(data.group) };
 
     const exchange = data.exchange === configurableValue ? config.exchange : data.exchange;
-    assert(exchange, 'Missing exchange');
+    assert(exchange, '缺少交易所');
 
     // Take out materials in CX inventory if requested
     if ((data.useCXInv ?? true) && exchange) {

@@ -68,10 +68,7 @@ defineExpose({ validate, save });
   <Active label="星球" :error="planetError">
     <SelectInput v-model="planet" :options="localizeOptions(planets, localizeLabel)" />
   </Active>
-  <Active
-    label="天数"
-    tooltip="The number of days of supplies to refill the planet with."
-    :error="daysError">
+  <Active label="天数" tooltip="为星球补充多少天的物资" :error="daysError">
     <NumberInput v-if="!configureDaysOnExecution" v-model="days" float />
     <RadioItem v-model="configureDaysOnExecution">执行时配置</RadioItem>
   </Active>

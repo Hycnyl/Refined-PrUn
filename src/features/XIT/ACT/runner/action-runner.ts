@@ -76,7 +76,7 @@ export class ActionRunner {
     extraSteps?: ActionStep[],
   ) {
     if (this.isRunning) {
-      this.log.error('Action Package is already running');
+      this.log.error('动作包已在运行');
       return;
     }
     // Create a copy to prevent changes during execution.

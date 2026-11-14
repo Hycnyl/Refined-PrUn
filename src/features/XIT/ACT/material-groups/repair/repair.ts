@@ -16,10 +16,10 @@ act.addMaterialGroup<Config>({
 
     const days = data.days;
     const daysLabel = days === configurableValue ? '?' : days;
-    const daysPart = days !== undefined ? `楼龄超过 ${daysLabel} 天${days == 1 ? '' : 's'}` : '';
+    const daysPart = days !== undefined ? `楼龄超过 ${daysLabel} 天` : '';
     const advanceDays = data.advanceDays ?? 0;
     const advanceLabel = advanceDays === configurableValue ? '?' : advanceDays;
-    return `维修星球建筑：${data.planet} ${daysPart}，于 ${advanceLabel} 天${advanceDays == 1 ? '' : 's'}`;
+    return `维修星球建筑：${data.planet} ${daysPart}，于 ${advanceLabel} 天`;
   },
   editComponent: Edit,
   configureComponent: Configure,

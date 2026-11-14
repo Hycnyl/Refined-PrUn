@@ -4,9 +4,9 @@
 export type Delimiter = '\t' | ';' | ',';
 
 export const delimiterNames: Record<Delimiter, string> = {
-  '\t': 'tab-separated',
-  ';': 'semicolon-separated',
-  ',': 'comma-separated',
+  '\t': '制表符分隔',
+  ';': '分号分隔',
+  ',': '逗号分隔',
 };
 
 // CXPO rounds an order price to this many significant figures, so a limit with
@@ -128,7 +128,7 @@ function numberCandidates(raw: string) {
 function toParsedNumber(normalized: string, raw: string): ParsedNumber | { error: string } {
   const value = Number(normalized);
   if (!Number.isFinite(value) || value <= 0 || value > Number.MAX_SAFE_INTEGER) {
-    return { error: `"${raw}”不是有限正数` };
+    return { error: `“${raw}”不是有限正数` };
   }
   return { value, normalized };
 }
@@ -136,7 +136,7 @@ function toParsedNumber(normalized: string, raw: string): ParsedNumber | { error
 function parseQuantity(raw: string): { amount: number } | { error: string } {
   const candidates = numberCandidates(raw);
   if (candidates.length === 0) {
-    return { error: `"${raw}”不是支持的数值` };
+    return { error: `“${raw}”不是支持的数值` };
   }
   // A quantity is always whole, which settles "1,600" — 1.6 is not a candidate
   // reading of it, so a spreadsheet's grouping separator needs no ceremony.
@@ -157,7 +157,7 @@ function parseQuantity(raw: string): { amount: number } | { error: string } {
 function parsePrice(raw: string): { price: number } | { error: string } {
   const candidates = numberCandidates(raw);
   if (candidates.length === 0) {
-    return { error: `"${raw}”不是支持的数值` };
+    return { error: `“${raw}”不是支持的数值` };
   }
   // A price can be fractional, so grouping cannot be told from a decimal here.
   if (candidates.length > 1) {
@@ -175,7 +175,7 @@ function parsePrice(raw: string): { price: number } | { error: string } {
   if (digits.length > maxPriceSignificantFigures) {
     const suggestion = Number(parsed.value.toPrecision(maxPriceSignificantFigures));
     return {
-      error: `价格“${raw}”超过 ${maxPriceSignificantFigures} 位有效数字（请使用 ${suggestion})`,
+      error: `价格“${raw}”超过 ${maxPriceSignificantFigures} 位有效数字（请使用 ${suggestion}）`,
     };
   }
   return { price: parsed.value };
@@ -211,7 +211,7 @@ export function parsePaste(input: string | undefined, resolveTicker: ResolveTick
     if (fields.length < 2 || fields.length > 3) {
       result.errors.push({
         line,
-        reason: `应为材料代码、数量和可选价格，实际列数 ${fields.length} 列）`,
+        reason: `应为材料代码、数量和可选价格，实际为 ${fields.length} 列`,
       });
       continue;
     }
@@ -219,7 +219,7 @@ export function parsePaste(input: string | undefined, resolveTicker: ResolveTick
     const [tickerRaw, quantityRaw, priceRaw] = fields;
     const ticker = resolveTicker(tickerRaw);
     if (ticker === undefined) {
-      result.errors.push({ line, reason: `未知材料代码“${tickerRaw}"` });
+      result.errors.push({ line, reason: `未知材料代码“${tickerRaw}”` });
       continue;
     }
     const quantity = parseQuantity(quantityRaw);

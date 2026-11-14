@@ -15,6 +15,7 @@ const labels: Record<string, string> = {
   'CX Buy Only': '仅交易所购买',
   'All Exchanges': '所有交易所',
   'Auto Offload': '自动卸货',
+  'Item xfer': '材料转移',
   'Buy Missing Materials': '购买缺失材料',
   'Select your ship in the "To" field ↓': '在下方“目的地”字段选择飞船 ↓',
   'Refuel All Exchanges': '交易所飞船批量加油',
@@ -23,6 +24,7 @@ const labels: Record<string, string> = {
   Collect: '收集',
   'GovBurn Data All': '收集全部星球维护数据',
   'Build route': '创建路线',
+  'Staging RT new route': '新建 RT 路线',
   'Route Restock': '路线补货',
   'Route Assign': '路线分配',
   BUYING: '买入',
@@ -73,7 +75,7 @@ const labels: Record<string, string> = {
 };
 
 export function localizeLabel(value: string) {
-  return labels[value] ?? value;
+  return Object.hasOwn(labels, value) ? labels[value] : value;
 }
 
 const storageSuffixes: Record<string, string> = {
@@ -112,5 +114,7 @@ export function localizeName(value: string) {
     .replace(/^LOWSTRIFE: /, '飞船装载：')
     .replace(/^Route buy /, '路线采购 ')
     .replace(/^Restock /, '补货 ')
-    .replace(/^CX Buy /, '交易所购买 ');
+    .replace(/^CX Buy /, '交易所购买 ')
+    .replace(/^Collect /, '收集 ')
+    .replace(/^Staging RT /, 'RT 路线 ');
 }

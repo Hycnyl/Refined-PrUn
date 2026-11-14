@@ -12,7 +12,7 @@ export function fitLimitText(
 ) {
   const weight = overflow.weightOver > 0;
   const volume = overflow.volumeOver > 0;
-  const measure = weight && volume ? '重量和体积' : weight ? 'weight' : 'volume';
+  const measure = weight && volume ? '重量和体积' : weight ? '重量' : '体积';
   const head = `可容纳 ${days.toFixed(1)}天，更多会导致超载：${measure}`;
   if (overflow.stopId === undefined) {
     return `${head}，出发于 ${originLabel}：基地所需原料。`;
@@ -26,5 +26,5 @@ export function fitLimitText(
   if (volume) {
     parts.push(amount(overflow.volumeLoad, overflow.outputVolume, 'm³'));
   }
-  return `${head}，在收货站点之后：${stopLabel ?? overflow.stopId}: ${parts.join('; ')}.`;
+  return `${head}，在收货站点之后：${stopLabel ?? overflow.stopId}： ${parts.join('；')}。`;
 }

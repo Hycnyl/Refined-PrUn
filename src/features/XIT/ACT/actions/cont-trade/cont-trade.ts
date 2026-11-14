@@ -51,7 +51,7 @@ act.addAction<Config>({
     const assert: AssertFn = ctx.assert;
 
     const materials = await getMaterialGroup(data.group);
-    assert(materials, 'Invalid material group');
+    assert(materials, '材料组无效');
 
     const traded = Object.keys(materials).filter(x => materials[x] > 0);
     assert(traded.length > 0, '材料组中没有可交易的材料');
@@ -62,7 +62,7 @@ act.addAction<Config>({
     const prices = getMaterialGroupPrices(data.group) ?? {};
     assert(
       traded.every(x => isValidContractPrice(prices[x])),
-      `材料组 [${data.group}] 中的每种材料都需要价格，范围 ${minContractPrice} 到 ${maxContractPrice}. Use a Paste group with 3 columns (ticker, amount, price).`,
+      `材料组 [${data.group}] 中的每种材料都需要价格，范围 ${minContractPrice} 到 ${maxContractPrice}。请使用三列的粘贴材料组（代码、数量、价格）。`,
     );
 
     const location = resolveLocation(data.contLocation, config?.location, getMaterialGroupPlanet);

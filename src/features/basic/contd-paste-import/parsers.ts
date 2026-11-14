@@ -106,17 +106,14 @@ function summarize(result: ParseResult): string {
   const count = spec.materials.length;
   const parts: string[] = [];
   if (groupCount !== undefined) {
-    parts.push(`${groupCount} 个组${groupCount === 1 ? '' : 's'}`);
+    parts.push(`${groupCount} 个组`);
   }
-  parts.push(`${count} 种材料${count === 1 ? '' : 's'}`);
+  parts.push(`${count} 种材料`);
   const fields = describeSpecFields(spec);
   if (fields.length > 0) {
     parts.push(fields.join(', '));
   }
-  const skippedText =
-    skipped !== undefined && skipped > 0
-      ? ` (${skipped} 行${skipped === 1 ? '' : 's'} 个已跳过）`
-      : '';
+  const skippedText = skipped !== undefined && skipped > 0 ? ` (${skipped} 行 个已跳过）` : '';
   return `已解析 ${parts.join(' + ')}${skippedText}.`;
 }
 

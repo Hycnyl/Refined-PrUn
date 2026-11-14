@@ -20,21 +20,21 @@ describe('setRouteBlock', () => {
   });
 
   it('stays blocked until every recorded leg succeeded', () => {
-    expect(setRouteBlock(ready({ legs: undefined }))).toBe('Run TRANSITS first.');
-    expect(setRouteBlock(ready({ legs: [] }))).toBe('Run TRANSITS first.');
+    expect(setRouteBlock(ready({ legs: undefined }))).toBe('请先运行 TRANSITS。');
+    expect(setRouteBlock(ready({ legs: [] }))).toBe('请先运行 TRANSITS。');
     expect(setRouteBlock(ready({ legs: [{ ok: true }, { ok: false }] }))).toBe(
-      'Run TRANSITS first.',
+      '请先运行 TRANSITS。',
     );
   });
 
   it('stays blocked until supply days is a positive finite number', () => {
-    expect(setRouteBlock(ready({ supplyDays: 0 }))).toBe('Set supply days.');
-    expect(setRouteBlock(ready({ supplyDays: Number.NaN }))).toBe('Set supply days.');
-    expect(setRouteBlock(ready({ supplyDays: Number.POSITIVE_INFINITY }))).toBe('Set supply days.');
+    expect(setRouteBlock(ready({ supplyDays: 0 }))).toBe('请设置补给天数。');
+    expect(setRouteBlock(ready({ supplyDays: Number.NaN }))).toBe('请设置补给天数。');
+    expect(setRouteBlock(ready({ supplyDays: Number.POSITIVE_INFINITY }))).toBe('请设置补给天数。');
   });
 
   it('stays blocked while a stop is overloaded', () => {
-    expect(setRouteBlock(ready({ hasOverflow: true }))).toBe('Fix the overloaded stops.');
-    expect(setRouteBlock(ready({ inputOverloaded: true }))).toBe('Fix the overloaded stops.');
+    expect(setRouteBlock(ready({ hasOverflow: true }))).toBe('请处理超载的站点。');
+    expect(setRouteBlock(ready({ inputOverloaded: true }))).toBe('请处理超载的站点。');
   });
 });

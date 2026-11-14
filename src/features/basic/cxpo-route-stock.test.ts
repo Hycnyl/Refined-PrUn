@@ -1,15 +1,22 @@
 import { describe, expect, it } from 'vitest';
-import { cxpoInventoryLabel, cxpoSellHitsReserve } from '@src/features/basic/cxpo-route-stock';
+import {
+  cxpoInventoryLabel,
+  cxpoSellHitsReserve,
+  isCxpoInventoryLabel,
+} from '@src/features/basic/cxpo-route-stock';
 
 describe('cxpoInventoryLabel', () => {
   it('splits the warehouse count into what routes hold and what is free', () => {
     // 12 on hand, 8 reserved: 4 are free. A label that skips the subtraction
     // would still say 12 free.
-    expect(cxpoInventoryLabel(12, 8)).toBe('(8 Reserved) 4 Free');
+    const label = cxpoInventoryLabel(12, 8)!;
+    expect(label).toBe('（8 已预留）4 可用');
+    expect(isCxpoInventoryLabel(label)).toBe(true);
+    expect(isCxpoInventoryLabel('12')).toBe(false);
   });
 
   it('shows zero free when the reserve is larger than the stock', () => {
-    expect(cxpoInventoryLabel(3, 8)).toBe('(8 Reserved) 0 Free');
+    expect(cxpoInventoryLabel(3, 8)).toBe('（8 已预留）0 可用');
   });
 
   it('leaves the game number when this ticker has no reserve', () => {

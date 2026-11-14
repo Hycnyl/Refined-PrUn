@@ -88,7 +88,7 @@ describe('addStep re-resolves the waypoint and gates SAVE', () => {
 
   it('clicks SAVE only after an ACT gate that follows the fill', () => {
     const fill = addStep.indexOf('await fillStepEditor');
-    const gate = addStep.indexOf('await waitAct(`Save ');
+    const gate = addStep.indexOf('await waitAct(`保存 ');
     const save = addStep.indexOf('await clickEditorSave');
     expect(fill).toBeGreaterThan(-1);
     expect(fill).toBeLessThan(gate);
@@ -108,7 +108,7 @@ describe('addStep re-resolves the waypoint and gates SAVE', () => {
   it('adds a shipment step after the ACT gate, with no editor and no SAVE', () => {
     const start = addStep.indexOf('if (isShipmentStep(step))');
     const shipment = addStep.slice(start, addStep.indexOf('// Count the whole route'));
-    expect(start).toBeGreaterThan(addStep.indexOf('await waitAct(`Add '));
+    expect(start).toBeGreaterThan(addStep.indexOf('await waitAct(`添加 '));
     expect(shipment).toContain('await clickControl(scope, command)');
     expect(shipment).toContain('return true');
     for (const editorCall of ['findStepEdit', 'fillStepEditor', 'clickEditorSave', 'waitAct']) {

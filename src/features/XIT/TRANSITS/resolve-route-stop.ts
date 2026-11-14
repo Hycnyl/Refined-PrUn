@@ -37,7 +37,7 @@ export function resolveRouteStop(
   if (exchange !== undefined) {
     return { raw, label: exchange.label, query: exchange.naturalId };
   }
-  return { raw, label: raw, error: `未知站点“${raw}"` };
+  return { raw, label: raw, error: `未知站点“${raw}”` };
 }
 
 export const defaultRouteStopLookups: RouteStopLookups = {

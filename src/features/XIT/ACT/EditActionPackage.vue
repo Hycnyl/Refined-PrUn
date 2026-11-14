@@ -42,7 +42,7 @@ function onEditMaterialGroupClick(e: Event, group: UserData.MaterialGroupData) {
 function onDeleteMaterialGroupClick(e: Event, group: UserData.MaterialGroupData) {
   showConfirmationOverlay(e, () => removeArrayElement(pkg.groups, group), {
     message: `确定要删除材料组“${group.name ?? '--'}”吗？`,
-    confirmLabel: 'DELETE',
+    confirmLabel: '删除',
   });
 }
 
@@ -66,7 +66,7 @@ function onEditActionClick(e: Event, action: UserData.ActionData) {
 function onDeleteActionClick(e: Event, action: UserData.ActionData) {
   showConfirmationOverlay(e, () => removeArrayElement(pkg.actions, action), {
     message: `确定要删除动作“${action.name ?? '--'}”吗？`,
-    confirmLabel: 'DELETE',
+    confirmLabel: '删除',
   });
 }
 

@@ -7,11 +7,11 @@ export function cxpoInventoryLabel(stock: number, reserve: number | undefined) {
     return undefined;
   }
   const free = Math.max(0, stock - reserve);
-  return `(${Math.trunc(reserve)} 已预留）${Math.trunc(free)} 可用`;
+  return `（${Math.trunc(reserve)} 已预留）${Math.trunc(free)} 可用`;
 }
 
 export function isCxpoInventoryLabel(text: string) {
-  return /^\(\d+ Reserved\) \d+ Free$/.test(text.trim());
+  return /^（\d+ 已预留）\d+ 可用$/.test(text.trim());
 }
 
 // Same draw rule as routeStockShortfall: a positive sell holds when it would

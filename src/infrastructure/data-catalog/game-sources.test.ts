@@ -92,7 +92,7 @@ describe('game data sources', () => {
     const byId = new Map(gameDataSources.map(x => [x.id, x]));
     expect(byId.get('planets')).toMatchObject({
       provenance: 'fio-reference-with-prun-overrides',
-      warning: expect.stringContaining('stale'),
+      warning: expect.stringContaining('过时'),
     });
     expect(byId.get('exchanges')?.provenance).toBe('prun-live-with-defaults');
     expect(byId.get('stations')?.provenance).toBe('prun-live-with-defaults');

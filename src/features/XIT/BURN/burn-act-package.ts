@@ -19,7 +19,7 @@ export function burnActPackage(args: {
   agent: boolean;
 }): UserData.ActionPackageData {
   return {
-    global: { name: `消耗补给：${args.planetName ?? args.naturalId}` },
+    global: { name: `Burn Resupply: ${args.planetName ?? args.naturalId}` },
     groups: [
       {
         type: 'Resupply',

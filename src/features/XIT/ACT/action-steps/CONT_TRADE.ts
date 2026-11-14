@@ -44,7 +44,7 @@ export const CONT_TRADE = act.addActionStep<Data>({
 
     // Step 1: Create new draft. The open is gated by this step's own ACT click,
     // so it must not cost a second one.
-    await waitAct('Create new draft?');
+    await waitAct('创建新草稿？');
     const listTile = await requestTile('CONTD', { actGate: false });
     if (!listTile) {
       return;
@@ -81,7 +81,7 @@ export const CONT_TRADE = act.addActionStep<Data>({
     await setDraftNameAndPreamble(ctx, anchor, contractName, preambleText);
 
     // Step 2: Save draft details (name/preamble)
-    await waitAct('Save draft details?');
+    await waitAct('保存草稿详情？');
     await saveDraftDetails(ctx, anchor, newDraft.naturalId);
 
     const templateSelect = await openTemplate(ctx, anchor);
@@ -117,11 +117,11 @@ export const CONT_TRADE = act.addActionStep<Data>({
     setDeadline(ctx, anchor, data.daysToFulfill);
 
     // Step 4: Apply template
-    await waitAct('Apply template?');
+    await waitAct('应用模板？');
     await applyTemplate(ctx, anchor, newDraft.naturalId);
 
     // Step 5: Save conditions, after the player has reviewed them.
-    await waitAct('Save conditions?');
+    await waitAct('保存条件？');
     await saveConditions(ctx, anchor, newDraft.naturalId);
 
     log.success(`合同草稿 ${newDraft.naturalId} 已可发送`);

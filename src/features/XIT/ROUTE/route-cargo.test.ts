@@ -81,7 +81,7 @@ describe('stop steps', () => {
     });
     expect(parseStopSteps(['wait 2 hours', 'unload DW capacity all'])).toEqual({
       ok: false,
-      error: 'step 2 (unload DW capacity all): unload uses units or all, not capacity',
+      error: '步骤 2（unload DW capacity all）：卸货使用 units 或 all，不能使用 capacity',
     });
   });
 });

@@ -70,7 +70,7 @@ describe('selectControlLabel', () => {
       selectControlLabel([{ label: 'ADD WAYPOINT', neutral: true }], 'ADD WAYPOINT', {
         requireArmed: true,
       }),
-    ).toThrow(/not armed/);
+    ).toThrow(/控件尚不可用/);
   });
 });
 
@@ -94,9 +94,9 @@ describe('shouldClickAddWaypoint', () => {
 
 describe('assertEditorClick', () => {
   it('does not click SAVE, CANCEL, or delete', () => {
-    expect(() => assertEditorClick('SAVE')).toThrow(/refusing editor click/i);
-    expect(() => assertEditorClick('CANCEL')).toThrow(/refusing editor click/i);
-    expect(() => assertEditorClick('Delete waypoint')).toThrow(/refusing editor click/i);
+    expect(() => assertEditorClick('SAVE')).toThrow(/拒绝点击编辑器/);
+    expect(() => assertEditorClick('CANCEL')).toThrow(/拒绝点击编辑器/);
+    expect(() => assertEditorClick('Delete waypoint')).toThrow(/拒绝点击编辑器/);
   });
 
   it('allows a capacity mode word', () => {

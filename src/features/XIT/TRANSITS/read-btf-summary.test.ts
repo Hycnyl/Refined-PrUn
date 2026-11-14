@@ -66,7 +66,7 @@ describe('summarizeFreshPlan', () => {
   it('reads duration and fuel from the flight plan', () => {
     expect(summarize(plan())).toEqual({
       ok: true,
-      duration: '12h 23m 7s',
+      duration: '12小时 23分 7秒',
       seconds: 44587,
       stl: 246,
       ftl: 39,
@@ -83,7 +83,7 @@ describe('summarizeFreshPlan', () => {
   it('does not treat the plan already on screen as a new result', () => {
     const current = plan();
     expect(summarize(current, current)).toBeUndefined();
-    expect(flightPlanFailure(current, origin, destination)).toBe('no flight plan');
+    expect(flightPlanFailure(current, origin, destination)).toBe('无航行计划');
   });
 
   it('accepts a replaced plan with the same figures', () => {
@@ -98,7 +98,7 @@ describe('summarizeFreshPlan', () => {
       ],
     });
     expect(summarize(other, plan())).toBeUndefined();
-    expect(flightPlanFailure(other, origin, destination)).toBe('no flight plan');
+    expect(flightPlanFailure(other, origin, destination)).toBe('无航行计划');
   });
 
   it('matches a commodity exchange by station id, not system id', () => {
@@ -126,27 +126,27 @@ describe('summarizeFreshPlan', () => {
   it('does not invent fuel when the plan has no consumption', () => {
     const missing = plan({ stlFuelConsumption: null, ftlFuelConsumption: null });
     expect(summarize(missing)).toBeUndefined();
-    expect(flightPlanFailure(missing, origin, destination)).toBe('no fuel figures');
+    expect(flightPlanFailure(missing, origin, destination)).toBe('无燃料数据');
   });
 
   it('does not accept a plan that failed to compute', () => {
     const failed = plan({ status: 'FAILED' });
     expect(summarize(failed)).toBeUndefined();
-    expect(flightPlanFailure(failed, origin, destination)).toBe('no flight plan');
+    expect(flightPlanFailure(failed, origin, destination)).toBe('无航行计划');
   });
 });
 
 describe('formatDuration', () => {
   it('omits zero seconds when a longer unit is present', () => {
-    expect(formatDuration(5 * 3600 + 41 * 60)).toBe('5h 41m');
-    expect(formatDuration(10)).toBe('10s');
+    expect(formatDuration(5 * 3600 + 41 * 60)).toBe('5小时 41分');
+    expect(formatDuration(10)).toBe('10秒');
   });
 });
 
 describe('formatRouteTotal', () => {
   it('sums resolved legs and calls out unresolved ones', () => {
     expect(formatRouteTotal([{ ok: true, seconds: 10, stl: 5, ftl: 1 }, { ok: false }])).toBe(
-      'Total (1 leg): 10s, 5 STL + 1 FTL; 1 unresolved',
+      '总计（1 个航段）：10秒, 5 STL + 1 FTL; 1 个未解析',
     );
   });
 });

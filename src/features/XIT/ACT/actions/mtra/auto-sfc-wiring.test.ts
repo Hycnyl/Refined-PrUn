@@ -13,7 +13,7 @@ describe('auto SFC wiring', () => {
   it('gates the MTRA config toggle through shouldShowAutoSfcToggle', () => {
     const source = productSource('Configure.vue');
     expect(source).toContain('shouldShowAutoSfcToggle');
-    expect(source).toContain('label="Auto SFC"');
+    expect(source).toContain('label="自动打开 SFC"');
     expect(source).not.toMatch(/DISPATCHACT/);
   });
 
